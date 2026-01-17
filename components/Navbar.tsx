@@ -6,8 +6,9 @@ export function Navbar() {
         <header className="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-md border-b border-white/10">
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                 {/* Logo */}
-                <Link href="/" className="text-white font-bold text-xl tracking-tighter uppercase">
-                    Everbright
+                <Link href="/" className="flex items-center text-2xl font-bold tracking-tighter uppercase">
+                    <span className="text-white">EVER</span>
+                    <span className="text-cyan-400">BRIGHT</span>
                 </Link>
 
                 {/* Desktop Navigation */}
