@@ -28,14 +28,14 @@ export function Hero() {
                 <div className="flex flex-col sm:flex-row items-start gap-4 mt-8">
                     <Button
                         size="lg"
-                        className="bg-white text-black hover:bg-gray-200 font-bold px-8 h-12 rounded-none md:rounded-md transition-all"
+                        className="bg-white text-black hover:bg-cyan-400 hover:text-black font-bold px-8 h-14 rounded-full transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105"
                     >
                         I Nostri Servizi
                     </Button>
                     <Button
                         size="lg"
                         variant="outline"
-                        className="border-white text-white hover:bg-white/10 font-bold px-8 h-12 rounded-none md:rounded-md transition-all"
+                        className="border-white text-white hover:border-cyan-400 hover:text-cyan-400 font-bold px-8 h-14 rounded-full transition-all hover:bg-cyan-400/10 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:scale-105"
                     >
                         Contattaci
                     </Button>

@@ -32,38 +32,52 @@ export function Navbar() {
 
     return (
         <>
-            <header className="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-md border-b border-white/10">
-                <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+            <header className="fixed top-0 w-full z-50 px-6 py-6 pointer-events-none">
+                <div className="max-w-7xl mx-auto h-16 pointer-events-auto flex items-center justify-between px-10 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-cyan-400/30 group/nav">
                     {/* Logo */}
-                    <Link href="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center text-2xl font-bold tracking-tighter uppercase">
+                    <Link
+                        href="/"
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                        className="flex items-center text-xl md:text-2xl font-black tracking-[0.2em] uppercase transition-transform duration-300 hover:scale-105"
+                    >
                         <span className="text-white">EVER</span>
                         <span className="text-cyan-400">BRIGHT</span>
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center gap-8">
-                        <a href="#servizi" onClick={(e) => handleScroll(e, "#servizi")} className="text-sm font-medium text-gray-300 hover:text-white transition-colors cursor-pointer">
-                            SERVIZI
-                        </a>
-                        <a href="#azienda" onClick={(e) => handleScroll(e, "#azienda")} className="text-sm font-medium text-gray-300 hover:text-white transition-colors cursor-pointer">
-                            AZIENDA
-                        </a>
-                        <a href="#contatti" onClick={(e) => handleScroll(e, "#contatti")} className="text-sm font-medium text-gray-300 hover:text-white transition-colors cursor-pointer">
-                            CONTATTACI
-                        </a>
-                        <Link href="#" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
-                            CARRIERE
-                        </Link>
+                    <nav className="hidden md:flex items-center gap-10">
+                        {[
+                            { name: "SERVIZI", id: "#servizi" },
+                            { name: "AZIENDA", id: "#azienda" },
+                            { name: "CARRIERE", id: "#carriere" },
+                        ].map((link) => (
+                            <a
+                                key={link.name}
+                                href={link.id}
+                                onClick={(e) => handleScroll(e, link.id)}
+                                className="relative text-sm font-bold tracking-[0.1em] text-gray-300 hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-pointer"
+                            >
+                                {link.name}
+                            </a>
+                        ))}
                     </nav>
 
                     {/* CTA Button */}
                     <div className="hidden md:block">
                         <Button
-                            className="bg-white text-black hover:bg-gray-200 font-bold rounded-full transition-all"
+                            className="bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full px-8 h-11 text-sm tracking-widest uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95"
                             onClick={() => setIsContactOpen(true)}
                         >
-                            Inizia Ora
+                            Contattaci
                         </Button>
+                    </div>
+
+                    {/* Mobile Menu Icon */}
+                    <div className="md:hidden flex items-center">
+                        <div className="w-6 h-4 flex flex-col justify-between cursor-pointer group/mobile">
+                            <span className="w-full h-[2px] bg-white rounded-full transition-all group-hover/mobile:bg-cyan-400" />
+                            <span className="w-2/3 h-[2px] bg-white rounded-full self-end transition-all group-hover/mobile:bg-cyan-400 group-hover/mobile:w-full" />
+                        </div>
                     </div>
                 </div>
             </header>
