@@ -54,7 +54,7 @@ export function Services() {
                     >
                         {/* Image Container */}
                         <div className={cn(
-                            "relative w-[85%] md:w-[70%] h-[400px] md:h-[600px] overflow-hidden rounded-sm transition-transform duration-[1.5s] group-hover:scale-105",
+                            "relative w-[85%] md:w-[70%] h-[400px] md:h-[600px] overflow-hidden rounded-[32px] transition-transform duration-[1.5s] group-hover:scale-105",
                             service.align === "left" ? "order-2" : "order-1"
                         )}>
                             <Image
@@ -70,7 +70,7 @@ export function Services() {
                         {/* Glass Text Box - Overlaps */}
                         <div
                             className={cn(
-                                "absolute z-20 w-[90%] md:w-[500px] p-8 md:p-12 backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500 hover:bg-white/10 group-hover:scale-105",
+                                "absolute z-20 w-[90%] md:w-[500px] p-8 md:p-12 rounded-[32px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500 hover:bg-white/10 group-hover:scale-105 group-hover:backdrop-brightness-125 group-hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]",
                                 service.align === "left"
                                     ? "left-0 md:left-20 top-1/2 -translate-y-1/2"
                                     : "right-0 md:right-20 top-1/2 -translate-y-1/2"
