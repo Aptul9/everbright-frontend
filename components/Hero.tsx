@@ -1,18 +1,15 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
-import { StarField } from "@/components/StarField"
 import { SpaceSunrise } from "@/components/SpaceSunrise"
 
 export function Hero() {
     return (
-        <section className="relative flex flex-col items-center justify-center min-h-screen w-full bg-black text-white px-4 overflow-hidden pt-20">
-            <StarField />
+        <section className="relative flex flex-col items-center justify-center min-h-screen w-full text-white px-4 overflow-hidden pt-20">
+            {/* 0. Sunrise Background Effect */}
             <SpaceSunrise />
 
-            {/* Background Gradient/Glow - Optional for "Premium" feel */}
-            {/* Removed optional glow to allow SpaceSunrise deep black to work */}
-
-            <div className="relative z-10 flex flex-col items-start text-left max-w-5xl mx-auto space-y-8 w-full">
+            {/* 2. Content */}
+            <div className="relative z-20 flex flex-col items-start text-left max-w-5xl mx-auto space-y-8 w-full">
                 {/* Main Title */}
                 <h1 className="flex flex-col items-start font-bold tracking-tighter text-6xl md:text-8xl lg:text-9xl leading-[0.9]">
                     <span className="block">ILLUMINA IL</span>
