@@ -14,14 +14,17 @@ export function SpaceSunrise() {
     }, []);
 
     return (
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
+        /* 
+           FIX: Added a mask-image linear gradient that fades the top 20% of the container.
+           This ensures that regardless of how massive the Earth Arc is, its "shoulders" 
+           fade to transparent before hitting the top corners of the screen.
+        */
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none [mask-image:linear-gradient(to_bottom,transparent_0%,black_20%)]">
             {/* 1. Arc of the Earth (Atmosphere) */}
-            {/* A massive circle positioned way below to create a gentle curve */}
             <div
                 className={cn(
                     "absolute left-1/2 -translate-x-1/2 rounded-[100%] bg-black transition-all duration-[4000ms] ease-out will-change-transform",
-                    // Initial state: hidden slightly lower, less glow
-                    // Active state: rises into view, glowing intense blue/cyan
+                    // Restored exactly to your favorite "come prima" values
                     active
                         ? "w-[200%] h-[200%] -bottom-[90%] opacity-100 shadow-[0_-60px_160px_20px_rgba(0,100,255,0.7),0_-20px_60px_10px_rgba(180,220,255,0.5)] border-t-[1px] border-blue-400/40"
                         : "w-[120%] h-[120%] -bottom-[100%] opacity-0 shadow-none border-transparent"
