@@ -48,20 +48,20 @@ export function Services() {
                     <div
                         key={index}
                         className={cn(
-                            "relative flex w-full items-center",
+                            "relative flex w-full items-center group",
                             service.align === "left" ? "justify-end" : "justify-start"
                         )}
                     >
                         {/* Image Container */}
                         <div className={cn(
-                            "relative w-[85%] md:w-[70%] h-[400px] md:h-[600px] overflow-hidden rounded-sm",
+                            "relative w-[85%] md:w-[70%] h-[400px] md:h-[600px] overflow-hidden rounded-sm transition-transform duration-[1.5s] group-hover:scale-105",
                             service.align === "left" ? "order-2" : "order-1"
                         )}>
                             <Image
                                 src={service.image}
                                 alt={service.title}
                                 fill
-                                className="object-cover transition-transform duration-[1.5s] hover:scale-105"
+                                className="object-cover"
                             />
                             {/* Subtle Overlay to ensure text readability if needed, but keeping it photo-real */}
                             <div className="absolute inset-0 bg-black/20" />
@@ -70,7 +70,7 @@ export function Services() {
                         {/* Glass Text Box - Overlaps */}
                         <div
                             className={cn(
-                                "absolute z-20 w-[90%] md:w-[500px] p-8 md:p-12 backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500 hover:bg-white/10",
+                                "absolute z-20 w-[90%] md:w-[500px] p-8 md:p-12 backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500 hover:bg-white/10 group-hover:scale-105",
                                 service.align === "left"
                                     ? "left-0 md:left-20 top-1/2 -translate-y-1/2"
                                     : "right-0 md:right-20 top-1/2 -translate-y-1/2"
