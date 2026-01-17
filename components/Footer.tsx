@@ -5,12 +5,12 @@ export function Footer() {
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                     {/* Logo & Copyright */}
                     <div className="flex flex-col items-center md:items-start space-y-1">
-                        <div className="flex items-center text-base font-black tracking-[0.2em] uppercase transition-all duration-300 hover:text-cyan-400 hover:scale-105 cursor-pointer">
-                            <span className="text-white">EVER</span>
-                            <span className="text-cyan-400">BRIGHT</span>
+                        <div className="flex items-center text-base font-black tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer">
+                            <span className="text-white everbright-highlight group-hover/footer:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-1000">EVER</span>
+                            <span className="text-cyan-400 everbright-highlight group-hover/footer:text-white group-hover/footer:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-1000">BRIGHT</span>
                         </div>
                         <p className="text-white/50 text-[9px] font-bold tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer">
-                            © {new Date().getFullYear()} <span className="everbright-highlight group-hover/footer:text-cyan-400 group-hover/footer:drop-shadow-[0_0_8px_rgba(34,211,238,0.4)] transition-all duration-1000">EVERBRIGHT</span> DIGITAL SOLUTIONS.
+                            © {new Date().getFullYear()} <span className="everbright-highlight group-hover/footer:text-white group-hover/footer:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-1000">EVERBRIGHT</span> DIGITAL SOLUTIONS.
                         </p>
                     </div>
 
