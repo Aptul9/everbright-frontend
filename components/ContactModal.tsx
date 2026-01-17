@@ -73,8 +73,8 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 </button>
 
                 {/* Header */}
-                <div className="mb-8 text-center space-y-2 relative z-10">
-                    <h2 className="text-3xl font-bold tracking-tighter text-white">PARLAMI DI <span className="text-cyan-400">TE</span>.</h2>
+                <div className="mb-8 text-center space-y-2 relative z-10 transition-transform duration-500 ease-out hover:scale-105 cursor-default">
+                    <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">PARLAMI DI <span className="text-cyan-400">TE</span>.</h2>
                     <p className="text-gray-400 text-sm">Siamo pronti ad ascoltare la tua visione.</p>
                 </div>
 
