@@ -10,7 +10,7 @@ export function Footer() {
                             <span className="text-cyan-400">BRIGHT</span>
                         </div>
                         <p className="text-white/50 text-[9px] font-bold tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer">
-                            © {new Date().getFullYear()} <span className="everbright-highlight">EVERBRIGHT</span> DIGITAL SOLUTIONS.
+                            © {new Date().getFullYear()} <span className="everbright-highlight group-hover/footer:text-cyan-400 group-hover/footer:drop-shadow-[0_0_8px_rgba(34,211,238,0.4)] transition-all duration-1000">EVERBRIGHT</span> DIGITAL SOLUTIONS.
                         </p>
                     </div>
 
