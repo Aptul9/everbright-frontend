@@ -33,19 +33,22 @@ export function Navbar() {
     return (
         <>
             <header className="fixed top-0 w-full z-50 px-6 py-6 pointer-events-none">
-                <div className="max-w-7xl mx-auto h-16 pointer-events-auto flex items-center justify-between px-10 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-cyan-400/30 group/nav">
+                <div className="max-w-7xl mx-auto h-16 pointer-events-auto flex items-center justify-between px-10 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-cyan-400/30 hover:scale-[1.02] group/nav relative overflow-hidden">
+                    {/* passing shine effect */}
+                    <div className="absolute inset-0 -translate-x-full group-hover/nav:translate-x-full duration-[1.5s] ease-in-out bg-gradient-to-r from-transparent via-white/10 to-transparent z-0 pointer-events-none" />
+
                     {/* Logo */}
                     <Link
                         href="/"
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        className="flex items-center text-xl md:text-2xl font-black tracking-[0.2em] uppercase transition-transform duration-300 hover:scale-105"
+                        className="relative z-10 flex items-center text-xl md:text-2xl font-black tracking-[0.2em] uppercase transition-transform duration-300 hover:scale-105"
                     >
                         <span className="text-white">EVER</span>
                         <span className="text-cyan-400">BRIGHT</span>
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center gap-10">
+                    <nav className="relative z-10 hidden md:flex items-center gap-10">
                         {[
                             { name: "SERVIZI", id: "#servizi" },
                             { name: "AZIENDA", id: "#azienda" },
@@ -63,7 +66,7 @@ export function Navbar() {
                     </nav>
 
                     {/* CTA Button */}
-                    <div className="hidden md:block">
+                    <div className="relative z-10 hidden md:block">
                         <Button
                             className="bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full px-8 h-11 text-sm tracking-widest uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95"
                             onClick={() => setIsContactOpen(true)}
@@ -73,7 +76,7 @@ export function Navbar() {
                     </div>
 
                     {/* Mobile Menu Icon */}
-                    <div className="md:hidden flex items-center">
+                    <div className="relative z-10 md:hidden flex items-center">
                         <div className="w-6 h-4 flex flex-col justify-between cursor-pointer group/mobile">
                             <span className="w-full h-[2px] bg-white rounded-full transition-all group-hover/mobile:bg-cyan-400" />
                             <span className="w-2/3 h-[2px] bg-white rounded-full self-end transition-all group-hover/mobile:bg-cyan-400 group-hover/mobile:w-full" />
