@@ -37,7 +37,7 @@ export function Navbar() {
                     {/* passing shine effect */}
                     <div className="absolute inset-0 -translate-x-full group-hover/nav:translate-x-full duration-[1.5s] ease-in-out bg-gradient-to-r from-transparent via-white/10 to-transparent z-0 pointer-events-none" />
 
-                    {/* Logo */}
+                    {/* Logo Section */}
                     <Link
                         href="/"
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -47,28 +47,27 @@ export function Navbar() {
                         <span className="text-cyan-400">BRIGHT</span>
                     </Link>
 
-                    {/* Desktop Navigation */}
-                    <nav className="relative z-10 hidden md:flex items-center gap-10">
+                    {/* Desktop Navigation - Distanced items */}
+                    <nav className="relative z-10 hidden md:flex items-center gap-32">
                         {[
                             { name: "SERVIZI", id: "#servizi" },
                             { name: "AZIENDA", id: "#azienda" },
-                            { name: "CARRIERE", id: "#carriere" },
                         ].map((link) => (
                             <a
                                 key={link.name}
                                 href={link.id}
                                 onClick={(e) => handleScroll(e, link.id)}
-                                className="relative text-sm font-bold tracking-[0.1em] text-gray-300 hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-pointer"
+                                className="relative text-sm font-bold tracking-[0.2em] text-gray-300 hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-pointer"
                             >
                                 {link.name}
                             </a>
                         ))}
                     </nav>
 
-                    {/* CTA Button */}
+                    {/* CTA Button Section */}
                     <div className="relative z-10 hidden md:block">
                         <Button
-                            className="bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full px-8 h-11 text-sm tracking-widest uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95"
+                            className="bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full px-10 h-11 text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95"
                             onClick={() => setIsContactOpen(true)}
                         >
                             Contattaci
