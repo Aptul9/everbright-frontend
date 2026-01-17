@@ -1,6 +1,7 @@
 import { Hero } from "@/components/Hero"
 import { Services } from "@/components/Services"
 import { StarField } from "@/components/StarField"
+import { Company } from "@/components/Company"
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       </div>
       <Hero />
       <Services />
+      <Company />
     </main>
   )
 }

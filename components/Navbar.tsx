@@ -1,7 +1,16 @@
+"use client";
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
 export function Navbar() {
+    const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        e.preventDefault();
+        const targetId = href.replace("#", "");
+        const elem = document.getElementById(targetId);
+        elem?.scrollIntoView({ behavior: "smooth" });
+    };
+
     return (
         <header className="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-md border-b border-white/10">
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -13,15 +22,15 @@ export function Navbar() {
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-8">
-                    <Link href="#" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+                    <a href="#servizi" onClick={(e) => handleScroll(e, "#servizi")} className="text-sm font-medium text-gray-300 hover:text-white transition-colors cursor-pointer">
                         SERVIZI
-                    </Link>
-                    <Link href="#" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+                    </a>
+                    <a href="#azienda" onClick={(e) => handleScroll(e, "#azienda")} className="text-sm font-medium text-gray-300 hover:text-white transition-colors cursor-pointer">
                         AZIENDA
-                    </Link>
-                    <Link href="#" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
-                        CONTENUTI
-                    </Link>
+                    </a>
+                    <a href="#contatti" onClick={(e) => handleScroll(e, "#contatti")} className="text-sm font-medium text-gray-300 hover:text-white transition-colors cursor-pointer">
+                        CONTATTACI
+                    </a>
                     <Link href="#" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
                         CARRIERE
                     </Link>
