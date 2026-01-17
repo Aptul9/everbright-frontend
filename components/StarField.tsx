@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react"
 
+
 interface Star {
     x: number
     y: number
@@ -12,10 +13,18 @@ interface Star {
     baseAlpha: number
 }
 
+interface StaticStar {
+    x: number
+    y: number
+    radius: number
+    alpha: number
+}
+
 export function StarField() {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
     const starsRef = useRef<Star[]>([])
+    const staticStarsRef = useRef<StaticStar[]>([])
     const mouseRef = useRef<{ x: number, y: number } | null>(null)
 
     useEffect(() => {
@@ -34,7 +43,7 @@ export function StarField() {
 
         const initStars = () => {
             const { width, height } = canvas
-            // Density: ~1 star per 4000px^2
+            // Density for moving stars: ~1 star per 4000px^2
             const count = Math.floor((width * height) / 4000)
             const stars: Star[] = []
 
@@ -50,6 +59,19 @@ export function StarField() {
                 })
             }
             starsRef.current = stars
+
+            // Static stars (fewer, but visible)
+            const staticCount = Math.floor(count / 3)
+            const staticStars: StaticStar[] = []
+            for (let i = 0; i < staticCount; i++) {
+                staticStars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 2.0 + 0.5, // Visible size
+                    alpha: Math.random() * 0.5 + 0.4 // Visible brightness
+                })
+            }
+            staticStarsRef.current = staticStars
         }
 
         const render = () => {
@@ -58,6 +80,15 @@ export function StarField() {
 
             const mouse = mouseRef.current
 
+            // Draw Static Stars
+            staticStarsRef.current.forEach(star => {
+                ctx.beginPath()
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2)
+                ctx.fill()
+            })
+
+            // Draw and Update Moving Stars
             starsRef.current.forEach(star => {
                 // Physics update
 
