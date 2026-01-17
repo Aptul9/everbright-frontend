@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { ContactModal } from "@/components/ContactModal"
@@ -41,10 +42,28 @@ export function Navbar() {
                     <Link
                         href="/"
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        className="relative z-10 flex items-center text-xl md:text-2xl font-black tracking-[0.2em] uppercase transition-transform duration-300 hover:scale-105"
+                        className="relative z-10 flex items-center gap-0 transition-transform duration-300 hover:scale-105"
                     >
-                        <span className="text-white">EVER</span>
-                        <span className="text-cyan-400">BRIGHT</span>
+                        <div className="relative w-24 h-24 flex-shrink-0 -ml-6 flex items-center justify-center">
+                            {/* Further enlarged artwork while maintaining integrity */}
+                            <img
+                                src="/logo-icon.png"
+                                alt="Everbright"
+                                className="w-full h-full object-contain mix-blend-screen brightness-125 scale-140 drop-shadow-[0_0_25px_rgba(34,211,238,0.6)]"
+                            />
+                        </div>
+                        <div className="flex flex-col -space-y-1.5 font-inter">
+                            <div className="text-xl md:text-[1.85rem] font-black tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-cyan-100 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                                EVERBRIGHT
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="h-[1px] w-4 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+                                <span className="text-[8px] md:text-[9px] font-bold tracking-[0.55em] text-cyan-300/80 uppercase whitespace-nowrap">
+                                    IT SERVICES
+                                </span>
+                                <div className="h-[1px] w-4 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+                            </div>
+                        </div>
                     </Link>
 
                     {/* Desktop Navigation - Distanced items */}
