@@ -10,17 +10,19 @@ export function Hero() {
 
             {/* 2. Content */}
             <div className="relative z-20 flex flex-col items-start text-left max-w-5xl mx-auto space-y-8 w-full">
-                {/* Main Title */}
-                <h1 className="flex flex-col items-start font-bold tracking-tighter text-6xl md:text-8xl lg:text-9xl leading-[0.9]">
-                    <span className="block">ILLUMINA IL</span>
-                    <span className="block text-white">TUO BUSINESS.</span>
-                </h1>
+                <div className="flex flex-col items-start space-y-8 transition-transform duration-500 ease-out hover:scale-105 cursor-default origin-left">
+                    {/* Main Title */}
+                    <h1 className="flex flex-col items-start font-bold tracking-tighter text-6xl md:text-8xl lg:text-9xl leading-[0.9]">
+                        <span className="block">ILLUMINA IL</span>
+                        <span className="block text-white">TUO BUSINESS.</span>
+                    </h1>
 
-                {/* Subtext */}
-                <p className="max-w-3xl text-lg md:text-xl text-gray-400 font-medium leading-relaxed">
-                    In Everbright, trasformiamo la potenza del cambiamento in valore reale.
-                    Strategie innovative per aziende che guardano al futuro.
-                </p>
+                    {/* Subtext */}
+                    <p className="max-w-3xl text-lg md:text-xl text-gray-400 font-medium leading-relaxed">
+                        In Everbright, trasformiamo la potenza del cambiamento in valore reale.
+                        Strategie innovative per aziende che guardano al futuro.
+                    </p>
+                </div>
 
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row items-start gap-4 mt-8">
