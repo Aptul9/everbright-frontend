@@ -26,9 +26,9 @@ const services = [
         align: "right",
     },
     {
-        title: "Artificial Intelligence",
-        description: "Trasforma i dati in vantaggio competitivo. Implementiamo soluzioni di AI generativa e Machine Learning per automatizzare processi, prevedere trend e innovare il tuo settore.",
-        image: "/services/ai.png",
+        title: "IT Help Desk & Supporto",
+        description: "Supporto tecnico proattivo e multicanale. Forniamo assistenza remota e on-site per risolvere ogni criticità IT, garantendo efficienza operativa e minimizzando i tempi di inattività del tuo team.",
+        image: "/services/helpdesk.png",
         align: "left",
     }
 ];
