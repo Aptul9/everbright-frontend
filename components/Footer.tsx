@@ -9,8 +9,8 @@ export function Footer() {
                             <span className="text-white">EVER</span>
                             <span className="text-cyan-400">BRIGHT</span>
                         </div>
-                        <p className="text-white/50 text-[9px] font-bold tracking-[0.2em] uppercase transition-all duration-300 hover:text-cyan-400 hover:scale-110 cursor-pointer">
-                            © {new Date().getFullYear()} EVERBRIGHT DIGITAL SOLUTIONS.
+                        <p className="text-white/50 text-[9px] font-bold tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer">
+                            © {new Date().getFullYear()} <span className="everbright-highlight">EVERBRIGHT</span> DIGITAL SOLUTIONS.
                         </p>
                     </div>
 

@@ -39,7 +39,7 @@ export function Company() {
 
                             <div className="space-y-6 text-lg text-gray-300 leading-relaxed">
                                 <p>
-                                    Siamo Everbright. Non siamo solo consulenti, siamo architetti del cambiamento digitale.
+                                    Siamo <span className="everbright-highlight group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.6)] transition-all duration-1000">Everbright</span>. Non siamo solo consulenti, siamo architetti del cambiamento digitale.
                                     Nati dalla passione per la tecnologia e guidati dall'innovazione, aiutiamo le aziende a
                                     superare i confini del possibile.
                                 </p>

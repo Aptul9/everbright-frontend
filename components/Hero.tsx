@@ -32,7 +32,7 @@ export function Hero() {
 
                         {/* Subtext */}
                         <p className="max-w-3xl text-lg md:text-xl text-gray-400 font-medium leading-relaxed">
-                            In Everbright, trasformiamo la potenza del cambiamento in valore reale.
+                            In <span className="everbright-highlight group-hover/hero:text-white group-hover/hero:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-1000">Everbright</span>, trasformiamo la potenza del cambiamento in valore reale.
                             Strategie innovative per aziende che guardano al futuro.
                         </p>
                     </div>
