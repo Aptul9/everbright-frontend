@@ -5,8 +5,11 @@ import { Button } from "@/components/ui/button";
 
 export function Company() {
     return (
-        <section id="azienda" className="relative w-full py-24 md:py-32 overflow-hidden text-white z-10">
-            <div className="container mx-auto px-4">
+        <section id="azienda" className="relative w-full py-24 md:py-32 overflow-hidden text-white">
+            {/* Background Layer (below stars) */}
+            <div className="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm border-t border-white/10 z-0" />
+
+            <div className="container mx-auto px-4 relative z-20">
                 <div className="flex flex-col md:flex-row items-center gap-16 md:gap-24 group">
 
                     {/* Image Block */}
