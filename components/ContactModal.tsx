@@ -11,6 +11,17 @@ interface ContactModalProps {
 
 export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     const [visible, setVisible] = useState(false);
+    const [formData, setFormData] = useState({
+        nome: "",
+        cognome: "",
+        azienda: "",
+        telefono: "",
+        email: "",
+        messaggio: ""
+    });
+    const [errors, setErrors] = useState<string[]>([]);
+    const [isShaking, setIsShaking] = useState(false);
+    const [submitCount, setSubmitCount] = useState(0);
 
     useEffect(() => {
         if (isOpen) {
@@ -19,36 +30,101 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
         } else {
             const timer = setTimeout(() => setVisible(false), 500); // Wait for animation
             document.body.style.overflow = "unset";
+            // Reset form on close
+            setFormData({
+                nome: "",
+                cognome: "",
+                azienda: "",
+                telefono: "",
+                email: "",
+                messaggio: ""
+            });
+            setErrors([]);
+            setSubmitCount(0);
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
 
+    const handleChange = (name: string, value: string) => {
+        setFormData(prev => ({ ...prev, [name]: value }));
+        // Remove error when user starts typing
+        if (errors.includes(name)) {
+            setErrors(prev => prev.filter(e => e !== name));
+        }
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        const requiredFields = ["nome", "cognome", "email"];
+        const newErrors = requiredFields.filter(field => !formData[field as keyof typeof formData].trim());
+
+        if (newErrors.length > 0) {
+            setErrors(newErrors);
+            setIsShaking(false);
+            setSubmitCount(prev => prev + 1);
+
+            // This micro-delay is crucial to force the browser to recognize the class removal
+            // and subsequent re-addition, which triggers the CSS animation again.
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    setIsShaking(true);
+                });
+            });
+            return;
+        }
+
+        // Logic for successful submission
+        console.log("Form submitted successfully:", formData);
+        onClose();
+    };
+
+
     if (!visible && !isOpen) return null;
 
     // Helper for Shine Effect Inputs
-    const ShineInput = ({ label, placeholder, type = "text", isTextArea = false }: { label: string, placeholder: string, type?: string, isTextArea?: boolean }) => (
-        <div className="space-y-2 w-full group/field">
-            <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest ml-2 transition-all duration-300 group-hover/field:text-cyan-400 group-hover/field:scale-105 group-focus-within/field:text-cyan-400 group-focus-within/field:scale-105 origin-left">{label}</label>
-            <div className="relative w-full overflow-hidden rounded-2xl bg-white/5 border border-white/10 transition-all duration-300 group-hover/field:scale-[1.02] group-hover/field:bg-white/10 group-hover/field:border-cyan-400/30 group-hover/field:shadow-[0_0_20px_rgba(34,211,238,0.2)] group-focus-within/field:scale-[1.02] group-focus-within/field:bg-white/10 group-focus-within/field:border-cyan-400 group-focus-within/field:shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-                {/* Shine Effect Layer */}
-                <div className="absolute inset-0 -translate-x-full group-hover/field:translate-x-full duration-[0.8s] ease-in-out bg-gradient-to-r from-transparent via-white/25 to-transparent z-0 pointer-events-none" />
+    const ShineInput = ({ label, placeholder, name, type = "text", isTextArea = false }: { label: string, placeholder: string, name: string, type?: string, isTextArea?: boolean }) => {
+        const hasError = errors.includes(name);
 
-                {isTextArea ? (
-                    <textarea
-                        rows={4}
-                        className="w-full bg-transparent px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none relative z-10 resize-none"
-                        placeholder={placeholder}
-                    />
-                ) : (
-                    <input
-                        type={type}
-                        className="w-full bg-transparent px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none relative z-10"
-                        placeholder={placeholder}
-                    />
-                )}
+        return (
+            <div
+                key={`${name}-${submitCount}`}
+                className={`space-y-2 w-full group/field ${hasError && isShaking ? "animate-shake" : ""}`}
+            >
+                <label className={`block text-xs font-bold uppercase tracking-widest ml-2 transition-all duration-300 origin-left 
+                    ${hasError ? "text-red-500 scale-105" : "text-gray-400 group-hover/field:text-cyan-400 group-hover/field:scale-105 group-focus-within/field:text-cyan-400 group-focus-within/field:scale-105"}`}>
+                    {label} {["nome", "cognome", "email"].includes(name) && "*"}
+                </label>
+                <div className={`relative w-full overflow-hidden rounded-2xl border transition-all duration-300 
+                    ${hasError
+                        ? "border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.4)] bg-red-500/20"
+                        : "bg-white/5 border-white/10 group-hover/field:scale-[1.02] group-hover/field:bg-white/10 group-hover/field:border-cyan-400/30 group-hover/field:shadow-[0_0_20px_rgba(34,211,238,0.2)] group-focus-within/field:scale-[1.02] group-focus-within/field:bg-white/10 group-focus-within/field:border-cyan-400 group-focus-within/field:shadow-[0_0_20px_rgba(34,211,238,0.2)]"}`}>
+
+                    {/* Shine Effect Layer */}
+                    {!hasError && (
+                        <div className="absolute inset-0 -translate-x-full group-hover/field:translate-x-full duration-[0.8s] ease-in-out bg-gradient-to-r from-transparent via-white/25 to-transparent z-0 pointer-events-none" />
+                    )}
+
+                    {isTextArea ? (
+                        <textarea
+                            rows={4}
+                            className={`w-full bg-transparent px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none relative z-10 resize-none transition-colors duration-300 ${hasError ? "placeholder:text-red-400/50" : ""}`}
+                            placeholder={placeholder}
+                            value={formData[name as keyof typeof formData]}
+                            onChange={(e) => handleChange(name, e.target.value)}
+                        />
+                    ) : (
+                        <input
+                            type={type}
+                            className={`w-full bg-transparent px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none relative z-10 transition-colors duration-300 ${hasError ? "placeholder:text-red-400/50" : ""}`}
+                            placeholder={placeholder}
+                            value={formData[name as keyof typeof formData]}
+                            onChange={(e) => handleChange(name, e.target.value)}
+                        />
+                    )}
+                </div>
             </div>
-        </div>
-    );
+        );
+    };
 
     return (
         <div
@@ -79,22 +155,25 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 </div>
 
                 {/* Form */}
-                <form className="space-y-4 relative z-10" onSubmit={(e) => e.preventDefault()}>
+                <form className="space-y-4 relative z-10" onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <ShineInput label="Nome" placeholder="Mario" />
-                        <ShineInput label="Cognome" placeholder="Rossi" />
+                        <ShineInput label="Nome" placeholder="Mario" name="nome" />
+                        <ShineInput label="Cognome" placeholder="Rossi" name="cognome" />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <ShineInput label="Azienda" placeholder="Nome Azienda" />
-                        <ShineInput label="Telefono" placeholder="+39 333..." type="tel" />
+                        <ShineInput label="Azienda" placeholder="Nome Azienda" name="azienda" />
+                        <ShineInput label="Telefono" placeholder="+39 333..." type="tel" name="telefono" />
                     </div>
 
-                    <ShineInput label="Email" placeholder="mario.rossi@azienda.com" type="email" />
+                    <ShineInput label="Email" placeholder="mario.rossi@azienda.com" type="email" name="email" />
 
-                    <ShineInput label="Messaggio" placeholder="Raccontaci il tuo progetto..." isTextArea={true} />
+                    <ShineInput label="Messaggio" placeholder="Raccontaci il tuo progetto..." isTextArea={true} name="messaggio" />
 
-                    <Button className="w-full bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full py-6 text-lg shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
+                    <Button
+                        type="submit"
+                        className="w-full bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full py-6 text-lg shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all"
+                    >
                         INVIA MESSAGGIO
                     </Button>
                 </form>
@@ -102,3 +181,4 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
         </div>
     );
 }
+
