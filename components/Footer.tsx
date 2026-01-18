@@ -58,25 +58,25 @@ export function Footer() {
                         <div
                             onTouchStart={() => setTouchedElement('logo')}
                             onTouchEnd={() => setTouchedElement(null)}
-                            className={`flex items-center gap-0 transition-transform duration-300 hover:scale-105 ${touchedElement === 'logo' ? 'scale-105' : ''}`}
+                            className={`flex items-center gap-2 md:gap-3 transition-transform duration-300 hover:scale-105 ${touchedElement === 'logo' ? 'scale-105' : ''}`}
                         >
-                            <div className="relative w-20 h-20 flex-shrink-0 -ml-4 flex items-center justify-center">
+                            <div className="relative w-10 h-10 md:w-16 lg:w-20 md:h-16 lg:h-20 flex-shrink-0 flex items-center justify-center">
                                 <img
                                     src="/logo-icon.png"
                                     alt="Everbright"
-                                    className="w-full h-full object-contain mix-blend-screen brightness-125 scale-140 drop-shadow-[0_0_20px_rgba(34,211,238,0.5)]"
+                                    className="w-full h-full object-contain mix-blend-screen brightness-125 scale-[2.2] md:scale-[2] lg:scale-[2.2] drop-shadow-[0_0_25px_rgba(34,211,238,0.6)]"
                                 />
                             </div>
-                            <div className="flex flex-col -space-y-1 font-inter">
-                                <div className="text-xl md:text-2xl font-black tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-cyan-100 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                            <div className="flex flex-col -space-y-1 md:-space-y-1.5 font-inter pt-1 whitespace-nowrap">
+                                <div className="text-lg md:text-xl lg:text-2xl font-black tracking-tighter md:tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-cyan-100 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
                                     EVERBRIGHT
                                 </div>
-                                <div className="flex items-center gap-1.5">
-                                    <div className="h-[1px] w-4 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
-                                    <span className="text-[8px] md:text-[9px] font-bold tracking-[0.45em] text-cyan-300/80 uppercase whitespace-nowrap">
+                                <div className="flex items-center gap-1 md:gap-2">
+                                    <div className="h-[1px] w-3 md:w-4 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+                                    <span className="text-[8px] md:text-[8px] lg:text-[9px] font-bold tracking-[0.3em] md:tracking-[0.45em] lg:tracking-[0.55em] text-cyan-300/80 uppercase">
                                         IT SERVICES
                                     </span>
-                                    <div className="h-[1px] w-4 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+                                    <div className="h-[1px] w-3 md:w-4 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
                                 </div>
                             </div>
                         </div>
