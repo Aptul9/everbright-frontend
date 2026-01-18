@@ -24,10 +24,10 @@ export function SpaceSunrise() {
             <div
                 className={cn(
                     "absolute left-1/2 -translate-x-1/2 rounded-[100%] bg-black transition-all duration-[4000ms] ease-out will-change-transform",
-                    // Restored exactly to your favorite "come prima" values
+                    // Fixed: increased width on mobile to avoid "ovalissimo" vertical shape
                     active
-                        ? "w-[200%] h-[200%] -bottom-[90%] opacity-100 shadow-[0_-60px_160px_20px_rgba(0,100,255,0.7),0_-20px_60px_10px_rgba(180,220,255,0.5)] border-t-[1px] border-blue-400/40"
-                        : "w-[120%] h-[120%] -bottom-[100%] opacity-0 shadow-none border-transparent"
+                        ? "w-[400%] h-[200%] md:w-[200%] -bottom-[90%] opacity-100 shadow-[0_-60px_160px_20px_rgba(0,100,255,0.7),0_-20px_60px_10px_rgba(180,220,255,0.5)] border-t-[1px] border-blue-400/40"
+                        : "w-[240%] h-[120%] md:w-[120%] -bottom-[100%] opacity-0 shadow-none border-transparent"
                 )}
             />
 
@@ -41,9 +41,9 @@ export function SpaceSunrise() {
                 {/* Core White Hot Ball */}
                 <div className="w-16 h-16 bg-white rounded-full blur-[8px] shadow-[0_0_60px_20px_rgba(255,255,255,0.6)]" />
 
-                {/* Horizontal Flare line */}
-                <div className="absolute w-[180vw] h-[2px] bg-blue-400/30 blur-[3px]" />
-                <div className="absolute w-[90vw] h-[3px] bg-white/40 blur-[4px]" />
+                {/* Horizontal Flare line - widened on mobile to keep it line-like instead of oval */}
+                <div className="absolute w-[400vw] md:w-[180vw] h-[2px] bg-blue-400/30 blur-[3px]" />
+                <div className="absolute w-[200vw] md:w-[90vw] h-[3px] bg-white/40 blur-[4px]" />
 
                 {/* Star Rays (Rotated Elements) */}
                 <div className="absolute w-1 h-[60vw] bg-gradient-to-t from-transparent via-white/20 to-transparent blur-[0px] rotate-45" />
