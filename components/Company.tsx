@@ -10,8 +10,27 @@ export function Company() {
     const [isVisible, setIsVisible] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const [touchedElement, setTouchedElement] = useState<string | null>(null);
+    const [shouldPulse, setShouldPulse] = useState(false);
     const sectionRef = useRef<HTMLDivElement>(null);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        // Initial pulse after 3 seconds to show it works
+        const initialTimeout = setTimeout(() => {
+            setShouldPulse(true);
+            setTimeout(() => setShouldPulse(false), 2000);
+        }, 3000);
+
+        const pulseInterval = setInterval(() => {
+            setShouldPulse(true);
+            setTimeout(() => setShouldPulse(false), 2000);
+        }, 30000);
+
+        return () => {
+            clearTimeout(initialTimeout);
+            clearInterval(pulseInterval);
+        };
+    }, []);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -117,6 +136,7 @@ export function Company() {
                                 <Button
                                     size="lg"
                                     className={`font-bold px-10 h-14 rounded-full text-sm tracking-[0.2em] uppercase transition-all duration-300 active:scale-95
+                                        ${shouldPulse ? 'animate-button-glow' : ''}
                                         ${touchedElement === 'contact'
                                             ? 'bg-cyan-400 text-black scale-105 shadow-[0_0_30px_rgba(34,211,238,0.4)]'
                                             : 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105'

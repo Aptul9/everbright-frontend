@@ -2,12 +2,31 @@
 
 import { Button } from "@/components/ui/button"
 import { SpaceSunrise } from "@/components/SpaceSunrise"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ContactModal } from "@/components/ContactModal"
 
 export function Hero() {
     const [isContactOpen, setIsContactOpen] = useState(false);
     const [touchedButton, setTouchedButton] = useState<string | null>(null);
+    const [shouldPulse, setShouldPulse] = useState(false);
+
+    useEffect(() => {
+        // Initial pulse after 3 seconds to show it works
+        const initialTimeout = setTimeout(() => {
+            setShouldPulse(true);
+            setTimeout(() => setShouldPulse(false), 2000);
+        }, 3000);
+
+        const interval = setInterval(() => {
+            setShouldPulse(true);
+            setTimeout(() => setShouldPulse(false), 2000);
+        }, 30000);
+
+        return () => {
+            clearTimeout(initialTimeout);
+            clearInterval(interval);
+        };
+    }, []);
 
     const handleScroll = (e: React.MouseEvent<HTMLButtonElement>, href: string) => {
         e.preventDefault();
@@ -46,6 +65,7 @@ export function Hero() {
                     <div className="flex flex-col sm:flex-row items-start gap-6 mt-4 transition-transform duration-500 ease-out group-hover/hero:scale-105 origin-left">
                         <Button
                             className={`font-bold rounded-full px-10 h-14 text-sm tracking-[0.2em] uppercase transition-all duration-300 active:scale-95
+                                ${shouldPulse ? 'md:animate-button-glow' : ''}
                                 ${touchedButton === 'contact'
                                     ? 'bg-cyan-400 text-black scale-105 shadow-[0_0_30px_rgba(34,211,238,0.4)]'
                                     : 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105'

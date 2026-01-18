@@ -20,12 +20,23 @@ interface StaticStar {
     alpha: number
 }
 
+interface Comet {
+    x: number
+    y: number
+    vx: number
+    vy: number
+    length: number
+    alpha: number
+    thickness: number
+}
+
 export function StarField() {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
     const starsRef = useRef<Star[]>([])
     const staticStarsRef = useRef<StaticStar[]>([])
     const scrollStarsRef = useRef<Star[]>([])
+    const cometsRef = useRef<Comet[]>([])
     const mouseRef = useRef<{ x: number, y: number } | null>(null)
     const lastScrollY = useRef(0)
 
@@ -176,6 +187,67 @@ export function StarField() {
                 ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2)
                 ctx.fill()
             })
+
+            // --- Comets Logic ---
+            // Randomly spawn a comet if there aren't too many
+            if (cometsRef.current.length < 2 && Math.random() < 0.005) {
+                const side = Math.random() > 0.5 ? 'left' : 'top';
+                const length = Math.random() * 80 + 40;
+                const angle = (Math.random() * 30 + 15) * (Math.PI / 180); // 15 to 45 degrees
+                const speed = Math.random() * 4 + 3;
+
+                cometsRef.current.push({
+                    x: side === 'left' ? -length : Math.random() * canvas.width,
+                    y: side === 'top' ? -length : Math.random() * canvas.height * 0.5,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    length: length,
+                    alpha: 1.0,
+                    thickness: Math.random() * 1.5 + 1.0
+                });
+            }
+
+            // Update and draw comets
+            for (let i = cometsRef.current.length - 1; i >= 0; i--) {
+                const comet = cometsRef.current[i];
+                comet.x += comet.vx;
+                comet.y += comet.vy;
+                comet.alpha -= 0.002; // Slow fade
+
+                if (comet.alpha <= 0 || comet.x > canvas.width + comet.length || comet.y > canvas.height + comet.length) {
+                    cometsRef.current.splice(i, 1);
+                    continue;
+                }
+
+                // Draw Comet Tail
+                const gradient = ctx.createLinearGradient(
+                    comet.x, comet.y,
+                    comet.x - comet.vx * (comet.length / 5),
+                    comet.y - comet.vy * (comet.length / 5)
+                );
+                gradient.addColorStop(0, `rgba(200, 230, 255, ${comet.alpha * 0.8})`);
+                gradient.addColorStop(1, `rgba(100, 150, 255, 0)`);
+
+                ctx.beginPath();
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = comet.thickness;
+                ctx.lineCap = 'round';
+                ctx.moveTo(comet.x, comet.y);
+                ctx.lineTo(comet.x - comet.vx * (comet.length / 5), comet.y - comet.vy * (comet.length / 5));
+                ctx.stroke();
+
+                // Draw Comet Head Glow
+                ctx.beginPath();
+                ctx.fillStyle = `rgba(255, 255, 255, ${comet.alpha})`;
+                ctx.arc(comet.x, comet.y, comet.thickness * 1.2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Extra subtle glow
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = "rgba(100, 150, 255, 0.5)";
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+            }
 
             requestAnimationFrame(render)
         }
