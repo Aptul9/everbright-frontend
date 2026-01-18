@@ -85,7 +85,7 @@ export function Hero() {
               <span className="relative z-10">Contattaci</span>
               {/* Passing Shine Effect */}
               <div
-                className={`absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent z-0 pointer-events-none ${shouldPulse ? 'animate-shine' : 'group-hover/hero:translate-x-full transition-transform duration-1000'}`}
+                className={`absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/40 to-transparent z-0 pointer-events-none ${shouldPulse ? 'animate-shine' : 'group-hover/hero:translate-x-full transition-transform duration-1000'}`}
               />
             </Button>
             <Button

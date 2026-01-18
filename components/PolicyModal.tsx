@@ -18,11 +18,11 @@ export function PolicyModal({ isOpen, onClose, title, content }: PolicyModalProp
   useEffect(() => {
     if (isOpen) {
       setVisible(true)
-      document.body.style.overflow = 'hidden' // Block scrolling
+      document.body.style.overflow = 'hidden'
       setTimeout(() => setTriggerShine(true), 300)
       setTimeout(() => setTriggerShine(false), 2500)
     } else {
-      const timer = setTimeout(() => setVisible(false), 500) // Wait for animation
+      const timer = setTimeout(() => setVisible(false), 500)
       document.body.style.overflow = 'unset'
       setTriggerShine(false)
       return () => clearTimeout(timer)
@@ -33,7 +33,7 @@ export function PolicyModal({ isOpen, onClose, title, content }: PolicyModalProp
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex justify-center items-start md:items-center p-4 sm:p-6 overflow-y-auto transition-all duration-500 ${
+      className={`fixed inset-0 z-100 flex justify-center items-start md:items-center p-4 sm:p-6 overflow-y-auto transition-all duration-500 ${
         isOpen
           ? 'bg-black/40 backdrop-blur-md opacity-100'
           : 'bg-black/0 backdrop-blur-none opacity-0 pointer-events-none'
@@ -46,12 +46,10 @@ export function PolicyModal({ isOpen, onClose, title, content }: PolicyModalProp
         } hover:shadow-[0_0_120px_rgba(34,211,238,0.3)] hover:border-cyan-400/30`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Global Card Shine */}
         <div
-          className={`absolute inset-0 -translate-x-full duration-[1.5s] ease-in-out bg-gradient-to-r from-transparent via-white/5 to-transparent z-0 pointer-events-none ${triggerShine ? 'translate-x-full' : 'group-hover/modal:translate-x-full'}`}
+          className={`absolute inset-0 -translate-x-full duration-[1.5s] ease-in-out bg-linear-to-r from-transparent via-white/5 to-transparent z-0 pointer-events-none ${triggerShine ? 'translate-x-full' : 'group-hover/modal:translate-x-full'}`}
         />
 
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors z-20"
@@ -59,23 +57,21 @@ export function PolicyModal({ isOpen, onClose, title, content }: PolicyModalProp
           <X size={24} />
         </button>
 
-        {/* Header */}
         <div className="mb-6 text-center space-y-2 relative z-10 shrink-0">
           <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">{title}</h2>
-          <div className="h-[2px] w-20 bg-cyan-400 mx-auto rounded-full" />
+          <div className="h-0.5 w-20 bg-cyan-400 mx-auto rounded-full" />
         </div>
 
-        {/* Content - Scrollable */}
         <div
           className="relative z-10 overflow-y-auto pr-2"
           style={{
-            scrollbarWidth: 'none' /* Firefox */,
-            msOverflowStyle: 'none' /* IE and Edge */,
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
           }}
         >
           <style jsx>{`
             div::-webkit-scrollbar {
-              display: none; /* Chrome, Safari, Opera */
+              display: none;
             }
           `}</style>
           <div className="text-gray-300 text-sm md:text-base space-y-4 leading-relaxed font-light">
@@ -83,7 +79,6 @@ export function PolicyModal({ isOpen, onClose, title, content }: PolicyModalProp
           </div>
         </div>
 
-        {/* Footer / Close Button */}
         <div className="relative z-10 pt-8 shrink-0">
           <button
             onClick={onClose}

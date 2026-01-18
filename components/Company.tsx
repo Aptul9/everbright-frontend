@@ -15,7 +15,6 @@ export function Company() {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
-    // Initial pulse after 3 seconds to show it works
     const initialTimeout = setTimeout(() => {
       setShouldPulse(true)
       setTimeout(() => setShouldPulse(false), 2000)
@@ -36,16 +35,13 @@ export function Company() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Clear any existing timeout
           if (timeoutRef.current) {
             clearTimeout(timeoutRef.current)
           }
-          // Show after 400ms delay
           timeoutRef.current = setTimeout(() => {
             setIsVisible(true)
           }, 400)
         } else {
-          // Clear timeout and hide immediately
           if (timeoutRef.current) {
             clearTimeout(timeoutRef.current)
             timeoutRef.current = null
@@ -73,7 +69,6 @@ export function Company() {
   return (
     <>
       <section id="azienda" className="relative w-full py-24 md:py-32 overflow-hidden text-white">
-        {/* Background Layer (below stars) */}
         <div className="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm border-t border-white/10 z-0" />
 
         <div className="container mx-auto px-8 md:px-4 relative z-20">
@@ -85,25 +80,21 @@ export function Company() {
               isVisible || isHovered ? 'opacity-100 translate-y-0' : 'opacity-20 translate-y-20'
             }`}
           >
-            {/* Image Block */}
             <div
               className="w-full md:w-1/2 relative transition-transform duration-[1.5s]"
               onTouchStart={() => setTouchedElement('image')}
               onTouchEnd={() => setTouchedElement(null)}
             >
-              {/* Ghost Layer for Glow Effect */}
               <div
                 className={`absolute inset-0 -z-10 pointer-events-none transition-[filter] duration-500 group-hover:delay-[1500ms] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] ${touchedElement === 'image' ? 'delay-[1500ms] drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]' : ''}`}
               >
-                {/* Ghost Image - Opaque Black Block */}
                 <div
-                  className={`relative h-[500px] w-full rounded-[32px] bg-black transition-transform duration-[1.5s] group-hover:scale-105 ${touchedElement === 'image' ? 'scale-105' : ''}`}
+                  className={`relative h-125 w-full rounded-[32px] bg-black transition-transform duration-[1.5s] group-hover:scale-105 ${touchedElement === 'image' ? 'scale-105' : ''}`}
                 />
               </div>
 
-              {/* Real Image */}
               <div
-                className={`relative h-[500px] w-full rounded-[32px] overflow-hidden transition-transform duration-[1.5s] group-hover:scale-105 ${touchedElement === 'image' ? 'scale-105' : ''}`}
+                className={`relative h-125 w-full rounded-[32px] overflow-hidden transition-transform duration-[1.5s] group-hover:scale-105 ${touchedElement === 'image' ? 'scale-105' : ''}`}
               >
                 <Image
                   src="/company.png"
@@ -111,12 +102,10 @@ export function Company() {
                   fill
                   className="object-cover"
                 />
-                {/* Glass Overlay Effect */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-80" />
               </div>
             </div>
 
-            {/* Text Block */}
             <div
               className={`w-full md:w-1/2 space-y-8 transition-transform duration-[1.5s] group-hover:scale-105 ${touchedElement === 'text' ? 'scale-105' : ''}`}
               onTouchStart={() => setTouchedElement('text')}
@@ -133,7 +122,7 @@ export function Company() {
                     Everbright
                   </span>
                   . Non siamo solo consulenti, siamo architetti del cambiamento digitale. Nati dalla
-                  passione per la tecnologia e guidati dall'innovazione, aiutiamo le aziende a
+                  passione per la tecnologia e guidati dall&apos;innovazione, aiutiamo le aziende a
                   superare i confini del possibile.
                 </p>
                 <p>
@@ -170,7 +159,7 @@ export function Company() {
                     setTimeout(() => setIsContactOpen(true), 300)
                   }}
                   onTouchStart={(e) => {
-                    e.stopPropagation() // Prevent bubbling to text block
+                    e.stopPropagation()
                     setTouchedElement('contact')
                   }}
                   onTouchEnd={(e) => {

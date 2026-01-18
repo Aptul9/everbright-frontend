@@ -57,11 +57,9 @@ export function Services() {
           const index = parseInt(entry.target.getAttribute('data-service-index') || '0')
 
           if (entry.isIntersecting) {
-            // Clear any existing timeout for this service
             if (timeoutsRef.current[index]) {
               clearTimeout(timeoutsRef.current[index]!)
             }
-            // Set 400ms delay before showing
             timeoutsRef.current[index] = setTimeout(() => {
               setVisibleServices((prev) => {
                 const next = [...prev]
@@ -70,7 +68,6 @@ export function Services() {
               })
             }, 400)
           } else {
-            // Clear timeout and immediately hide when scrolling away
             if (timeoutsRef.current[index]) {
               clearTimeout(timeoutsRef.current[index]!)
               timeoutsRef.current[index] = null
@@ -84,17 +81,15 @@ export function Services() {
         })
       },
       {
-        threshold: 0.6, // Trigger when 60% of the element is visible
-        rootMargin: '-10% 0px -10% 0px', // Trigger slightly inwards to ensure it's "centered"
+        threshold: 0.6,
+        rootMargin: '-10% 0px -10% 0px',
       }
     )
 
-    // Observe all service cards
     serviceRefs.current.forEach((ref) => {
       if (ref) observer.observe(ref)
     })
 
-    // Cleanup - capture timeouts
     const currentTimeouts = timeoutsRef.current
     return () => {
       observer.disconnect()
@@ -158,9 +153,6 @@ export function Services() {
                   : 'opacity-20 translate-y-20'
               )}
             >
-              {/* Ghost Layer for Glow Effect */}
-              {/* This layer replicates the shape of the content to cast a unified shadow (glow) 
-                                without showing artifacts at the intersection of the transparent text box. */}
               <div
                 className={cn(
                   'absolute inset-0 flex w-full items-center -z-10 pointer-events-none transition-[filter] duration-500',
@@ -171,20 +163,18 @@ export function Services() {
                   service.align === 'left' ? 'justify-end' : 'justify-start'
                 )}
               >
-                {/* Ghost Image - Opaque Black, placed ABOVE Ghost Text Box to block it at intersection */}
                 <div
                   className={cn(
-                    'relative w-[85%] md:w-[70%] h-[400px] md:h-[600px] rounded-[32px] bg-black transition-transform duration-[1.5s] z-10',
+                    'relative w-[85%] md:w-[70%] h-100 md:h-150 rounded-[32px] bg-black transition-transform duration-[1.5s] z-10',
                     hoveredServices[index] ? 'scale-105 md:scale-100' : '',
                     'md:group-hover:scale-105',
                     service.align === 'left' ? 'order-2' : 'order-1'
                   )}
                 />
 
-                {/* Ghost Text Box - Opaque Black, placed BELOW Ghost Image */}
                 <div
                   className={cn(
-                    'absolute w-[90%] md:w-[500px] p-6 md:p-12 rounded-[32px] bg-black transition-all duration-500 z-0',
+                    'absolute w-[90%] md:w-125 p-6 md:p-12 rounded-[32px] bg-black transition-all duration-500 z-0',
                     hoveredServices[index] ? 'scale-105 md:scale-100' : '',
                     'md:group-hover:scale-105',
                     service.align === 'left'
@@ -192,7 +182,6 @@ export function Services() {
                       : 'right-0 md:right-20 top-[63%] md:top-1/2 md:-translate-y-1/2'
                   )}
                 >
-                  {/* Invisible duplicate content to ensure correct sizing */}
                   <div className="space-y-4 md:space-y-6 mb-0 md:mb-8 opacity-0">
                     <h3 className="text-2xl md:text-4xl font-bold tracking-tight">
                       {service.title}
@@ -206,25 +195,21 @@ export function Services() {
                 </div>
               </div>
 
-              {/* Real Content */}
-              {/* Image Container */}
               <div
                 className={cn(
-                  'relative w-[85%] md:w-[70%] h-[400px] md:h-[600px] overflow-hidden rounded-[32px] transition-transform duration-[1.5s]',
+                  'relative w-[85%] md:w-[70%] h-100 md:h-150 overflow-hidden rounded-[32px] transition-transform duration-[1.5s]',
                   hoveredServices[index] ? 'scale-105 md:scale-100' : '',
                   'md:group-hover:scale-105',
                   service.align === 'left' ? 'order-2' : 'order-1'
                 )}
               >
                 <Image src={service.image} alt={service.title} fill className="object-cover" />
-                {/* Subtle Overlay */}
                 <div className="absolute inset-0 bg-black/20" />
               </div>
 
-              {/* Glass Text Box - Overlaps */}
               <div
                 className={cn(
-                  'absolute z-20 w-[90%] md:w-[500px] p-6 md:p-12 rounded-[32px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500',
+                  'absolute z-20 w-[90%] md:w-125 p-6 md:p-12 rounded-[32px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500',
                   hoveredServices[index]
                     ? 'bg-white/10 scale-105 backdrop-brightness-125 shadow-[inset_0_0_30px_rgba(255,255,255,0.1)] md:bg-white/5 md:scale-100 md:backdrop-brightness-100 md:shadow-2xl'
                     : '',

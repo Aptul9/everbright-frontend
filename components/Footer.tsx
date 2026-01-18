@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { PolicyModal } from '@/components/PolicyModal'
+import Image from 'next/image'
 
 export function Footer() {
   const [touchedElement, setTouchedElement] = useState<string | null>(null)
@@ -21,14 +22,14 @@ export function Footer() {
       <p>
         Everbright Digital Solutions S.r.l.
         <br />
-        Via dell'Innovazione 1, 20121 Milano (MI)
+        Via dell&apos;Innovazione 1, 20121 Milano (MI)
         <br />
         Email: privacy@everbright.com
       </p>
 
       <h3 className="text-white font-bold text-lg mt-4">2. Dati Raccolti</h3>
       <p>
-        Raccogliamo dati forniti volontariamente dall'utente (es. modulo contatti) e dati di
+        Raccogliamo dati forniti volontariamente dall&apos;utente (es. modulo contatti) e dati di
         navigazione automatica (es. indirizzo IP, tipo di browser).
       </p>
 
@@ -39,17 +40,17 @@ export function Footer() {
         <li>Analisi statistiche anonime.</li>
       </ul>
 
-      <h3 className="text-white font-bold text-lg mt-4">4. Diritti dell'Utente</h3>
+      <h3 className="text-white font-bold text-lg mt-4">4. Diritti dell&apos;Utente</h3>
       <p>
         Hai il diritto di accedere, rettificare o cancellare i tuoi dati in qualsiasi momento
-        contattandoci all'indirizzo email sopra indicato.
+        contattandoci all&apos;indirizzo email sopra indicato.
       </p>
     </>
   )
 
   const cookieContent = (
     <>
-      <p>Questo sito utilizza cookie per migliorare l'esperienza di navigazione.</p>
+      <p>Questo sito utilizza cookie per migliorare l&apos;esperienza di navigazione.</p>
 
       <h3 className="text-white font-bold text-lg mt-4">Cosa sono i cookie?</h3>
       <p>
@@ -63,8 +64,8 @@ export function Footer() {
           sicura).
         </li>
         <li>
-          <strong>Cookie Analitici:</strong> Utilizzati per raccogliere statistiche anonime sull'uso
-          del sito.
+          <strong>Cookie Analitici:</strong> Utilizzati per raccogliere statistiche anonime
+          sull&apos;uso del sito.
         </li>
       </ul>
 
@@ -80,31 +81,30 @@ export function Footer() {
     <footer className="relative w-full py-6 bg-black border-t border-white/5 overflow-hidden group/footer">
       <div className="container mx-auto px-6 relative z-10 flex flex-col gap-4 transition-transform duration-700 ease-out hover:scale-[1.01] cursor-default">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          {/* Logo & Copyright */}
           <div className="flex flex-col items-center md:items-start space-y-2">
-            {/* Logo Section - Matching Navbar */}
             <div
               onTouchStart={() => setTouchedElement('logo')}
               onTouchEnd={() => setTouchedElement(null)}
               className={`flex items-center gap-2 md:gap-3 transition-transform duration-300 hover:scale-105 ${touchedElement === 'logo' ? 'scale-105' : ''}`}
             >
-              <div className="relative w-10 h-10 md:w-16 lg:w-20 md:h-16 lg:h-20 flex-shrink-0 flex items-center justify-center">
-                <img
+              <div className="relative w-10 h-10 md:w-16 lg:w-20 md:h-16 lg:h-20 shrink-0 flex items-center justify-center">
+                <Image
                   src="/logo-icon.png"
                   alt="Everbright"
-                  className="w-full h-full object-contain mix-blend-screen brightness-125 scale-[2.2] md:scale-[2] lg:scale-[2.2] drop-shadow-[0_0_25px_rgba(34,211,238,0.6)]"
+                  fill
+                  className="object-contain mix-blend-screen brightness-125 scale-[2.2] md:scale-[2] lg:scale-[2.2] drop-shadow-[0_0_25px_rgba(34,211,238,0.6)]"
                 />
               </div>
               <div className="flex flex-col -space-y-1 md:-space-y-1.5 font-inter pt-1 whitespace-nowrap">
-                <div className="text-lg md:text-xl lg:text-2xl font-black tracking-tighter md:tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-cyan-100 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                <div className="text-lg md:text-xl lg:text-2xl font-black tracking-tighter md:tracking-tight uppercase text-transparent bg-clip-text bg-linear-to-b from-white via-white to-cyan-100 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
                   EVERBRIGHT
                 </div>
                 <div className="flex items-center gap-1 md:gap-2">
-                  <div className="h-[1px] w-3 md:w-4 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+                  <div className="h-px w-3 md:w-4 bg-linear-to-r from-transparent via-cyan-400/50 to-transparent" />
                   <span className="text-[8px] md:text-[8px] lg:text-[9px] font-bold tracking-[0.3em] md:tracking-[0.45em] lg:tracking-[0.55em] text-cyan-300/80 uppercase">
                     IT SERVICES
                   </span>
-                  <div className="h-[1px] w-3 md:w-4 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+                  <div className="h-px w-3 md:w-4 bg-linear-to-r from-transparent via-cyan-400/50 to-transparent" />
                 </div>
               </div>
             </div>
@@ -121,7 +121,6 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Legal Info Mockup - Filtered */}
           <div className="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-1 text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase">
             <button
               onClick={(e) => {
@@ -148,7 +147,6 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Additional Company Info - Synced Style */}
         <div className="pt-4 border-t border-white/5 flex flex-wrap justify-center md:justify-between items-center gap-x-12 gap-y-2">
           <p
             className={`text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-pointer ${touchedElement === 'piva' ? 'text-cyan-400 scale-110' : ''}`}
@@ -162,7 +160,7 @@ export function Footer() {
             onTouchStart={() => setTouchedElement('sede')}
             onTouchEnd={() => setTouchedElement(null)}
           >
-            Sede Legale: Via dell'Innovazione 1, 20121 Milano (MI)
+            Sede Legale: Via dell&apos;Innovazione 1, 20121 Milano (MI)
           </p>
           <p
             className={`text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-pointer ${touchedElement === 'rea' ? 'text-cyan-400 scale-110' : ''}`}

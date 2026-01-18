@@ -291,7 +291,7 @@ export function StarField() {
   }, [])
 
   return (
-    <div ref={containerRef} className="absolute inset-0 z-[2] overflow-hidden pointer-events-none">
+    <div ref={containerRef} className="absolute inset-0 z-2 overflow-hidden pointer-events-none">
       <canvas ref={canvasRef} className="block w-full h-full" />
     </div>
   )

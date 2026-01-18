@@ -18,7 +18,7 @@ export function ClickSparkle() {
         id: Date.now(),
         x: e.clientX,
         y: e.clientY,
-        rotation: Math.random() * 90, // Random rotation for uniqueness
+        rotation: Math.random() * 90,
       }
 
       setSparkles((prev) => [...prev, newSparkle])
@@ -33,7 +33,7 @@ export function ClickSparkle() {
   }, [])
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none z-9999 overflow-hidden">
       {sparkles.map((s) => (
         <div
           key={s.id}
@@ -44,15 +44,11 @@ export function ClickSparkle() {
             transform: `translate(-50%, -50%) rotate(${s.rotation}deg)`,
           }}
         >
-          {/* 1. Star Core (Mini Pulsing Sun) */}
           <div className="absolute inset-0 w-1.5 h-1.5 bg-white rounded-full blur-[1px] animate-star-pop" />
 
-          {/* 2. Sharp Star Rays (Vertical) */}
-          <div className="absolute h-10 w-[1.5px] bg-gradient-to-t from-transparent via-cyan-300 to-transparent -translate-y-1/2 animate-star-rays" />
-          {/* 3. Sharp Star Rays (Horizontal) */}
-          <div className="absolute w-10 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-300 to-transparent -translate-x-1/2 animate-star-rays" />
+          <div className="absolute h-10 w-[1.5px] bg-linear-to-t from-transparent via-cyan-300 to-transparent -translate-y-1/2 animate-star-rays" />
+          <div className="absolute w-10 h-[1.5px] bg-linear-to-r from-transparent via-cyan-300 to-transparent -translate-x-1/2 animate-star-rays" />
 
-          {/* 4. Subtle Micro-Glow (keeps it localized) */}
           <div className="absolute inset-0 w-8 h-8 bg-cyan-400/20 rounded-full blur-xl animate-star-glow" />
         </div>
       ))}

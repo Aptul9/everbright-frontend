@@ -8,7 +8,7 @@ import { ClickSparkle } from '@/components/ClickSparkle'
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-black selection:bg-cyan-500/30">
-      <div className="fixed inset-0 z-[5] pointer-events-none">
+      <div className="fixed inset-0 z-5 pointer-events-none">
         <StarField />
       </div>
       <Hero />

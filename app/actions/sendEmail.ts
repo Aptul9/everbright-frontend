@@ -56,7 +56,7 @@ export async function sendEmail(formData: {
 
     await transporter.sendMail(mailOptions)
     return { success: true }
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Failed to send email' }
   }
 }

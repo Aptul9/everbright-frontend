@@ -77,7 +77,7 @@ const ShineInput = ({
                     : 'bg-white/5 border-white/10 group-hover/field:scale-[1.02] group-hover/field:bg-white/10 group-hover/field:border-cyan-400/30 group-hover/field:shadow-[0_0_20px_rgba(34,211,238,0.2)] group-focus-within/field:scale-[1.02] group-focus-within/field:bg-white/10 group-focus-within/field:border-cyan-400 group-focus-within/field:shadow-[0_0_20px_rgba(34,211,238,0.2)]'
                 }`}
       >
-        <div className="absolute inset-0 -translate-x-full group-hover/field:translate-x-full duration-[0.8s] ease-in-out bg-gradient-to-r from-transparent via-white/25 to-transparent z-0 pointer-events-none" />
+        <div className="absolute inset-0 -translate-x-full group-hover/field:translate-x-full duration-[0.8s] ease-in-out bg-linear-to-r from-transparent via-white/25 to-transparent z-0 pointer-events-none" />
 
         {isTextArea ? (
           <textarea
@@ -199,7 +199,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       } else {
         setSubmitStatus('error')
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus('error')
     } finally {
       setIsSubmitting(false)
@@ -210,7 +210,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex justify-center items-start md:items-center p-4 sm:p-6 overflow-y-auto transition-all duration-500 ${
+      className={`fixed inset-0 z-100 flex justify-center items-start md:items-center p-4 sm:p-6 overflow-y-auto transition-all duration-500 ${
         isOpen
           ? 'bg-black/40 backdrop-blur-md opacity-100'
           : 'bg-black/0 backdrop-blur-none opacity-0 pointer-events-none'
@@ -224,7 +224,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
         onClick={(e) => e.stopPropagation()}
       >
         <div
-          className={`absolute inset-0 -translate-x-full duration-[1.5s] ease-in-out bg-gradient-to-r from-transparent via-white/5 to-transparent z-0 pointer-events-none group-hover/form:translate-x-full ${triggerShine ? 'translate-x-full' : ''}`}
+          className={`absolute inset-0 -translate-x-full duration-[1.5s] ease-in-out bg-linear-to-r from-transparent via-white/5 to-transparent z-0 pointer-events-none group-hover/form:translate-x-full ${triggerShine ? 'translate-x-full' : ''}`}
         />
 
         <button
@@ -329,7 +329,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
             {submitStatus === 'error' && (
               <div className="absolute -top-4 left-0 right-0 flex justify-center items-center gap-2 text-red-500 text-[10px] font-bold uppercase tracking-widest animate-in fade-in slide-in-from-bottom-2">
                 <AlertCircle size={12} />
-                Errore nell'invio. Riprova.
+                Errore nell&apos;invio. Riprova.
               </div>
             )}
 
@@ -363,7 +363,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 )}
               </span>
               {isSubmitting && (
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shine" />
+                <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent animate-shine" />
               )}
             </Button>
           </div>
