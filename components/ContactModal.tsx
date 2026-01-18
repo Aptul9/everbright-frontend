@@ -27,7 +27,7 @@ const ShineInput = ({
     name: string,
     type?: string,
     isTextArea?: boolean,
-    formData: any,
+    formData: Record<string, string>,
     handleChange: (name: string, value: string) => void,
     errors: string[],
     isShaking: boolean,
@@ -47,10 +47,10 @@ const ShineInput = ({
     return (
         <div
             key={`${name}-${submitCount}`}
-            className={`space-y-2 w-full group/field ${hasError && isShaking ? "animate-shake" : ""}`}
+            className={`space-y-1 md:space-y-2 w-full group/field ${hasError && isShaking ? "animate-shake" : ""}`}
         >
             <div className="flex justify-between items-end px-2">
-                <label className={`block text-xs font-bold uppercase tracking-widest transition-all duration-300 origin-left 
+                <label className={`block text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all duration-300 origin-left 
                     ${hasError
                         ? "text-red-500 scale-105 group-hover/field:text-cyan-400 group-focus-within/field:text-cyan-400"
                         : "text-gray-400 group-hover/field:text-cyan-400 group-hover/field:scale-105 group-focus-within/field:text-cyan-400 group-focus-within/field:scale-105"}`}>
@@ -64,7 +64,7 @@ const ShineInput = ({
                 )}
             </div>
 
-            <div className={`relative w-full overflow-hidden rounded-2xl border transition-all duration-300 
+            <div className={`relative w-full overflow-hidden rounded-xl md:rounded-2xl border transition-all duration-300 
                 ${hasError
                     ? "border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.4)] bg-red-500/20 group-hover/field:border-cyan-400/50 group-hover/field:bg-white/10 group-hover/field:shadow-[0_0_20px_rgba(34,211,238,0.2)] group-focus-within/field:border-cyan-400 group-focus-within/field:bg-white/10 group-focus-within/field:shadow-[0_0_20px_rgba(34,211,238,0.2)] group-hover/field:scale-[1.02] group-focus-within/field:scale-[1.02]"
                     : "bg-white/5 border-white/10 group-hover/field:scale-[1.02] group-hover/field:bg-white/10 group-hover/field:border-cyan-400/30 group-hover/field:shadow-[0_0_20px_rgba(34,211,238,0.2)] group-focus-within/field:scale-[1.02] group-focus-within/field:bg-white/10 group-focus-within/field:border-cyan-400 group-focus-within/field:shadow-[0_0_20px_rgba(34,211,238,0.2)]"}`}>
@@ -74,18 +74,18 @@ const ShineInput = ({
 
                 {isTextArea ? (
                     <textarea
-                        rows={4}
-                        className={`w-full bg-transparent px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none relative z-10 resize-none transition-colors duration-300 ${hasError ? "placeholder:text-red-400/50 group-hover/field:placeholder:text-gray-600 group-focus-within/field:placeholder:text-gray-600" : ""}`}
+                        rows={3}
+                        className={`w-full bg-transparent px-3 py-2 md:px-4 md:py-3 text-sm md:text-base text-white placeholder:text-gray-600 focus:outline-none relative z-10 resize-none transition-colors duration-300 ${hasError ? "placeholder:text-red-400/50 group-hover/field:placeholder:text-gray-600 group-focus-within/field:placeholder:text-gray-600" : ""}`}
                         placeholder={placeholder}
-                        value={formData[name as keyof typeof formData]}
+                        value={formData[name]}
                         onChange={(e) => handleChange(name, e.target.value)}
                     />
                 ) : (
                     <input
                         type={type}
-                        className={`w-full bg-transparent px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none relative z-10 transition-colors duration-300 ${hasError ? "placeholder:text-red-400/50 group-hover/field:placeholder:text-gray-600 group-focus-within/field:placeholder:text-gray-600" : ""}`}
+                        className={`w-full bg-transparent px-3 py-2 md:px-4 md:py-3 text-sm md:text-base text-white placeholder:text-gray-600 focus:outline-none relative z-10 transition-colors duration-300 ${hasError ? "placeholder:text-red-400/50 group-hover/field:placeholder:text-gray-600 group-focus-within/field:placeholder:text-gray-600" : ""}`}
                         placeholder={placeholder}
-                        value={formData[name as keyof typeof formData]}
+                        value={formData[name]}
                         onChange={(e) => handleChange(name, e.target.value)}
                     />
                 )}
@@ -112,27 +112,34 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
     useEffect(() => {
         if (isOpen) {
-            setVisible(true);
+            const timer = setTimeout(() => {
+                setVisible(true);
+                setTriggerShine(true);
+            }, 10);
             document.body.style.overflow = "hidden"; // Block scrolling
-            // Trigger shine after entrance animation, then reset
-            setTimeout(() => setTriggerShine(true), 300);
-            setTimeout(() => setTriggerShine(false), 2500);
+            const shineResetTimer = setTimeout(() => setTriggerShine(false), 2500);
+            return () => {
+                clearTimeout(timer);
+                clearTimeout(shineResetTimer);
+            };
         } else {
-            const timer = setTimeout(() => setVisible(false), 500); // Wait for animation
+            const timer = setTimeout(() => {
+                setVisible(false);
+                // Reset form on close after animation
+                setFormData({
+                    nome: "",
+                    cognome: "",
+                    azienda: "",
+                    telefono: "",
+                    email: "",
+                    messaggio: ""
+                });
+                setErrors([]);
+                setSubmitCount(0);
+                setTriggerShine(false);
+                setTouchedElement(null);
+            }, 500);
             document.body.style.overflow = "unset";
-            // Reset form on close
-            setFormData({
-                nome: "",
-                cognome: "",
-                azienda: "",
-                telefono: "",
-                email: "",
-                messaggio: ""
-            });
-            setErrors([]);
-            setSubmitCount(0);
-            setTriggerShine(false);
-            setTouchedElement(null);
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
@@ -181,12 +188,12 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
     return (
         <div
-            className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ${isOpen ? "bg-black/40 backdrop-blur-md opacity-100" : "bg-black/0 backdrop-blur-none opacity-0 pointer-events-none"
+            className={`fixed inset-0 z-[100] flex justify-center items-start md:items-center p-4 sm:p-6 overflow-y-auto transition-all duration-500 ${isOpen ? "bg-black/40 backdrop-blur-md opacity-100" : "bg-black/0 backdrop-blur-none opacity-0 pointer-events-none"
                 }`}
             onClick={onClose}
         >
             <div
-                className={`relative w-full max-w-2xl bg-zinc-900/90 backdrop-blur-xl border border-white/20 rounded-[32px] shadow-[0_0_60px_rgba(34,211,238,0.15)] p-8 md:p-12 overflow-hidden transition-all duration-500 transform group/form ${isOpen ? "scale-100 translate-y-0 opacity-100" : "scale-95 translate-y-10 opacity-0"
+                className={`relative w-full max-w-2xl my-auto bg-zinc-900/90 backdrop-blur-xl border border-white/20 rounded-[32px] shadow-[0_0_60px_rgba(34,211,238,0.15)] p-6 sm:p-8 md:p-12 overflow-hidden transition-all duration-500 transform group/form ${isOpen ? "scale-100 translate-y-0 opacity-100" : "scale-95 translate-y-10 opacity-0"
                     } hover:shadow-[0_0_120px_rgba(34,211,238,0.3)] hover:border-cyan-400/30`}
                 onClick={(e) => e.stopPropagation()}
             >
@@ -196,29 +203,29 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 {/* Close Button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors z-20"
+                    className="absolute top-4 right-4 md:top-6 md:right-6 text-gray-400 hover:text-white transition-colors z-20"
                 >
-                    <X size={24} />
+                    <X size={20} className="md:w-6 md:h-6" />
                 </button>
 
                 {/* Header */}
                 <div
                     onTouchStart={() => setTouchedElement('header')}
                     onTouchEnd={() => setTouchedElement(null)}
-                    className={`mb-8 text-center space-y-2 relative z-10 transition-transform duration-500 ease-out hover:scale-105 cursor-default ${touchedElement === 'header' ? 'scale-105' : ''}`}
+                    className={`mb-4 md:mb-8 text-center space-y-1 relative z-10 transition-transform duration-500 ease-out hover:scale-105 cursor-default ${touchedElement === 'header' ? 'scale-105' : ''}`}
                 >
-                    <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">PARLAMI DI <span className="text-cyan-400">TE</span>.</h2>
-                    <p className="text-gray-400 text-sm">Siamo pronti ad ascoltare la tua visione.</p>
+                    <h2 className="text-xl md:text-3xl font-bold tracking-tighter text-white uppercase">PARLAMI DI <span className="text-cyan-400">TE</span>.</h2>
+                    <p className="text-gray-400 text-[10px] md:text-sm">Siamo pronti ad ascoltare la tua visione.</p>
                 </div>
 
                 {/* Form */}
-                <form className="space-y-4 relative z-10" onSubmit={handleSubmit} noValidate>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <form className="space-y-3 md:space-y-4 relative z-10" onSubmit={handleSubmit} noValidate>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                         <ShineInput label="Nome" placeholder="Mario" name="nome" formData={formData} handleChange={handleChange} errors={errors} isShaking={isShaking} submitCount={submitCount} />
                         <ShineInput label="Cognome" placeholder="Rossi" name="cognome" formData={formData} handleChange={handleChange} errors={errors} isShaking={isShaking} submitCount={submitCount} />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                         <ShineInput label="Azienda" placeholder="Nome Azienda" name="azienda" formData={formData} handleChange={handleChange} errors={errors} isShaking={isShaking} submitCount={submitCount} />
                         <ShineInput label="Telefono" placeholder="+39 333..." type="tel" name="telefono" formData={formData} handleChange={handleChange} errors={errors} isShaking={isShaking} submitCount={submitCount} />
                     </div>
@@ -231,7 +238,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                         type="submit"
                         onTouchStart={() => setTouchedElement('submit')}
                         onTouchEnd={() => setTouchedElement(null)}
-                        className={`w-full bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full py-6 text-lg shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all ${touchedElement === 'submit' ? 'bg-cyan-400 scale-105 shadow-[0_0_30px_rgba(34,211,238,0.5)]' : ''}`}
+                        className={`w-full bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full py-4 md:py-6 text-sm md:text-lg shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all ${touchedElement === 'submit' ? 'bg-cyan-400 scale-105 shadow-[0_0_30px_rgba(34,211,238,0.5)]' : ''}`}
                     >
                         INVIA MESSAGGIO
                     </Button>
