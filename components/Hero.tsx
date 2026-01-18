@@ -7,6 +7,7 @@ import { ContactModal } from "@/components/ContactModal"
 
 export function Hero() {
     const [isContactOpen, setIsContactOpen] = useState(false);
+    const [touchedButton, setTouchedButton] = useState<string | null>(null);
 
     const handleScroll = (e: React.MouseEvent<HTMLButtonElement>, href: string) => {
         e.preventDefault();
@@ -40,15 +41,19 @@ export function Hero() {
                     {/* Buttons */}
                     <div className="flex flex-col sm:flex-row items-start gap-6 mt-4 transition-transform duration-500 ease-out group-hover/hero:scale-105 origin-left">
                         <Button
-                            className="bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full px-10 h-14 text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95"
+                            className={`bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full px-10 h-14 text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95 ${touchedButton === 'contact' ? 'bg-cyan-400 shadow-[0_0_30px_rgba(34,211,238,0.4)] scale-105' : ''}`}
                             onClick={() => setIsContactOpen(true)}
+                            onTouchStart={() => setTouchedButton('contact')}
+                            onTouchEnd={() => setTouchedButton(null)}
                         >
                             Contattaci
                         </Button>
                         <Button
                             variant="outline"
-                            className="border-white text-white hover:border-cyan-400 hover:text-cyan-400 font-bold px-10 h-14 rounded-full text-sm tracking-[0.2em] uppercase transition-all duration-300 hover:bg-cyan-400/10 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:scale-105 active:scale-95"
+                            className={`border-white text-white hover:border-cyan-400 hover:text-cyan-400 font-bold px-10 h-14 rounded-full text-sm tracking-[0.2em] uppercase transition-all duration-300 hover:bg-cyan-400/10 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:scale-105 active:scale-95 ${touchedButton === 'services' ? 'border-cyan-400 text-cyan-400 bg-cyan-400/10 shadow-[0_0_20px_rgba(34,211,238,0.2)] scale-105' : ''}`}
                             onClick={(e) => handleScroll(e, "#servizi")}
+                            onTouchStart={() => setTouchedButton('services')}
+                            onTouchEnd={() => setTouchedButton(null)}
                         >
                             I Nostri Servizi
                         </Button>
