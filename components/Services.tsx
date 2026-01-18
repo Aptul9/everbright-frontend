@@ -61,7 +61,7 @@ export function Services() {
                             {/* This layer replicates the shape of the content to cast a unified shadow (glow) 
                                 without showing artifacts at the intersection of the transparent text box. */}
                             <div className={cn(
-                                "absolute inset-0 flex w-full items-center -z-10 pointer-events-none transition-[filter] duration-500 hover:delay-[1500ms] hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]",
+                                "absolute inset-0 flex w-full items-center -z-10 pointer-events-none transition-[filter] duration-500 group-hover:delay-[1500ms] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]",
                                 service.align === "left" ? "justify-end" : "justify-start"
                             )}>
                                 {/* Ghost Image - Opaque Black, placed ABOVE Ghost Text Box to block it at intersection */}
