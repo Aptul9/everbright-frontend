@@ -74,8 +74,8 @@ export function Services() {
                 });
             },
             {
-                threshold: 0.2, // Trigger when 20% of the element is visible
-                rootMargin: '0px'
+                threshold: 0.6, // Trigger when 60% of the element is visible
+                rootMargin: '-10% 0px -10% 0px' // Trigger slightly inwards to ensure it's "centered"
             }
         );
 
@@ -122,6 +122,16 @@ export function Services() {
                                 next[index] = false;
                                 setHoveredServices(next);
                             }}
+                            onTouchStart={() => {
+                                const next = [...hoveredServices];
+                                next[index] = true;
+                                setHoveredServices(next);
+                            }}
+                            onTouchEnd={() => {
+                                const next = [...hoveredServices];
+                                next[index] = false;
+                                setHoveredServices(next);
+                            }}
                             className={cn(
                                 "relative flex w-full items-center group transition-all duration-700",
                                 service.align === "left" ? "justify-end" : "justify-start",
@@ -134,18 +144,24 @@ export function Services() {
                             {/* This layer replicates the shape of the content to cast a unified shadow (glow) 
                                 without showing artifacts at the intersection of the transparent text box. */}
                             <div className={cn(
-                                "absolute inset-0 flex w-full items-center -z-10 pointer-events-none transition-[filter] duration-500 group-hover:delay-[1500ms] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]",
+                                "absolute inset-0 flex w-full items-center -z-10 pointer-events-none transition-[filter] duration-500",
+                                hoveredServices[index] ? "delay-[1500ms] drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] md:drop-shadow-none" : "",
+                                "md:group-hover:delay-[1500ms] md:group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]",
                                 service.align === "left" ? "justify-end" : "justify-start"
                             )}>
                                 {/* Ghost Image - Opaque Black, placed ABOVE Ghost Text Box to block it at intersection */}
                                 <div className={cn(
-                                    "relative w-[85%] md:w-[70%] h-[400px] md:h-[600px] rounded-[32px] bg-black transition-transform duration-[1.5s] group-hover:scale-105 z-10",
+                                    "relative w-[85%] md:w-[70%] h-[400px] md:h-[600px] rounded-[32px] bg-black transition-transform duration-[1.5s] z-10",
+                                    hoveredServices[index] ? "scale-105 md:scale-100" : "",
+                                    "md:group-hover:scale-105",
                                     service.align === "left" ? "order-2" : "order-1"
                                 )} />
 
                                 {/* Ghost Text Box - Opaque Black, placed BELOW Ghost Image */}
                                 <div className={cn(
-                                    "absolute w-[90%] md:w-[500px] p-6 md:p-12 rounded-[32px] bg-black transition-all duration-500 group-hover:scale-105 z-0",
+                                    "absolute w-[90%] md:w-[500px] p-6 md:p-12 rounded-[32px] bg-black transition-all duration-500 z-0",
+                                    hoveredServices[index] ? "scale-105 md:scale-100" : "",
+                                    "md:group-hover:scale-105",
                                     service.align === "left"
                                         ? "left-0 md:left-20 top-[63%] md:top-1/2 md:-translate-y-1/2"
                                         : "right-0 md:right-20 top-[63%] md:top-1/2 md:-translate-y-1/2"
@@ -165,7 +181,9 @@ export function Services() {
                             {/* Real Content */}
                             {/* Image Container */}
                             <div className={cn(
-                                "relative w-[85%] md:w-[70%] h-[400px] md:h-[600px] overflow-hidden rounded-[32px] transition-transform duration-[1.5s] group-hover:scale-105",
+                                "relative w-[85%] md:w-[70%] h-[400px] md:h-[600px] overflow-hidden rounded-[32px] transition-transform duration-[1.5s]",
+                                hoveredServices[index] ? "scale-105 md:scale-100" : "",
+                                "md:group-hover:scale-105",
                                 service.align === "left" ? "order-2" : "order-1"
                             )}>
                                 <Image
@@ -181,7 +199,11 @@ export function Services() {
                             {/* Glass Text Box - Overlaps */}
                             <div
                                 className={cn(
-                                    "absolute z-20 w-[90%] md:w-[500px] p-6 md:p-12 rounded-[32px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500 hover:bg-white/10 group-hover:scale-105 group-hover:backdrop-brightness-125 group-hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]",
+                                    "absolute z-20 w-[90%] md:w-[500px] p-6 md:p-12 rounded-[32px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500",
+                                    hoveredServices[index] ?
+                                        "bg-white/10 scale-105 backdrop-brightness-125 shadow-[inset_0_0_30px_rgba(255,255,255,0.1)] md:bg-white/5 md:scale-100 md:backdrop-brightness-100 md:shadow-2xl" :
+                                        "",
+                                    "md:hover:bg-white/10 md:group-hover:scale-105 md:group-hover:backdrop-brightness-125 md:group-hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]",
                                     service.align === "left"
                                         ? "left-0 md:left-20 top-[63%] md:top-1/2 md:-translate-y-1/2"
                                         : "right-0 md:right-20 top-[63%] md:top-1/2 md:-translate-y-1/2"
