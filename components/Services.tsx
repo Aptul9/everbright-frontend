@@ -57,6 +57,39 @@ export function Services() {
                                 service.align === "left" ? "justify-end" : "justify-start"
                             )}
                         >
+                            {/* Ghost Layer for Glow Effect */}
+                            {/* This layer replicates the shape of the content to cast a unified shadow (glow) 
+                                without showing artifacts at the intersection of the transparent text box. */}
+                            <div className={cn(
+                                "absolute inset-0 flex w-full items-center -z-10 pointer-events-none transition-[filter] duration-500 hover:delay-[1500ms] hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]",
+                                service.align === "left" ? "justify-end" : "justify-start"
+                            )}>
+                                {/* Ghost Image - Opaque Black, placed ABOVE Ghost Text Box to block it at intersection */}
+                                <div className={cn(
+                                    "relative w-[85%] md:w-[70%] h-[400px] md:h-[600px] rounded-[32px] bg-black transition-transform duration-[1.5s] group-hover:scale-105 z-10",
+                                    service.align === "left" ? "order-2" : "order-1"
+                                )} />
+
+                                {/* Ghost Text Box - Opaque Black, placed BELOW Ghost Image */}
+                                <div className={cn(
+                                    "absolute w-[90%] md:w-[500px] p-8 md:p-12 rounded-[32px] bg-black transition-all duration-500 group-hover:scale-105 z-0",
+                                    service.align === "left"
+                                        ? "left-0 md:left-20 top-1/2 -translate-y-1/2"
+                                        : "right-0 md:right-20 top-1/2 -translate-y-1/2"
+                                )}>
+                                    {/* Invisible duplicate content to ensure correct sizing */}
+                                    <div className="space-y-6 mb-8 opacity-0">
+                                        <h3 className="text-3xl md:text-4xl font-bold tracking-tight">{service.title}</h3>
+                                        <p className="text-lg leading-relaxed">{service.description}</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 opacity-0">
+                                        <span className="uppercase text-sm">Scopri di più</span>
+                                        <ArrowRight className="w-5 h-5" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Real Content */}
                             {/* Image Container */}
                             <div className={cn(
                                 "relative w-[85%] md:w-[70%] h-[400px] md:h-[600px] overflow-hidden rounded-[32px] transition-transform duration-[1.5s] group-hover:scale-105",
