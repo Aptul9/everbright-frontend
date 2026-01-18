@@ -2,11 +2,53 @@
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ContactModal } from "@/components/ContactModal";
 
 export function Company() {
     const [isContactOpen, setIsContactOpen] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    // Clear any existing timeout
+                    if (timeoutRef.current) {
+                        clearTimeout(timeoutRef.current);
+                    }
+                    // Show after 400ms delay
+                    timeoutRef.current = setTimeout(() => {
+                        setIsVisible(true);
+                    }, 400);
+                } else {
+                    // Clear timeout and hide immediately
+                    if (timeoutRef.current) {
+                        clearTimeout(timeoutRef.current);
+                        timeoutRef.current = null;
+                    }
+                    setIsVisible(false);
+                }
+            },
+            {
+                threshold: 0.2,
+                rootMargin: '0px'
+            }
+        );
+
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
+
+        const currentTimeout = timeoutRef.current;
+        return () => {
+            observer.disconnect();
+            if (currentTimeout) clearTimeout(currentTimeout);
+        };
+    }, []);
 
     return (
         <>
@@ -15,10 +57,23 @@ export function Company() {
                 <div className="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm border-t border-white/10 z-0" />
 
                 <div className="container mx-auto px-4 relative z-20">
-                    <div className="flex flex-col md:flex-row items-center gap-16 md:gap-24 group">
+                    <div
+                        ref={sectionRef}
+                        onMouseEnter={() => setIsHovered(true)}
+                        onMouseLeave={() => setIsHovered(false)}
+                        className={`flex flex-col md:flex-row items-center gap-16 md:gap-24 group transition-all duration-700 ${(isVisible || isHovered) ? "opacity-100 translate-y-0" : "opacity-20 translate-y-20"
+                            }`}
+                    >
 
                         {/* Image Block */}
                         <div className="w-full md:w-1/2 relative">
+                            {/* Ghost Layer for Glow Effect */}
+                            <div className="absolute inset-0 -z-10 pointer-events-none transition-[filter] duration-500 group-hover:delay-[1500ms] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
+                                {/* Ghost Image - Opaque Black Block */}
+                                <div className="relative h-[500px] w-full rounded-[32px] bg-black transition-transform duration-[1.5s] group-hover:scale-105" />
+                            </div>
+
+                            {/* Real Image */}
                             <div className="relative h-[500px] w-full rounded-[32px] overflow-hidden transition-transform duration-[1.5s] group-hover:scale-105">
                                 <Image
                                     src="/company.png"

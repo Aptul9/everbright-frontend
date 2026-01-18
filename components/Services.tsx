@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ContactModal } from "@/components/ContactModal";
 
 const services = [
@@ -35,6 +35,64 @@ const services = [
 
 export function Services() {
     const [isContactOpen, setIsContactOpen] = useState(false);
+    const [visibleServices, setVisibleServices] = useState<boolean[]>(new Array(services.length).fill(false));
+    const [hoveredServices, setHoveredServices] = useState<boolean[]>(new Array(services.length).fill(false));
+    const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const timeoutsRef = useRef<(NodeJS.Timeout | null)[]>([]);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    const index = parseInt(entry.target.getAttribute('data-service-index') || '0');
+
+                    if (entry.isIntersecting) {
+                        // Clear any existing timeout for this service
+                        if (timeoutsRef.current[index]) {
+                            clearTimeout(timeoutsRef.current[index]!);
+                        }
+                        // Set 400ms delay before showing
+                        timeoutsRef.current[index] = setTimeout(() => {
+                            setVisibleServices(prev => {
+                                const next = [...prev];
+                                next[index] = true;
+                                return next;
+                            });
+                        }, 400);
+                    } else {
+                        // Clear timeout and immediately hide when scrolling away
+                        if (timeoutsRef.current[index]) {
+                            clearTimeout(timeoutsRef.current[index]!);
+                            timeoutsRef.current[index] = null;
+                        }
+                        setVisibleServices(prev => {
+                            const next = [...prev];
+                            next[index] = false;
+                            return next;
+                        });
+                    }
+                });
+            },
+            {
+                threshold: 0.2, // Trigger when 20% of the element is visible
+                rootMargin: '0px'
+            }
+        );
+
+        // Observe all service cards
+        serviceRefs.current.forEach((ref) => {
+            if (ref) observer.observe(ref);
+        });
+
+        // Cleanup - capture timeouts
+        const currentTimeouts = timeoutsRef.current;
+        return () => {
+            observer.disconnect();
+            currentTimeouts.forEach(timeout => {
+                if (timeout) clearTimeout(timeout);
+            });
+        };
+    }, []);
 
     return (
         <>
@@ -52,9 +110,24 @@ export function Services() {
                     {services.map((service, index) => (
                         <div
                             key={index}
+                            ref={(el) => { serviceRefs.current[index] = el; }}
+                            data-service-index={index}
+                            onMouseEnter={() => {
+                                const next = [...hoveredServices];
+                                next[index] = true;
+                                setHoveredServices(next);
+                            }}
+                            onMouseLeave={() => {
+                                const next = [...hoveredServices];
+                                next[index] = false;
+                                setHoveredServices(next);
+                            }}
                             className={cn(
-                                "relative flex w-full items-center group",
-                                service.align === "left" ? "justify-end" : "justify-start"
+                                "relative flex w-full items-center group transition-all duration-700",
+                                service.align === "left" ? "justify-end" : "justify-start",
+                                (visibleServices[index] || hoveredServices[index])
+                                    ? "opacity-100 translate-y-0"
+                                    : "opacity-20 translate-y-20"
                             )}
                         >
                             {/* Ghost Layer for Glow Effect */}
