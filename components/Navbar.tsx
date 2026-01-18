@@ -52,10 +52,10 @@ export function Navbar() {
                             e.preventDefault();
                             setTimeout(() => {
                                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }, 150);
+                            }, 300);
                         }}
                         onTouchStart={() => setTouchedItem('logo')}
-                        onTouchEnd={() => setTimeout(() => setTouchedItem(null), 300)}
+                        onTouchEnd={() => setTouchedItem(null)}
                         className={`relative z-10 flex items-center gap-2 transition-transform duration-300 hover:scale-105 ${touchedItem === 'logo' ? 'scale-105' : ''}`}
                     >
                         <div className="relative w-16 h-16 flex-shrink-0 flex items-center justify-center">
@@ -140,25 +140,29 @@ export function Navbar() {
                                 setTimeout(() => {
                                     handleScroll(e, link.id);
                                     setIsMobileMenuOpen(false);
-                                }, 150);
+                                }, 300);
                             }}
                             onTouchStart={() => setTouchedItem(link.name)}
-                            onTouchEnd={() => setTimeout(() => setTouchedItem(null), 300)}
+                            onTouchEnd={() => setTouchedItem(null)}
                             className={`text-2xl font-bold tracking-[0.2em] text-gray-300 hover:text-cyan-400 transition-all duration-300 ${touchedItem === link.name ? 'text-cyan-400 scale-110' : ''}`}
                         >
                             {link.name}
                         </a>
                     ))}
                     <Button
-                        className={`bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full px-12 h-14 text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] ${touchedItem === 'contact' ? 'bg-cyan-400 text-black scale-105' : ''}`}
+                        className={`font-bold rounded-full px-12 h-14 text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)]
+                            ${touchedItem === 'contact'
+                                ? 'bg-cyan-400 text-black scale-105 shadow-[0_0_30px_rgba(34,211,238,0.4)]'
+                                : 'bg-white text-black hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105'
+                            }`}
                         onClick={() => {
                             setTimeout(() => {
                                 setIsContactOpen(true);
                                 setIsMobileMenuOpen(false);
-                            }, 150);
+                            }, 300);
                         }}
                         onTouchStart={() => setTouchedItem('contact')}
-                        onTouchEnd={() => setTimeout(() => setTouchedItem(null), 300)}
+                        onTouchEnd={() => setTouchedItem(null)}
                     >
                         Contattaci
                     </Button>
