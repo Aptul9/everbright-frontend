@@ -116,7 +116,11 @@ export function Company() {
                             <div className="pt-4">
                                 <Button
                                     size="lg"
-                                    className={`bg-white text-black hover:bg-cyan-400 hover:text-black font-bold px-10 h-14 rounded-full text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95 ${touchedElement === 'contact' ? 'bg-cyan-400 text-black scale-105 shadow-[0_0_30px_rgba(34,211,238,0.4)]' : ''}`}
+                                    className={`font-bold px-10 h-14 rounded-full text-sm tracking-[0.2em] uppercase transition-all duration-300 active:scale-95
+                                        ${touchedElement === 'contact'
+                                            ? 'bg-cyan-400 text-black scale-105 shadow-[0_0_30px_rgba(34,211,238,0.4)]'
+                                            : 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105'
+                                        }`}
                                     onClick={() => setIsContactOpen(true)}
                                     onTouchStart={(e) => {
                                         e.stopPropagation(); // Prevent bubbling to text block

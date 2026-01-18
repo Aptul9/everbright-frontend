@@ -13,6 +13,7 @@ interface PolicyModalProps {
 export function PolicyModal({ isOpen, onClose, title, content }: PolicyModalProps) {
     const [visible, setVisible] = useState(false);
     const [triggerShine, setTriggerShine] = useState(false);
+    const [touchedButton, setTouchedButton] = useState(false);
 
     useEffect(() => {
         if (isOpen) {
@@ -69,7 +70,13 @@ export function PolicyModal({ isOpen, onClose, title, content }: PolicyModalProp
                 <div className="relative z-10 pt-8 shrink-0">
                     <button
                         onClick={onClose}
-                        className="w-full bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full py-4 text-sm tracking-[0.2em] shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all uppercase"
+                        onTouchStart={() => setTouchedButton(true)}
+                        onTouchEnd={() => setTouchedButton(false)}
+                        className={`w-full font-bold rounded-full py-4 text-sm tracking-[0.2em] uppercase transition-all duration-300
+                            ${touchedButton
+                                ? 'bg-cyan-400 text-black scale-105 shadow-[0_0_30px_rgba(34,211,238,0.5)]'
+                                : 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:bg-cyan-400 hover:scale-105 hover:shadow-[0_0_30px_rgba(34,211,238,0.5)]'
+                            }`}
                     >
                         Chiudi
                     </button>
