@@ -25,7 +25,9 @@ export function StarField() {
     const containerRef = useRef<HTMLDivElement>(null)
     const starsRef = useRef<Star[]>([])
     const staticStarsRef = useRef<StaticStar[]>([])
+    const scrollStarsRef = useRef<Star[]>([])
     const mouseRef = useRef<{ x: number, y: number } | null>(null)
+    const lastScrollY = useRef(0)
 
     useEffect(() => {
         const canvas = canvasRef.current
@@ -71,7 +73,23 @@ export function StarField() {
                     alpha: Math.random() * 0.5 + 0.4 // Visible brightness
                 })
             }
-            staticStarsRef.current = staticStars
+            staticStarsRef.current = staticStars;
+
+            // Scroll Reactive Stars (for Mobile)
+            const scrollCount = Math.floor(count / 2)
+            const scrollStars: Star[] = []
+            for (let i = 0; i < scrollCount; i++) {
+                scrollStars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: 0,
+                    vy: 0,
+                    radius: Math.random() * 1.5 + 0.5,
+                    alpha: Math.random() * 0.5 + 0.3,
+                    baseAlpha: Math.random() * 0.5 + 0.3
+                })
+            }
+            scrollStarsRef.current = scrollStars
         }
 
         const render = () => {
@@ -82,6 +100,37 @@ export function StarField() {
 
             // Draw Static Stars
             staticStarsRef.current.forEach(star => {
+                ctx.beginPath()
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2)
+                ctx.fill()
+                ctx.fill()
+            })
+
+            const currentScrollY = window.scrollY
+            const scrollDelta = currentScrollY - lastScrollY.current
+            lastScrollY.current = currentScrollY
+
+            // Draw and Update Scroll Reactive Stars
+            scrollStarsRef.current.forEach(star => {
+                // React to scroll
+                if (Math.abs(scrollDelta) > 0) {
+                    // React to scroll with variable speed (parallax effect)
+                    const depth = star.alpha * 2;
+                    star.vy = -scrollDelta * 0.8 * depth
+                }
+
+                // Friction
+                star.vy *= 0.95
+
+                // Move
+                star.y += star.vy
+
+                // Screen Wrap
+                if (star.y < 0) star.y = canvas.height
+                if (star.y > canvas.height) star.y = 0
+
+                // Draw
                 ctx.beginPath()
                 ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`
                 ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2)
