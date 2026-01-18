@@ -68,18 +68,18 @@ export function Company() {
 
                         {/* Image Block */}
                         <div
-                            className={`w-full md:w-1/2 relative transition-transform duration-[1.5s] ${touchedElement === 'image' ? 'scale-105' : ''}`}
+                            className="w-full md:w-1/2 relative transition-transform duration-[1.5s]"
                             onTouchStart={() => setTouchedElement('image')}
                             onTouchEnd={() => setTouchedElement(null)}
                         >
                             {/* Ghost Layer for Glow Effect */}
-                            <div className="absolute inset-0 -z-10 pointer-events-none transition-[filter] duration-500 group-hover:delay-[1500ms] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
+                            <div className={`absolute inset-0 -z-10 pointer-events-none transition-[filter] duration-500 group-hover:delay-[1500ms] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] ${touchedElement === 'image' ? 'delay-[1500ms] drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]' : ''}`}>
                                 {/* Ghost Image - Opaque Black Block */}
-                                <div className="relative h-[500px] w-full rounded-[32px] bg-black transition-transform duration-[1.5s] group-hover:scale-105" />
+                                <div className={`relative h-[500px] w-full rounded-[32px] bg-black transition-transform duration-[1.5s] group-hover:scale-105 ${touchedElement === 'image' ? 'scale-105' : ''}`} />
                             </div>
 
                             {/* Real Image */}
-                            <div className="relative h-[500px] w-full rounded-[32px] overflow-hidden transition-transform duration-[1.5s] group-hover:scale-105">
+                            <div className={`relative h-[500px] w-full rounded-[32px] overflow-hidden transition-transform duration-[1.5s] group-hover:scale-105 ${touchedElement === 'image' ? 'scale-105' : ''}`}>
                                 <Image
                                     src="/company.png"
                                     alt="Everbright Headquarters"

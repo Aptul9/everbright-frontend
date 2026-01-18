@@ -56,17 +56,17 @@ export function Navbar() {
                         }}
                         onTouchStart={() => setTouchedItem('logo')}
                         onTouchEnd={() => setTimeout(() => setTouchedItem(null), 300)}
-                        className={`relative z-10 flex items-center gap-0 transition-transform duration-300 hover:scale-105 ${touchedItem === 'logo' ? 'scale-105' : ''}`}
+                        className={`relative z-10 flex items-center gap-2 transition-transform duration-300 hover:scale-105 ${touchedItem === 'logo' ? 'scale-105' : ''}`}
                     >
-                        <div className="relative w-24 h-24 flex-shrink-0 -ml-6 flex items-center justify-center">
+                        <div className="relative w-16 h-16 flex-shrink-0 flex items-center justify-center">
                             {/* Further enlarged artwork while maintaining integrity */}
                             <img
                                 src="/logo-icon.png"
                                 alt="Everbright"
-                                className="w-full h-full object-contain mix-blend-screen brightness-125 scale-140 drop-shadow-[0_0_25px_rgba(34,211,238,0.6)]"
+                                className="w-full h-full object-contain mix-blend-screen brightness-125 scale-[1.8] drop-shadow-[0_0_25px_rgba(34,211,238,0.6)]"
                             />
                         </div>
-                        <div className="flex flex-col -space-y-1.5 font-inter">
+                        <div className="flex flex-col -space-y-1.5 font-inter pt-1">
                             <div className="text-xl md:text-[1.85rem] font-black tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-cyan-100 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
                                 EVERBRIGHT
                             </div>
