@@ -37,6 +37,7 @@ export function Services() {
     const [isContactOpen, setIsContactOpen] = useState(false);
     const [visibleServices, setVisibleServices] = useState<boolean[]>(new Array(services.length).fill(false));
     const [hoveredServices, setHoveredServices] = useState<boolean[]>(new Array(services.length).fill(false));
+    const [touchedHeader, setTouchedHeader] = useState(false);
     const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
     const timeoutsRef = useRef<(NodeJS.Timeout | null)[]>([]);
 
@@ -98,7 +99,11 @@ export function Services() {
         <>
             <section id="servizi" className="relative w-full bg-black text-white py-32 overflow-hidden">
                 <div className="container mx-auto px-4 relative z-10 flex flex-col space-y-64">
-                    <div className="text-center space-y-6 mb-10 transition-transform duration-500 ease-out hover:scale-105 cursor-default">
+                    <div
+                        onTouchStart={() => setTouchedHeader(true)}
+                        onTouchEnd={() => setTouchedHeader(false)}
+                        className={`text-center space-y-6 mb-10 transition-transform duration-500 ease-out hover:scale-105 cursor-default ${touchedHeader ? 'scale-105' : ''}`}
+                    >
                         <h2 className="text-5xl md:text-7xl font-bold tracking-tighter text-white">
                             I NOSTRI SERVIZI
                         </h2>

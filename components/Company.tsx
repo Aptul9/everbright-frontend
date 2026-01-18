@@ -9,6 +9,7 @@ export function Company() {
     const [isContactOpen, setIsContactOpen] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    const [touchedElement, setTouchedElement] = useState<string | null>(null);
     const sectionRef = useRef<HTMLDivElement>(null);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -56,7 +57,7 @@ export function Company() {
                 {/* Background Layer (below stars) */}
                 <div className="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm border-t border-white/10 z-0" />
 
-                <div className="container mx-auto px-4 relative z-20">
+                <div className="container mx-auto px-8 md:px-4 relative z-20">
                     <div
                         ref={sectionRef}
                         onMouseEnter={() => setIsHovered(true)}
@@ -66,7 +67,11 @@ export function Company() {
                     >
 
                         {/* Image Block */}
-                        <div className="w-full md:w-1/2 relative">
+                        <div
+                            className={`w-full md:w-1/2 relative transition-transform duration-[1.5s] ${touchedElement === 'image' ? 'scale-105' : ''}`}
+                            onTouchStart={() => setTouchedElement('image')}
+                            onTouchEnd={() => setTouchedElement(null)}
+                        >
                             {/* Ghost Layer for Glow Effect */}
                             <div className="absolute inset-0 -z-10 pointer-events-none transition-[filter] duration-500 group-hover:delay-[1500ms] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
                                 {/* Ghost Image - Opaque Black Block */}
@@ -87,7 +92,11 @@ export function Company() {
                         </div>
 
                         {/* Text Block */}
-                        <div className="w-full md:w-1/2 space-y-8 transition-transform duration-[1.5s] group-hover:scale-105">
+                        <div
+                            className={`w-full md:w-1/2 space-y-8 transition-transform duration-[1.5s] group-hover:scale-105 ${touchedElement === 'text' ? 'scale-105' : ''}`}
+                            onTouchStart={() => setTouchedElement('text')}
+                            onTouchEnd={() => setTouchedElement(null)}
+                        >
                             <h2 className="text-5xl md:text-6xl font-bold tracking-tighter leading-tight">
                                 IL FUTURO È <span className="text-cyan-400">ORA.</span>
                             </h2>
@@ -107,8 +116,16 @@ export function Company() {
                             <div className="pt-4">
                                 <Button
                                     size="lg"
-                                    className="bg-white text-black hover:bg-cyan-400 hover:text-black font-bold px-10 h-14 rounded-full text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95"
+                                    className={`bg-white text-black hover:bg-cyan-400 hover:text-black font-bold px-10 h-14 rounded-full text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95 ${touchedElement === 'contact' ? 'bg-cyan-400 text-black scale-105 shadow-[0_0_30px_rgba(34,211,238,0.4)]' : ''}`}
                                     onClick={() => setIsContactOpen(true)}
+                                    onTouchStart={(e) => {
+                                        e.stopPropagation(); // Prevent bubbling to text block
+                                        setTouchedElement('contact');
+                                    }}
+                                    onTouchEnd={(e) => {
+                                        e.stopPropagation();
+                                        setTouchedElement(null);
+                                    }}
                                 >
                                     Contattaci
                                 </Button>

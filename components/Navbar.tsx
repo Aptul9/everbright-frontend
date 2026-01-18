@@ -48,8 +48,15 @@ export function Navbar() {
                     {/* Logo Section */}
                     <Link
                         href="/"
-                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        className="relative z-10 flex items-center gap-0 transition-transform duration-300 hover:scale-105"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setTimeout(() => {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }, 150);
+                        }}
+                        onTouchStart={() => setTouchedItem('logo')}
+                        onTouchEnd={() => setTimeout(() => setTouchedItem(null), 300)}
+                        className={`relative z-10 flex items-center gap-0 transition-transform duration-300 hover:scale-105 ${touchedItem === 'logo' ? 'scale-105' : ''}`}
                     >
                         <div className="relative w-24 h-24 flex-shrink-0 -ml-6 flex items-center justify-center">
                             {/* Further enlarged artwork while maintaining integrity */}
@@ -129,11 +136,14 @@ export function Navbar() {
                             key={link.name}
                             href={link.id}
                             onClick={(e) => {
-                                handleScroll(e, link.id);
-                                setIsMobileMenuOpen(false);
+                                e.preventDefault();
+                                setTimeout(() => {
+                                    handleScroll(e, link.id);
+                                    setIsMobileMenuOpen(false);
+                                }, 150);
                             }}
                             onTouchStart={() => setTouchedItem(link.name)}
-                            onTouchEnd={() => setTouchedItem(null)}
+                            onTouchEnd={() => setTimeout(() => setTouchedItem(null), 300)}
                             className={`text-2xl font-bold tracking-[0.2em] text-gray-300 hover:text-cyan-400 transition-all duration-300 ${touchedItem === link.name ? 'text-cyan-400 scale-110' : ''}`}
                         >
                             {link.name}
@@ -142,11 +152,13 @@ export function Navbar() {
                     <Button
                         className={`bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full px-12 h-14 text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] ${touchedItem === 'contact' ? 'bg-cyan-400 text-black scale-105' : ''}`}
                         onClick={() => {
-                            setIsContactOpen(true);
-                            setIsMobileMenuOpen(false);
+                            setTimeout(() => {
+                                setIsContactOpen(true);
+                                setIsMobileMenuOpen(false);
+                            }, 150);
                         }}
                         onTouchStart={() => setTouchedItem('contact')}
-                        onTouchEnd={() => setTouchedItem(null)}
+                        onTouchEnd={() => setTimeout(() => setTouchedItem(null), 300)}
                     >
                         Contattaci
                     </Button>

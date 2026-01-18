@@ -24,7 +24,11 @@ export function Hero() {
 
                 {/* 2. Content */}
                 <div className="relative z-20 flex flex-col items-start text-left max-w-5xl mx-auto space-y-8 w-full group/hero">
-                    <div className="flex flex-col items-start space-y-8 transition-transform duration-500 ease-out group-hover/hero:scale-105 cursor-default origin-left">
+                    <div
+                        onTouchStart={() => setTouchedButton('text')}
+                        onTouchEnd={() => setTouchedButton(null)}
+                        className={`flex flex-col items-start space-y-8 transition-transform duration-500 ease-out group-hover/hero:scale-105 cursor-default origin-left ${touchedButton === 'text' ? 'scale-105' : ''}`}
+                    >
                         {/* Main Title */}
                         <h1 className="flex flex-col items-start font-bold tracking-tighter text-6xl md:text-8xl lg:text-9xl leading-[0.9]">
                             <span className="block">ILLUMINA IL</span>
@@ -42,18 +46,21 @@ export function Hero() {
                     <div className="flex flex-col sm:flex-row items-start gap-6 mt-4 transition-transform duration-500 ease-out group-hover/hero:scale-105 origin-left">
                         <Button
                             className={`bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full px-10 h-14 text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95 ${touchedButton === 'contact' ? 'bg-cyan-400 shadow-[0_0_30px_rgba(34,211,238,0.4)] scale-105' : ''}`}
-                            onClick={() => setIsContactOpen(true)}
+                            onClick={() => setTimeout(() => setIsContactOpen(true), 150)}
                             onTouchStart={() => setTouchedButton('contact')}
-                            onTouchEnd={() => setTouchedButton(null)}
+                            onTouchEnd={() => setTimeout(() => setTouchedButton(null), 300)}
                         >
                             Contattaci
                         </Button>
                         <Button
                             variant="outline"
                             className={`border-white text-white hover:border-cyan-400 hover:text-cyan-400 font-bold px-10 h-14 rounded-full text-sm tracking-[0.2em] uppercase transition-all duration-300 hover:bg-cyan-400/10 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:scale-105 active:scale-95 ${touchedButton === 'services' ? 'border-cyan-400 text-cyan-400 bg-cyan-400/10 shadow-[0_0_20px_rgba(34,211,238,0.2)] scale-105' : ''}`}
-                            onClick={(e) => handleScroll(e, "#servizi")}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setTimeout(() => handleScroll(e, "#servizi"), 150);
+                            }}
                             onTouchStart={() => setTouchedButton('services')}
-                            onTouchEnd={() => setTouchedButton(null)}
+                            onTouchEnd={() => setTimeout(() => setTouchedButton(null), 300)}
                         >
                             I Nostri Servizi
                         </Button>

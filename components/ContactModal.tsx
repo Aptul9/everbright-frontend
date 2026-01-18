@@ -107,11 +107,14 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     const [errors, setErrors] = useState<string[]>([]);
     const [isShaking, setIsShaking] = useState(false);
     const [submitCount, setSubmitCount] = useState(0);
+    const [triggerShine, setTriggerShine] = useState(false);
 
     useEffect(() => {
         if (isOpen) {
             setVisible(true);
             document.body.style.overflow = "hidden"; // Block scrolling
+            // Trigger shine after entrance animation
+            setTimeout(() => setTriggerShine(true), 300);
         } else {
             const timer = setTimeout(() => setVisible(false), 500); // Wait for animation
             document.body.style.overflow = "unset";
@@ -126,6 +129,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
             });
             setErrors([]);
             setSubmitCount(0);
+            setTriggerShine(false);
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
@@ -184,7 +188,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Global Card Shine */}
-                <div className="absolute inset-0 -translate-x-full group-hover/form:translate-x-full duration-[1.5s] ease-in-out bg-gradient-to-r from-transparent via-white/5 to-transparent z-0 pointer-events-none" />
+                <div className={`absolute inset-0 -translate-x-full duration-[1.5s] ease-in-out bg-gradient-to-r from-transparent via-white/5 to-transparent z-0 pointer-events-none group-hover/form:translate-x-full ${triggerShine ? 'translate-x-full' : ''}`} />
 
                 {/* Close Button */}
                 <button
