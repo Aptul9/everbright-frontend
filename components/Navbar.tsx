@@ -81,7 +81,7 @@ export function Navbar() {
                             <img
                                 src="/logo-icon.png"
                                 alt="Everbright"
-                                className="w-full h-full object-contain mix-blend-screen brightness-125 scale-[2.2] drop-shadow-[0_0_25px_rgba(34,211,238,0.6)]"
+                                className="w-full h-full object-contain mix-blend-screen brightness-125 scale-[2.2] md:scale-[2.2] drop-shadow-[0_0_25px_rgba(34,211,238,0.6)]"
                             />
                         </div>
                         <div className="flex flex-col -space-y-1 md:-space-y-1.5 font-inter pt-1">

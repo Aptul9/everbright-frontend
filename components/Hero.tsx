@@ -86,7 +86,7 @@ export function Hero() {
                             className={`font-bold px-10 h-14 rounded-full text-sm tracking-[0.2em] uppercase transition-all duration-300 active:scale-95 backdrop-blur-md
                                 ${touchedButton === 'services'
                                     ? 'border-cyan-400 text-cyan-400 bg-cyan-400/20 shadow-[0_0_25px_rgba(34,211,238,0.3)] scale-105'
-                                    : 'border-white text-black bg-white shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:border-cyan-400 hover:text-cyan-400 hover:bg-cyan-400/20 hover:shadow-[0_0_25px_rgba(34,211,238,0.3)] hover:scale-105'
+                                    : 'border-white/40 text-white bg-white/5 hover:border-cyan-400 hover:text-cyan-400 hover:bg-cyan-400/20 hover:shadow-[0_0_25px_rgba(34,211,238,0.3)] hover:scale-105'
                                 }`}
                             onClick={(e) => {
                                 e.preventDefault();
