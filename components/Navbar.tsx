@@ -146,13 +146,19 @@ export function Navbar() {
             </header>
 
             {/* Mobile Menu Overlay */}
-            <div className={`fixed inset-0 z-40 md:hidden bg-black transition-all duration-500 flex flex-col justify-center items-center gap-8 ${isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+            <div
+                className={`fixed inset-0 z-40 md:hidden bg-black transition-all duration-500 flex flex-col justify-center items-center gap-8 cursor-pointer ${isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+            >
 
                 <div className="absolute inset-0 z-0">
                     <StarField />
                 </div>
 
-                <div className="relative z-10 flex flex-col items-center gap-8">
+                <div
+                    className="relative z-10 flex flex-col items-center gap-8 cursor-default"
+                    onClick={(e) => e.stopPropagation()}
+                >
                     {[
                         { name: "SERVIZI", id: "#servizi" },
                         { name: "AZIENDA", id: "#azienda" },
