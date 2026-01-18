@@ -60,7 +60,18 @@ export function PolicyModal({ isOpen, onClose, title, content }: PolicyModalProp
                 </div>
 
                 {/* Content - Scrollable */}
-                <div className="relative z-10 overflow-y-auto pr-2 custom-scrollbar text-left">
+                <div
+                    className="relative z-10 overflow-y-auto pr-2"
+                    style={{
+                        scrollbarWidth: 'none', /* Firefox */
+                        msOverflowStyle: 'none'  /* IE and Edge */
+                    }}
+                >
+                    <style jsx>{`
+                        div::-webkit-scrollbar {
+                            display: none; /* Chrome, Safari, Opera */
+                        }
+                    `}</style>
                     <div className="text-gray-300 text-sm md:text-base space-y-4 leading-relaxed font-light">
                         {content}
                     </div>
