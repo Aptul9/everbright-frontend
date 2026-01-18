@@ -108,13 +108,15 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     const [isShaking, setIsShaking] = useState(false);
     const [submitCount, setSubmitCount] = useState(0);
     const [triggerShine, setTriggerShine] = useState(false);
+    const [touchedElement, setTouchedElement] = useState<string | null>(null);
 
     useEffect(() => {
         if (isOpen) {
             setVisible(true);
             document.body.style.overflow = "hidden"; // Block scrolling
-            // Trigger shine after entrance animation
+            // Trigger shine after entrance animation, then reset
             setTimeout(() => setTriggerShine(true), 300);
+            setTimeout(() => setTriggerShine(false), 2500);
         } else {
             const timer = setTimeout(() => setVisible(false), 500); // Wait for animation
             document.body.style.overflow = "unset";
@@ -130,6 +132,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
             setErrors([]);
             setSubmitCount(0);
             setTriggerShine(false);
+            setTouchedElement(null);
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
@@ -199,7 +202,11 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 </button>
 
                 {/* Header */}
-                <div className="mb-8 text-center space-y-2 relative z-10 transition-transform duration-500 ease-out hover:scale-105 cursor-default">
+                <div
+                    onTouchStart={() => setTouchedElement('header')}
+                    onTouchEnd={() => setTouchedElement(null)}
+                    className={`mb-8 text-center space-y-2 relative z-10 transition-transform duration-500 ease-out hover:scale-105 cursor-default ${touchedElement === 'header' ? 'scale-105' : ''}`}
+                >
                     <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">PARLAMI DI <span className="text-cyan-400">TE</span>.</h2>
                     <p className="text-gray-400 text-sm">Siamo pronti ad ascoltare la tua visione.</p>
                 </div>
@@ -222,7 +229,9 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
                     <Button
                         type="submit"
-                        className="w-full bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full py-6 text-lg shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all"
+                        onTouchStart={() => setTouchedElement('submit')}
+                        onTouchEnd={() => setTouchedElement(null)}
+                        className={`w-full bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full py-6 text-lg shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all ${touchedElement === 'submit' ? 'bg-cyan-400 scale-105 shadow-[0_0_30px_rgba(34,211,238,0.5)]' : ''}`}
                     >
                         INVIA MESSAGGIO
                     </Button>
