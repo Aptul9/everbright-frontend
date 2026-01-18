@@ -5,6 +5,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { ContactModal } from "@/components/ContactModal"
+import { StarField } from "@/components/StarField"
 
 export function Navbar() {
     const [isContactOpen, setIsContactOpen] = useState(false);
@@ -96,7 +97,7 @@ export function Navbar() {
 
                     {/* Mobile Menu Icon */}
                     <div className="relative z-10 md:hidden flex items-center">
-                        <button 
+                        <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             className="w-6 h-4 flex flex-col justify-between cursor-pointer group/mobile focus:outline-none"
                         >
@@ -108,32 +109,39 @@ export function Navbar() {
             </header>
 
             {/* Mobile Menu Overlay */}
-            <div className={`fixed inset-0 z-40 md:hidden bg-black/95 backdrop-blur-3xl transition-all duration-500 flex flex-col justify-center items-center gap-8 ${isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
-                {[
-                    { name: "SERVIZI", id: "#servizi" },
-                    { name: "AZIENDA", id: "#azienda" },
-                ].map((link) => (
-                    <a
-                        key={link.name}
-                        href={link.id}
-                        onClick={(e) => {
-                            handleScroll(e, link.id);
+            <div className={`fixed inset-0 z-40 md:hidden bg-black transition-all duration-500 flex flex-col justify-center items-center gap-8 ${isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+
+                <div className="absolute inset-0 z-0">
+                    <StarField />
+                </div>
+
+                <div className="relative z-10 flex flex-col items-center gap-8">
+                    {[
+                        { name: "SERVIZI", id: "#servizi" },
+                        { name: "AZIENDA", id: "#azienda" },
+                    ].map((link) => (
+                        <a
+                            key={link.name}
+                            href={link.id}
+                            onClick={(e) => {
+                                handleScroll(e, link.id);
+                                setIsMobileMenuOpen(false);
+                            }}
+                            className="text-2xl font-bold tracking-[0.2em] text-gray-300 hover:text-cyan-400 transition-all duration-300"
+                        >
+                            {link.name}
+                        </a>
+                    ))}
+                    <Button
+                        className="bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full px-12 h-14 text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                        onClick={() => {
+                            setIsContactOpen(true);
                             setIsMobileMenuOpen(false);
                         }}
-                        className="text-2xl font-bold tracking-[0.2em] text-gray-300 hover:text-cyan-400 transition-all duration-300"
                     >
-                        {link.name}
-                    </a>
-                ))}
-                <Button
-                    className="bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full px-12 h-14 text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-                    onClick={() => {
-                        setIsContactOpen(true);
-                        setIsMobileMenuOpen(false);
-                    }}
-                >
-                    Contattaci
-                </Button>
+                        Contattaci
+                    </Button>
+                </div>
             </div>
 
             <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
