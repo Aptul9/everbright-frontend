@@ -97,7 +97,7 @@ export function Services() {
     return (
         <>
             <section id="servizi" className="relative w-full bg-black text-white py-32 overflow-hidden">
-                <div className="container mx-auto px-4 relative z-10 flex flex-col space-y-40">
+                <div className="container mx-auto px-4 relative z-10 flex flex-col space-y-64">
                     <div className="text-center space-y-6 mb-10 transition-transform duration-500 ease-out hover:scale-105 cursor-default">
                         <h2 className="text-5xl md:text-7xl font-bold tracking-tighter text-white">
                             I NOSTRI SERVIZI
@@ -145,17 +145,17 @@ export function Services() {
 
                                 {/* Ghost Text Box - Opaque Black, placed BELOW Ghost Image */}
                                 <div className={cn(
-                                    "absolute w-[90%] md:w-[500px] p-8 md:p-12 rounded-[32px] bg-black transition-all duration-500 group-hover:scale-105 z-0",
+                                    "absolute w-[90%] md:w-[500px] p-6 md:p-12 rounded-[32px] bg-black transition-all duration-500 group-hover:scale-105 z-0",
                                     service.align === "left"
-                                        ? "left-0 md:left-20 top-1/2 -translate-y-1/2"
-                                        : "right-0 md:right-20 top-1/2 -translate-y-1/2"
+                                        ? "left-0 md:left-20 top-[63%] md:top-1/2 md:-translate-y-1/2"
+                                        : "right-0 md:right-20 top-[63%] md:top-1/2 md:-translate-y-1/2"
                                 )}>
                                     {/* Invisible duplicate content to ensure correct sizing */}
-                                    <div className="space-y-6 mb-8 opacity-0">
-                                        <h3 className="text-3xl md:text-4xl font-bold tracking-tight">{service.title}</h3>
-                                        <p className="text-lg leading-relaxed">{service.description}</p>
+                                    <div className="space-y-4 md:space-y-6 mb-0 md:mb-8 opacity-0">
+                                        <h3 className="text-2xl md:text-4xl font-bold tracking-tight">{service.title}</h3>
+                                        <p className="text-base md:text-lg leading-relaxed">{service.description}</p>
                                     </div>
-                                    <div className="flex items-center gap-2 opacity-0">
+                                    <div className="hidden md:flex items-center gap-2 opacity-0">
                                         <span className="uppercase text-sm">Scopri di più</span>
                                         <ArrowRight className="w-5 h-5" />
                                     </div>
@@ -181,23 +181,23 @@ export function Services() {
                             {/* Glass Text Box - Overlaps */}
                             <div
                                 className={cn(
-                                    "absolute z-20 w-[90%] md:w-[500px] p-8 md:p-12 rounded-[32px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500 hover:bg-white/10 group-hover:scale-105 group-hover:backdrop-brightness-125 group-hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]",
+                                    "absolute z-20 w-[90%] md:w-[500px] p-6 md:p-12 rounded-[32px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500 hover:bg-white/10 group-hover:scale-105 group-hover:backdrop-brightness-125 group-hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]",
                                     service.align === "left"
-                                        ? "left-0 md:left-20 top-1/2 -translate-y-1/2"
-                                        : "right-0 md:right-20 top-1/2 -translate-y-1/2"
+                                        ? "left-0 md:left-20 top-[63%] md:top-1/2 md:-translate-y-1/2"
+                                        : "right-0 md:right-20 top-[63%] md:top-1/2 md:-translate-y-1/2"
                                 )}
                             >
-                                <div className="space-y-6 mb-8 transition-all duration-500 hover:scale-105 origin-left group/text-content cursor-default">
-                                    <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white transition-colors duration-300 group-hover/text-content:text-white">
+                                <div className="space-y-4 md:space-y-6 mb-0 md:mb-8 transition-all duration-500 hover:scale-105 origin-left group/text-content cursor-default">
+                                    <h3 className="text-2xl md:text-4xl font-bold tracking-tight text-white transition-colors duration-300 group-hover/text-content:text-white">
                                         {service.title}
                                     </h3>
-                                    <p className="text-lg leading-relaxed text-gray-300 transition-colors duration-300 group-hover/text-content:text-white">
+                                    <p className="text-base md:text-lg leading-relaxed text-gray-300 transition-colors duration-300 group-hover/text-content:text-white">
                                         {service.description}
                                     </p>
                                 </div>
 
                                 <div
-                                    className="flex items-center gap-2 text-white font-bold cursor-pointer transition-all duration-300 hover:text-cyan-400 hover:scale-110 tracking-[0.2em] group/btn"
+                                    className="hidden md:flex items-center gap-2 text-white font-bold cursor-pointer transition-all duration-300 hover:text-cyan-400 hover:scale-110 tracking-[0.2em] group/btn"
                                     onClick={() => setIsContactOpen(true)}
                                 >
                                     <span className="uppercase text-sm">Scopri di più</span>
