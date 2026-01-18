@@ -40,6 +40,7 @@ export function Services() {
     const [touchedHeader, setTouchedHeader] = useState(false);
     const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
     const timeoutsRef = useRef<(NodeJS.Timeout | null)[]>([]);
+    const lastTouchTime = useRef(0);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -118,6 +119,7 @@ export function Services() {
                             ref={(el) => { serviceRefs.current[index] = el; }}
                             data-service-index={index}
                             onMouseEnter={() => {
+                                if (Date.now() - lastTouchTime.current < 1000) return;
                                 const next = [...hoveredServices];
                                 next[index] = true;
                                 setHoveredServices(next);
@@ -128,6 +130,7 @@ export function Services() {
                                 setHoveredServices(next);
                             }}
                             onTouchStart={() => {
+                                lastTouchTime.current = Date.now();
                                 const next = [...hoveredServices];
                                 next[index] = true;
                                 setHoveredServices(next);

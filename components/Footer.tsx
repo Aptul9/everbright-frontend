@@ -1,9 +1,52 @@
 "use client";
 
 import { useState } from "react";
+import { PolicyModal } from "@/components/PolicyModal";
 
 export function Footer() {
     const [touchedElement, setTouchedElement] = useState<string | null>(null);
+    const [activePolicy, setActivePolicy] = useState<'privacy' | 'cookie' | null>(null);
+
+    const privacyContent = (
+        <>
+            <p><strong>Ultimo aggiornamento:</strong> Gennaio 2026</p>
+            <p>Questa Informativa sulla Privacy descrive come Everbright raccoglie, utilizza e protegge le tue informazioni personali.</p>
+
+            <h3 className="text-white font-bold text-lg mt-4">1. Titolare del Trattamento</h3>
+            <p>Everbright Digital Solutions S.r.l.<br />Via dell'Innovazione 1, 20121 Milano (MI)<br />Email: privacy@everbright.com</p>
+
+            <h3 className="text-white font-bold text-lg mt-4">2. Dati Raccolti</h3>
+            <p>Raccogliamo dati forniti volontariamente dall'utente (es. modulo contatti) e dati di navigazione automatica (es. indirizzo IP, tipo di browser).</p>
+
+            <h3 className="text-white font-bold text-lg mt-4">3. Finalità del Trattamento</h3>
+            <ul className="list-disc pl-5 space-y-1">
+                <li>Fornire e migliorare i nostri servizi IT.</li>
+                <li>Rispondere alle richieste di contatto.</li>
+                <li>Analisi statistiche anonime.</li>
+            </ul>
+
+            <h3 className="text-white font-bold text-lg mt-4">4. Diritti dell'Utente</h3>
+            <p>Hai il diritto di accedere, rettificare o cancellare i tuoi dati in qualsiasi momento contattandoci all'indirizzo email sopra indicato.</p>
+        </>
+    );
+
+    const cookieContent = (
+        <>
+            <p>Questo sito utilizza cookie per migliorare l'esperienza di navigazione.</p>
+
+            <h3 className="text-white font-bold text-lg mt-4">Cosa sono i cookie?</h3>
+            <p>I cookie sono piccoli file di testo salvati sul tuo dispositivo quando visiti un sito web.</p>
+
+            <h3 className="text-white font-bold text-lg mt-4">Tipologie di Cookie utilizzati</h3>
+            <ul className="list-disc pl-5 space-y-1">
+                <li><strong>Cookie Tecnici:</strong> Necessari per il funzionamento del sito (es. navigazione sicura).</li>
+                <li><strong>Cookie Analitici:</strong> Utilizzati per raccogliere statistiche anonime sull'uso del sito.</li>
+            </ul>
+
+            <h3 className="text-white font-bold text-lg mt-4">Gestione dei Cookie</h3>
+            <p>Puoi disabilitare i cookie direttamente dalle impostazioni del tuo browser. Tuttavia, la disattivazione dei cookie tecnici potrebbe compromettere il funzionamento del sito.</p>
+        </>
+    );
 
     return (
         <footer className="relative w-full py-6 bg-black border-t border-white/5 overflow-hidden group/footer">
@@ -48,22 +91,28 @@ export function Footer() {
 
                     {/* Legal Info Mockup - Filtered */}
                     <div className="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-1 text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase">
-                        <a
-                            href="#"
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setActivePolicy('privacy');
+                            }}
                             className={`hover:text-cyan-400 hover:scale-110 transition-all duration-300 ${touchedElement === 'privacy' ? 'text-cyan-400 scale-110' : ''}`}
                             onTouchStart={() => setTouchedElement('privacy')}
                             onTouchEnd={() => setTouchedElement(null)}
                         >
                             Privacy Policy
-                        </a>
-                        <a
-                            href="#"
+                        </button>
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setActivePolicy('cookie');
+                            }}
                             className={`hover:text-cyan-400 hover:scale-110 transition-all duration-300 ${touchedElement === 'cookie' ? 'text-cyan-400 scale-110' : ''}`}
                             onTouchStart={() => setTouchedElement('cookie')}
                             onTouchEnd={() => setTouchedElement(null)}
                         >
                             Cookie Policy
-                        </a>
+                        </button>
                     </div>
                 </div>
 
@@ -92,6 +141,20 @@ export function Footer() {
                     </p>
                 </div>
             </div>
-        </footer>
+
+            <PolicyModal
+                isOpen={activePolicy === 'privacy'}
+                onClose={() => setActivePolicy(null)}
+                title="Privacy Policy"
+                content={privacyContent}
+            />
+
+            <PolicyModal
+                isOpen={activePolicy === 'cookie'}
+                onClose={() => setActivePolicy(null)}
+                title="Cookie Policy"
+                content={cookieContent}
+            />
+        </footer >
     );
 }
