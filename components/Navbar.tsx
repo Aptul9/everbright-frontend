@@ -119,13 +119,16 @@ export function Navbar() {
                     {/* CTA Button Section */}
                     <div className="relative z-10 hidden md:block">
                         <Button
-                            className={`bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full px-10 h-11 text-sm tracking-[0.2em] uppercase shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95 ${shouldPulse
-                                ? 'animate-pulse shadow-[0_0_80px_rgba(255,255,255,0.9),0_0_40px_rgba(255,255,255,0.6)] scale-110'
-                                : 'transition-all duration-300'
+                            className={`relative overflow-hidden font-bold rounded-full px-10 h-11 text-sm tracking-[0.2em] uppercase active:scale-95 transition-all duration-300
+                                ${shouldPulse
+                                    ? 'bg-white text-black animate-pulse shadow-[0_0_80px_rgba(255,255,255,0.9),0_0_40px_rgba(255,255,255,0.6)] scale-110'
+                                    : 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:scale-105'
                                 }`}
                             onClick={() => setIsContactOpen(true)}
                         >
-                            Contattaci
+                            <span className="relative z-10">Contattaci</span>
+                            {/* Passing Shine Effect */}
+                            <div className={`absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent z-0 pointer-events-none ${shouldPulse ? 'animate-shine' : 'group-hover/nav:translate-x-full transition-transform duration-1000'}`} />
                         </Button>
                     </div>
 
@@ -172,7 +175,7 @@ export function Navbar() {
                         </a>
                     ))}
                     <Button
-                        className={`font-bold rounded-full px-12 h-14 text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)]
+                        className={`relative overflow-hidden font-bold rounded-full px-12 h-14 text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)]
                             ${touchedItem === 'contact'
                                 ? 'bg-cyan-400 text-black scale-105 shadow-[0_0_30px_rgba(34,211,238,0.4)]'
                                 : 'bg-white text-black hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105'
@@ -186,7 +189,9 @@ export function Navbar() {
                         onTouchStart={() => setTouchedItem('contact')}
                         onTouchEnd={() => setTouchedItem(null)}
                     >
-                        Contattaci
+                        <span className="relative z-10">Contattaci</span>
+                        {/* Passing Shine Effect on Mobile too */}
+                        <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent z-0 pointer-events-none animate-shine" />
                     </Button>
                 </div>
             </div>

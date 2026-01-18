@@ -64,11 +64,12 @@ export function Hero() {
                     {/* Buttons */}
                     <div className="flex flex-col sm:flex-row items-start gap-6 mt-4 transition-transform duration-500 ease-out group-hover/hero:scale-105 origin-left">
                         <Button
-                            className={`font-bold rounded-full px-10 h-14 text-sm tracking-[0.2em] uppercase active:scale-95
-                                ${shouldPulse ? 'animate-pulse shadow-[0_0_80px_rgba(255,255,255,0.9),0_0_40px_rgba(255,255,255,0.6)] scale-110' : ''}
+                            className={`relative overflow-hidden font-bold rounded-full px-10 h-14 text-sm tracking-[0.2em] uppercase active:scale-95 transition-all duration-500
                                 ${touchedButton === 'contact'
                                     ? 'bg-cyan-400 text-black scale-105 shadow-[0_0_30px_rgba(34,211,238,0.4)]'
-                                    : 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105 transition-all duration-300'
+                                    : shouldPulse
+                                        ? 'bg-white text-black animate-pulse shadow-[0_0_80px_rgba(255,255,255,0.9),0_0_40px_rgba(255,255,255,0.6)] scale-110'
+                                        : 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105'
                                 }`}
                             onClick={() => {
                                 setTimeout(() => setIsContactOpen(true), 300);
@@ -76,7 +77,9 @@ export function Hero() {
                             onTouchStart={() => setTouchedButton('contact')}
                             onTouchEnd={() => setTouchedButton(null)}
                         >
-                            Contattaci
+                            <span className="relative z-10">Contattaci</span>
+                            {/* Passing Shine Effect */}
+                            <div className={`absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent z-0 pointer-events-none ${shouldPulse ? 'animate-shine' : 'group-hover/hero:translate-x-full transition-transform duration-1000'}`} />
                         </Button>
                         <Button
                             variant="outline"
