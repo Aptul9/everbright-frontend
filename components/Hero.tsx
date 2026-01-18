@@ -83,10 +83,10 @@ export function Hero() {
                         </Button>
                         <Button
                             variant="outline"
-                            className={`font-bold px-10 h-14 rounded-full text-sm tracking-[0.2em] uppercase transition-all duration-300 active:scale-95
+                            className={`font-bold px-10 h-14 rounded-full text-sm tracking-[0.2em] uppercase transition-all duration-300 active:scale-95 backdrop-blur-md
                                 ${touchedButton === 'services'
-                                    ? 'border-cyan-400 text-cyan-400 bg-cyan-400/10 shadow-[0_0_20px_rgba(34,211,238,0.2)] scale-105'
-                                    : 'border-white text-white hover:border-cyan-400 hover:text-cyan-400 hover:bg-cyan-400/10 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:scale-105'
+                                    ? 'border-cyan-400 text-cyan-400 bg-cyan-400/20 shadow-[0_0_25px_rgba(34,211,238,0.3)] scale-105'
+                                    : 'border-white/80 text-white bg-white/30 hover:border-cyan-400 hover:text-cyan-400 hover:bg-cyan-400/20 hover:shadow-[0_0_25px_rgba(34,211,238,0.3)] hover:scale-105'
                                 }`}
                             onClick={(e) => {
                                 e.preventDefault();
