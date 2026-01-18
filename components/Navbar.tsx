@@ -77,16 +77,16 @@ export function Navbar() {
                         onTouchEnd={() => setTouchedItem(null)}
                         className={`relative z-10 flex items-center gap-2 transition-transform duration-300 hover:scale-105 ${touchedItem === 'logo' ? 'scale-105' : ''}`}
                     >
-                        <div className="relative w-16 h-16 flex-shrink-0 flex items-center justify-center">
-                            {/* Further enlarged artwork while maintaining integrity */}
+                        <div className="relative w-20 h-20 flex-shrink-0 flex items-center justify-center">
+                            {/* Enlarged to match mobile menu size */}
                             <img
                                 src="/logo-icon.png"
                                 alt="Everbright"
-                                className="w-full h-full object-contain mix-blend-screen brightness-125 scale-[1.8] drop-shadow-[0_0_25px_rgba(34,211,238,0.6)]"
+                                className="w-full h-full object-contain mix-blend-screen brightness-125 scale-[2.2] drop-shadow-[0_0_25px_rgba(34,211,238,0.6)]"
                             />
                         </div>
                         <div className="flex flex-col -space-y-1.5 font-inter pt-1">
-                            <div className="text-xl md:text-[1.85rem] font-black tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-cyan-100 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                            <div className="text-[1.85rem] font-black tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-cyan-100 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
                                 EVERBRIGHT
                             </div>
                             <div className="flex items-center gap-2">
@@ -119,7 +119,10 @@ export function Navbar() {
                     {/* CTA Button Section */}
                     <div className="relative z-10 hidden md:block">
                         <Button
-                            className={`bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full px-10 h-11 text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95 ${shouldPulse ? 'md:animate-button-glow' : ''}`}
+                            className={`bg-white text-black hover:bg-cyan-400 hover:text-black font-bold rounded-full px-10 h-11 text-sm tracking-[0.2em] uppercase shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95 ${shouldPulse
+                                ? 'animate-pulse shadow-[0_0_80px_rgba(255,255,255,0.9),0_0_40px_rgba(255,255,255,0.6)] scale-110'
+                                : 'transition-all duration-300'
+                                }`}
                             onClick={() => setIsContactOpen(true)}
                         >
                             Contattaci
