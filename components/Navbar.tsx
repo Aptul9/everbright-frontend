@@ -59,7 +59,7 @@ export function Navbar() {
                 <div
                     onTouchStart={() => setTouchedItem('navbar')}
                     onTouchEnd={() => setTouchedItem(null)}
-                    className={`max-w-7xl mx-auto h-16 pointer-events-auto flex items-center justify-between px-4 md:px-10 bg-[#121212]/98 backdrop-blur-2xl border border-white/20 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-cyan-400/30 hover:scale-[1.02] group/nav relative overflow-hidden ${touchedItem === 'navbar' ? 'scale-[1.02] border-cyan-400/30' : ''}`}
+                    className={`max-w-7xl mx-auto h-16 pointer-events-auto flex items-center justify-between px-6 md:px-10 bg-[#121212]/98 backdrop-blur-2xl border border-white/20 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-cyan-400/30 hover:scale-[1.02] group/nav relative overflow-hidden ${touchedItem === 'navbar' ? 'scale-[1.02] border-cyan-400/30' : ''}`}
                 >
                     {/* passing shine effect */}
                     <div className="absolute inset-0 -translate-x-full group-hover/nav:translate-x-full duration-[1.5s] ease-in-out bg-gradient-to-r from-transparent via-white/10 to-transparent z-0 pointer-events-none" />
@@ -75,26 +75,25 @@ export function Navbar() {
                         }}
                         onTouchStart={() => setTouchedItem('logo')}
                         onTouchEnd={() => setTouchedItem(null)}
-                        className={`relative z-10 flex items-center gap-2 transition-transform duration-300 hover:scale-105 ${touchedItem === 'logo' ? 'scale-105' : ''}`}
+                        className={`relative z-10 flex items-center gap-2 md:gap-3 transition-transform duration-300 hover:scale-105 ${touchedItem === 'logo' ? 'scale-105' : ''}`}
                     >
-                        <div className="relative w-20 h-20 flex-shrink-0 flex items-center justify-center">
-                            {/* Enlarged to match mobile menu size */}
+                        <div className="relative w-14 h-14 md:w-20 md:h-20 flex-shrink-0 flex items-center justify-center">
                             <img
                                 src="/logo-icon.png"
                                 alt="Everbright"
                                 className="w-full h-full object-contain mix-blend-screen brightness-125 scale-[2.2] drop-shadow-[0_0_25px_rgba(34,211,238,0.6)]"
                             />
                         </div>
-                        <div className="flex flex-col -space-y-1.5 font-inter pt-1">
-                            <div className="text-[1.85rem] font-black tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-cyan-100 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                        <div className="flex flex-col -space-y-1 md:-space-y-1.5 font-inter pt-1">
+                            <div className="text-2xl md:text-[1.85rem] font-black tracking-tighter md:tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-cyan-100 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
                                 EVERBRIGHT
                             </div>
-                            <div className="flex items-center gap-2">
-                                <div className="h-[1px] w-4 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
-                                <span className="text-[8px] md:text-[9px] font-bold tracking-[0.55em] text-cyan-300/80 uppercase whitespace-nowrap">
+                            <div className="flex items-center gap-1.5 md:gap-2">
+                                <div className="h-[1px] w-3 md:w-4 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+                                <span className="text-[8px] md:text-[9px] font-bold tracking-[0.35em] md:tracking-[0.55em] text-cyan-300/80 uppercase whitespace-nowrap">
                                     IT SERVICES
                                 </span>
-                                <div className="h-[1px] w-4 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+                                <div className="h-[1px] w-3 md:w-4 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
                             </div>
                         </div>
                     </Link>

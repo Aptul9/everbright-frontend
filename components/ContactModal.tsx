@@ -112,27 +112,34 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
     useEffect(() => {
         if (isOpen) {
-            setVisible(true);
+            const timer = setTimeout(() => {
+                setVisible(true);
+                setTriggerShine(true);
+            }, 10);
             document.body.style.overflow = "hidden"; // Block scrolling
-            // Trigger shine after entrance animation, then reset
-            setTimeout(() => setTriggerShine(true), 300);
-            setTimeout(() => setTriggerShine(false), 2500);
+            const shineResetTimer = setTimeout(() => setTriggerShine(false), 2500);
+            return () => {
+                clearTimeout(timer);
+                clearTimeout(shineResetTimer);
+            };
         } else {
-            const timer = setTimeout(() => setVisible(false), 500); // Wait for animation
+            const timer = setTimeout(() => {
+                setVisible(false);
+                // Reset form on close after animation
+                setFormData({
+                    nome: "",
+                    cognome: "",
+                    azienda: "",
+                    telefono: "",
+                    email: "",
+                    messaggio: ""
+                });
+                setErrors([]);
+                setSubmitCount(0);
+                setTriggerShine(false);
+                setTouchedElement(null);
+            }, 500);
             document.body.style.overflow = "unset";
-            // Reset form on close
-            setFormData({
-                nome: "",
-                cognome: "",
-                azienda: "",
-                telefono: "",
-                email: "",
-                messaggio: ""
-            });
-            setErrors([]);
-            setSubmitCount(0);
-            setTriggerShine(false);
-            setTouchedElement(null);
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
