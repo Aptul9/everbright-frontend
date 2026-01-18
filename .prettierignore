@@ -1,0 +1,17 @@
+dist/
+webDist/
+distWeb/
+distLambda/
+goldstackLocal/
+coverage/
+node_modules/
+.next/
+.terraform/
+*.tfstate
+*.tfstate.backup
+.pnp.js
+*.json
+.yarn/
+docker/compose.yml
+src/zod/
+components/ui/

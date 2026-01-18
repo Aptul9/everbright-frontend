@@ -1,37 +1,37 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
-import "./globals.css";
-import { Navbar } from "@/components/Navbar";
+import type { Metadata } from 'next'
+import { Geist, Geist_Mono, Inter } from 'next/font/google'
+import './globals.css'
+import { Navbar } from '@/components/Navbar'
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+})
 
 const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
+  variable: '--font-inter',
+  subsets: ['latin'],
+})
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+})
 
 export const metadata: Metadata = {
-  title: "Everbright",
-  description: "Illumina il tuo business",
+  title: 'Everbright',
+  description: 'Illumina il tuo business',
   icons: {
-    icon: "/logo-icon.png?v=3",
-    apple: "/logo-icon.png?v=3",
-    shortcut: "/logo-icon.png?v=3",
+    icon: '/logo-icon.png?v=3',
+    apple: '/logo-icon.png?v=3',
+    shortcut: '/logo-icon.png?v=3',
   },
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en" className="dark">
@@ -42,5 +42,5 @@ export default function RootLayout({
         {children}
       </body>
     </html>
-  );
+  )
 }
