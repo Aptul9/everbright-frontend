@@ -59,7 +59,7 @@ export function Footer() {
                 e.preventDefault()
                 setActivePolicy('privacy')
               }}
-              className={`hover:text-cyan-400 hover:scale-110 transition-all duration-300 ${touchedElement === 'privacy' ? 'text-cyan-400 scale-110' : ''}`}
+              className={`cursor-pointer hover:text-cyan-400 hover:scale-110 transition-all duration-300 ${touchedElement === 'privacy' ? 'text-cyan-400 scale-110' : ''}`}
               onTouchStart={() => setTouchedElement('privacy')}
               onTouchEnd={() => setTouchedElement(null)}
             >
@@ -70,7 +70,7 @@ export function Footer() {
                 e.preventDefault()
                 setActivePolicy('cookie')
               }}
-              className={`hover:text-cyan-400 hover:scale-110 transition-all duration-300 ${touchedElement === 'cookie' ? 'text-cyan-400 scale-110' : ''}`}
+              className={`cursor-pointer hover:text-cyan-400 hover:scale-110 transition-all duration-300 ${touchedElement === 'cookie' ? 'text-cyan-400 scale-110' : ''}`}
               onTouchStart={() => setTouchedElement('cookie')}
               onTouchEnd={() => setTouchedElement(null)}
             >
@@ -81,7 +81,7 @@ export function Footer() {
 
         <div className="pt-4 border-t border-white/5 flex flex-wrap justify-center md:justify-between items-center gap-x-12 gap-y-2">
           <p
-            className={`text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-pointer ${touchedElement === 'piva' ? 'text-cyan-400 scale-110' : ''}`}
+            className={`text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-default ${touchedElement === 'piva' ? 'text-cyan-400 scale-110' : ''}`}
             onTouchStart={() => setTouchedElement('piva')}
             onTouchEnd={() => setTouchedElement(null)}
           >
@@ -89,14 +89,14 @@ export function Footer() {
             {/* | Capitale Sociale € 1 i.v. */}
           </p>
           <p
-            className={`text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-pointer ${touchedElement === 'sede' ? 'text-cyan-400 scale-110' : ''}`}
+            className={`text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-default ${touchedElement === 'sede' ? 'text-cyan-400 scale-110' : ''}`}
             onTouchStart={() => setTouchedElement('sede')}
             onTouchEnd={() => setTouchedElement(null)}
           >
             Sede Legale: Via Castromurro 39, 87021 Belvedere Marittimo (CS)
           </p>
           <p
-            className={`text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-pointer ${touchedElement === 'rea' ? 'text-cyan-400 scale-110' : ''}`}
+            className={`text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-default ${touchedElement === 'rea' ? 'text-cyan-400 scale-110' : ''}`}
             onTouchStart={() => setTouchedElement('rea')}
             onTouchEnd={() => setTouchedElement(null)}
           >

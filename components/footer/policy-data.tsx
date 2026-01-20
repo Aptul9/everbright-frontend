@@ -12,11 +12,13 @@ export const privacyContent = (
 
     <h3 className="text-white font-bold text-lg mt-4">1. Titolare del Trattamento</h3>
     <p>
-      Everbright Digital Solutions S.r.l.
+      Everbright S.R.L.S.
       <br />
-      Via dell&apos;Innovazione 1, 20121 Milano (MI)
+      Via Castromurro 39, 87021 Belvedere Marittimo (CS)
       <br />
-      Email: privacy@everbright.com
+      P.IVA: 03943760789
+      <br />
+      Email: info@everbright.it
     </p>
 
     <h3 className="text-white font-bold text-lg mt-4">2. Dati Raccolti</h3>
