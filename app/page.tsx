@@ -1,8 +1,8 @@
-import { Hero } from '@/components/Hero'
-import { Services } from '@/components/Services'
+import { Hero } from '@/components/hero/Hero'
+import { Services } from '@/components/services/Services'
 import { StarField } from '@/components/StarField'
-import { Company } from '@/components/Company'
-import { Footer } from '@/components/Footer'
+import { Company } from '@/components/company/Company'
+import { Footer } from '@/components/footer/Footer'
 import { ClickSparkle } from '@/components/ClickSparkle'
 
 export default function Home() {

@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { SpaceSunrise } from '@/components/SpaceSunrise'
 import { useState, useEffect } from 'react'
-import { ContactModal } from '@/components/ContactModal'
+import { ContactModal } from '@/components/contact/ContactModal'
 
 export function Hero() {
   const [isContactOpen, setIsContactOpen] = useState(false)

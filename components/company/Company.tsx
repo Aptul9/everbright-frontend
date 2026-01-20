@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { useState, useEffect, useRef } from 'react'
-import { ContactModal } from '@/components/ContactModal'
+import { ContactModal } from '@/components/contact/ContactModal'
 
 export function Company() {
   const [isContactOpen, setIsContactOpen] = useState(false)

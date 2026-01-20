@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { useState, useEffect } from 'react'
-import { ContactModal } from '@/components/ContactModal'
+import { ContactModal } from '@/components/contact/ContactModal'
 import { StarField } from '@/components/StarField'
 import Image from 'next/image'
 

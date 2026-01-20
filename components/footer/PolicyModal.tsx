@@ -17,14 +17,29 @@ export function PolicyModal({ isOpen, onClose, title, content }: PolicyModalProp
 
   useEffect(() => {
     if (isOpen) {
-      setVisible(true)
+      // Wrap state updates in a timeout to avoid synchronous setState warning
+      // and allow for animation entry
+      const timer = setTimeout(() => {
+        setVisible(true)
+        setTriggerShine(true)
+      }, 10)
+
       document.body.style.overflow = 'hidden'
-      setTimeout(() => setTriggerShine(true), 300)
-      setTimeout(() => setTriggerShine(false), 2500)
+
+      const shineResetTimer = setTimeout(() => setTriggerShine(false), 2500)
+
+      return () => {
+        clearTimeout(timer)
+        clearTimeout(shineResetTimer)
+      }
     } else {
-      const timer = setTimeout(() => setVisible(false), 500)
+      const timer = setTimeout(() => {
+        setVisible(false)
+        setTriggerShine(false)
+      }, 500)
+
       document.body.style.overflow = 'unset'
-      setTriggerShine(false)
+
       return () => clearTimeout(timer)
     }
   }, [isOpen])
