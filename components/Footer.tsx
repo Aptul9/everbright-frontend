@@ -117,7 +117,7 @@ export function Footer() {
               <span className="everbright-highlight group-hover/footer:text-white group-hover/footer:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-1000">
                 EVERBRIGHT
               </span>{' '}
-              DIGITAL SOLUTIONS.
+              S.R.L.S.
             </p>
           </div>
 
