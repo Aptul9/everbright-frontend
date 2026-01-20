@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { CheckCircle2, AlertCircle } from 'lucide-react'
 import { sendEmail } from '@/app/actions/sendEmail'
-import { ShineInput } from '@/components/ui/shine-input'
+import { ShineInput } from '@/components/effects/shine-input'
 import { formStructure } from './form-config'
 
 interface ContactFormData {

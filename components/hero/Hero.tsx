@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { SpaceSunrise } from '@/components/SpaceSunrise'
+import { SpaceSunrise } from '@/components/effects/SpaceSunrise'
 import { useState, useEffect } from 'react'
 import { ContactModal } from '@/components/contact/ContactModal'
 

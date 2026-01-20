@@ -85,7 +85,7 @@ export function Footer() {
             onTouchStart={() => setTouchedElement('piva')}
             onTouchEnd={() => setTouchedElement(null)}
           >
-            P.IVA 01234567890
+            P.IVA 03943760789
             {/* | Capitale Sociale € 1 i.v. */}
           </p>
           <p
