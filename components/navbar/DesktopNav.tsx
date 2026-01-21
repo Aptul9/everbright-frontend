@@ -10,6 +10,7 @@ export function DesktopNav({ onScroll }: DesktopNavProps) {
       <div className="flex items-center gap-12 lg:gap-16 xl:gap-24">
         {[
           { name: 'SERVIZI', id: '#servizi' },
+          { name: 'PROGETTI', id: '#progetti' },
           { name: 'AZIENDA', id: '#azienda' },
         ].map((link) => (
           <a

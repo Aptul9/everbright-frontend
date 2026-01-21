@@ -29,6 +29,7 @@ export function MobileMenu({ isOpen, onClose, onContactClick, onScroll }: Mobile
       >
         {[
           { name: 'SERVIZI', id: '#servizi' },
+          { name: 'PROGETTI', id: '#progetti' },
           { name: 'AZIENDA', id: '#azienda' },
         ].map((link) => (
           <a

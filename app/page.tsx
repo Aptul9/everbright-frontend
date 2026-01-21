@@ -1,5 +1,6 @@
 import { Hero } from '@/components/hero/Hero'
 import { Services } from '@/components/services/Services'
+import { Projects } from '@/components/projects/Projects'
 import { StarField } from '@/components/effects/StarField'
 import { Company } from '@/components/company/Company'
 import { Footer } from '@/components/footer/Footer'
@@ -13,6 +14,7 @@ export default function Home() {
       </div>
       <Hero />
       <Services />
+      <Projects />
       <Company />
       <Footer />
       <ClickSparkle />
