@@ -24,6 +24,7 @@ interface ProjectModalProps {
 
 export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
     const [isVisible, setIsVisible] = useState(false)
+    const [touchedItem, setTouchedItem] = useState<string | null>(null)
 
     useEffect(() => {
         if (isOpen) {
@@ -51,9 +52,14 @@ export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
                     isOpen ? 'scale-100 translate-y-0' : 'scale-90 translate-y-10'
                 )}
                 onClick={(e) => e.stopPropagation()}
+                onPointerDown={() => setTouchedItem('modal')}
+                onPointerUp={() => setTouchedItem(null)}
             >
                 {/* Shine effect overlay */}
-                <div className="absolute inset-0 -translate-x-full group-hover/modal:translate-x-full duration-[2s] ease-in-out bg-linear-to-r from-transparent via-white/5 to-transparent z-10 pointer-events-none" />
+                <div className={cn(
+                    "absolute inset-0 -translate-x-full duration-[2s] ease-in-out bg-linear-to-r from-transparent via-white/5 to-transparent z-10 pointer-events-none",
+                    (touchedItem === 'modal' || touchedItem) && "translate-x-full"
+                )} />
 
                 {/* Close Button */}
                 <button
@@ -74,7 +80,17 @@ export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                         <div className="absolute bottom-6 left-8 md:left-12">
-                            <div className="flex flex-col items-start transition-all duration-300 group-hover/header:scale-105 origin-left cursor-default">
+                            <div
+                                onPointerDown={(e) => {
+                                    e.stopPropagation()
+                                    setTouchedItem('title')
+                                }}
+                                onPointerUp={() => setTouchedItem(null)}
+                                className={cn(
+                                    "flex flex-col items-start transition-all duration-300 group-hover/header:scale-105 origin-left cursor-default",
+                                    touchedItem === 'title' && "scale-105"
+                                )}
+                            >
                                 <span className="px-3 py-1 text-[10px] font-bold tracking-[0.2em] uppercase bg-cyan-500 text-black rounded-full mb-3 inline-block">
                                     {project?.category}
                                 </span>
@@ -91,34 +107,73 @@ export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
                             {/* Left Column: Details */}
                             <div className="lg:col-span-8 space-y-10">
                                 {/* Situation */}
-                                <section className="space-y-3 group/item cursor-default">
-                                    <div className="flex items-center gap-3 text-cyan-400 transition-all duration-300 group-hover/item:scale-110 origin-left">
+                                <section
+                                    onPointerDown={(e) => {
+                                        e.stopPropagation()
+                                        setTouchedItem('situation')
+                                    }}
+                                    onPointerUp={() => setTouchedItem(null)}
+                                    className="space-y-3 group/item cursor-default"
+                                >
+                                    <div className={cn(
+                                        "flex items-center gap-3 text-cyan-400 transition-all duration-300 group-hover/item:scale-110 origin-left",
+                                        touchedItem === 'situation' && "scale-110"
+                                    )}>
                                         <Target className="w-4 h-4" />
                                         <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Situation & Task</h3>
                                     </div>
-                                    <p className="text-lg text-gray-300 leading-relaxed font-light transition-all duration-500 group-hover/item:text-white group-hover/item:scale-105 origin-left">
+                                    <p className={cn(
+                                        "text-lg text-gray-300 leading-relaxed font-light transition-all duration-500 group-hover/item:text-white group-hover/item:scale-105 origin-left",
+                                        touchedItem === 'situation' && "text-white scale-105"
+                                    )}>
                                         {project?.details.situation}
                                     </p>
                                 </section>
 
                                 {/* Action */}
-                                <section className="space-y-3 group/item cursor-default">
-                                    <div className="flex items-center gap-3 text-purple-400 transition-all duration-300 group-hover/item:scale-110 origin-left">
+                                <section
+                                    onPointerDown={(e) => {
+                                        e.stopPropagation()
+                                        setTouchedItem('action')
+                                    }}
+                                    onPointerUp={() => setTouchedItem(null)}
+                                    className="space-y-3 group/item cursor-default"
+                                >
+                                    <div className={cn(
+                                        "flex items-center gap-3 text-purple-400 transition-all duration-300 group-hover/item:scale-110 origin-left",
+                                        touchedItem === 'action' && "scale-110"
+                                    )}>
                                         <FlaskConical className="w-4 h-4" />
                                         <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Action</h3>
                                     </div>
-                                    <p className="text-lg text-gray-300 leading-relaxed font-light transition-all duration-500 group-hover/item:text-white group-hover/item:scale-105 origin-left">
+                                    <p className={cn(
+                                        "text-lg text-gray-300 leading-relaxed font-light transition-all duration-500 group-hover/item:text-white group-hover/item:scale-105 origin-left",
+                                        touchedItem === 'action' && "text-white scale-105"
+                                    )}>
                                         {project?.details.action}
                                     </p>
                                 </section>
 
                                 {/* Result */}
-                                <section className="space-y-3 group/item cursor-default">
-                                    <div className="flex items-center gap-3 text-green-400 transition-all duration-300 group-hover/item:scale-110 origin-left">
+                                <section
+                                    onPointerDown={(e) => {
+                                        e.stopPropagation()
+                                        setTouchedItem('result')
+                                    }}
+                                    onPointerUp={() => setTouchedItem(null)}
+                                    className="space-y-3 group/item cursor-default"
+                                >
+                                    <div className={cn(
+                                        "flex items-center gap-3 text-green-400 transition-all duration-300 group-hover/item:scale-110 origin-left",
+                                        touchedItem === 'result' && "scale-110"
+                                    )}>
                                         <CheckCircle2 className="w-4 h-4" />
                                         <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Result</h3>
                                     </div>
-                                    <p className="text-lg text-gray-300 leading-relaxed font-light transition-all duration-500 group-hover/item:text-white group-hover/item:scale-105 origin-left">
+                                    <p className={cn(
+                                        "text-lg text-gray-300 leading-relaxed font-light transition-all duration-500 group-hover/item:text-white group-hover/item:scale-105 origin-left",
+                                        touchedItem === 'result' && "text-white scale-105"
+                                    )}>
                                         {project?.details.result}
                                     </p>
                                 </section>
@@ -126,7 +181,17 @@ export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
 
                             {/* Right Column: Tech Stack */}
                             <div className="lg:col-span-4 space-y-6">
-                                <div className="p-6 rounded-[24px] bg-white/5 border border-white/10 backdrop-blur-sm sticky top-4 transition-all duration-500 hover:bg-white/10 hover:border-white/20 group/stack">
+                                <div
+                                    onPointerDown={(e) => {
+                                        e.stopPropagation()
+                                        setTouchedItem('stack')
+                                    }}
+                                    onPointerUp={() => setTouchedItem(null)}
+                                    className={cn(
+                                        "p-6 rounded-[24px] bg-white/5 border border-white/10 backdrop-blur-sm sticky top-4 transition-all duration-500 group/stack",
+                                        touchedItem === 'stack' ? "bg-white/10 border-white/20" : "hover:bg-white/10 hover:border-white/20"
+                                    )}
+                                >
                                     <div className="flex items-center gap-3 text-white mb-4 transition-transform duration-300 group-hover/stack:translate-x-1">
                                         <Rocket className="w-4 h-4 text-cyan-400" />
                                         <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Tech Stack</h3>
