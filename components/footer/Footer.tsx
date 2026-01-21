@@ -43,7 +43,7 @@ export function Footer() {
             <p
               onTouchStart={() => setTouchedElement('copyright')}
               onTouchEnd={() => setTouchedElement(null)}
-              className={`text-white/50 text-[9px] font-bold tracking-[0.2em] uppercase transition-all duration-300 ${touchedElement === 'copyright' ? 'scale-105 text-white' : ''}`}
+              className={`text-white/50 text-[9px] font-bold tracking-[0.2em] uppercase transition-all duration-300 hover:scale-105 hover:text-white cursor-default ${touchedElement === 'copyright' ? 'scale-105 text-white' : ''}`}
             >
               © {new Date().getFullYear()}{' '}
               <span className="everbright-highlight group-hover/footer:text-white group-hover/footer:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-1000">
