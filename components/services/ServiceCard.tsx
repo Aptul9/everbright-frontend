@@ -26,7 +26,7 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
         onTouchStart={() => onHoverChange(index, true)}
         onTouchEnd={() => onHoverChange(index, false)}
         className={cn(
-          'relative flex w-full items-center group transition-all duration-700',
+          'relative flex w-full items-center group transition-all duration-700 md:scale-90',
           service.align === 'left' ? 'justify-end' : 'justify-start',
           isVisible || isHovered ? 'opacity-100 translate-y-0' : 'opacity-20 translate-y-20'
         )}

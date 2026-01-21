@@ -6,7 +6,7 @@ interface DesktopNavProps {
 
 export function DesktopNav({ onScroll }: DesktopNavProps) {
   return (
-    <nav className="relative z-10 hidden md:flex items-center justify-center px-4">
+    <nav className="relative z-10 hidden md:flex flex-1 items-center justify-center px-4">
       <div className="flex items-center gap-12 lg:gap-16 xl:gap-24">
         {[
           { name: 'SERVIZI', id: '#servizi' },

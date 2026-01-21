@@ -8,7 +8,7 @@ export function NavbarLogo() {
   const [isTouched, setIsTouched] = useState(false)
 
   return (
-    <div className="flex-1 flex justify-start items-center min-w-0 transition-all duration-300">
+    <div className="flex justify-start items-center min-w-0 transition-all duration-300 md:w-[280px]">
       <Link
         href="/"
         onClick={(e) => {

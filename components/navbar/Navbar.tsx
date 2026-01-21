@@ -45,7 +45,7 @@ export function Navbar() {
           <NavbarLogo />
           <DesktopNav onScroll={handleScroll} />
 
-          <div className="flex-1 flex justify-end items-center transition-all duration-300">
+          <div className="flex justify-end items-center transition-all duration-300 md:w-[280px]">
             <div className="hidden md:block">
               <NavContactButton onClick={() => setIsContactOpen(true)} />
             </div>
