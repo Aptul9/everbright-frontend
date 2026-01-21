@@ -86,34 +86,28 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
         <div
           onClick={onContactOpen}
           className={cn(
-            'absolute z-20 w-[90%] md:w-125 p-6 md:p-12 rounded-[32px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500 cursor-pointer md:cursor-default',
+            'absolute z-20 w-[90%] md:w-125 p-6 md:p-12 rounded-[32px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500 cursor-pointer group/glass',
             isHovered
-              ? 'bg-white/10 scale-105 backdrop-brightness-125 shadow-[inset_0_0_30px_rgba(255,255,255,0.1)] md:bg-white/5 md:scale-100 md:backdrop-brightness-100 md:shadow-2xl'
+              ? 'scale-105 bg-white/10 shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]'
               : '',
-            'md:hover:bg-white/10 md:group-hover:scale-105 md:group-hover:backdrop-brightness-125 md:group-hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]',
+            'hover:scale-105 hover:bg-white/10 hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]',
             service.align === 'left'
               ? 'left-0 md:left-20 top-[63%] md:top-1/2 md:-translate-y-1/2'
               : 'right-0 md:right-20 top-[63%] md:top-1/2 md:-translate-y-1/2'
           )}
         >
-          <div className="space-y-4 md:space-y-6 mb-4 md:mb-8 transition-all duration-500 hover:scale-105 origin-left group/text-content cursor-default">
-            <h3 className="text-2xl md:text-4xl font-bold tracking-tight text-white transition-colors duration-300 group-hover/text-content:text-white">
+          <div className="space-y-4 md:space-y-6 mb-4 md:mb-8">
+            <h3 className="text-2xl md:text-4xl font-bold tracking-tight text-white">
               {service.title}
             </h3>
-            <p className="text-base md:text-lg leading-relaxed text-gray-300 transition-colors duration-300 group-hover/text-content:text-white">
+            <p className="text-base md:text-lg leading-relaxed text-gray-300 group-hover/glass:text-white transition-colors duration-300">
               {service.description}
             </p>
           </div>
 
-          <div
-            className="flex items-center gap-2 text-white font-bold cursor-pointer transition-all duration-300 hover:text-cyan-400 hover:scale-110 tracking-[0.2em] group/btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              onContactOpen();
-            }}
-          >
+          <div className="flex items-center gap-2 text-white font-bold tracking-[0.2em] transition-all duration-300 group-hover/glass:text-cyan-400 group-hover/glass:scale-110 origin-left">
             <span className="uppercase text-sm">Scopri di più</span>
-            <ArrowRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-2" />
+            <ArrowRight className="w-5 h-5 transition-transform group-hover/glass:translate-x-2" />
           </div>
         </div>
       </div>

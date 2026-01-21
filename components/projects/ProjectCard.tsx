@@ -97,32 +97,30 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
 
                 {/* Foreground Glass Information Card */}
                 <div
+                    onClick={onContactOpen}
                     className={cn(
-                        'absolute z-20 w-[70%] md:w-[320px] p-6 lg:p-8 rounded-[32px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500',
+                        'absolute z-20 w-[70%] md:w-[320px] p-6 lg:p-8 rounded-[32px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500 cursor-pointer group/glass',
                         isHovered
-                            ? 'bg-white/10 scale-105 backdrop-brightness-125 shadow-[inset_0_0_30px_rgba(255,255,255,0.1)] md:bg-white/5 md:scale-100 md:backdrop-brightness-100 md:shadow-2xl'
+                            ? 'scale-105 bg-white/10 shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]'
                             : '',
-                        'md:hover:bg-white/10 md:group-hover:scale-105 md:group-hover:backdrop-brightness-125 md:group-hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]',
+                        'hover:scale-105 hover:bg-white/10 hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]',
                         isImageLeft
                             ? 'right-0 md:-right-10 lg:right-0 top-[63%] md:top-1/2 md:-translate-y-1/2'
                             : 'left-0 md:-left-10 lg:left-0 top-[63%] md:top-1/2 md:-translate-y-1/2'
                     )}
                 >
-                    <div className="space-y-3 transition-all duration-500 hover:scale-105 origin-left group/text-content cursor-default">
-                        <h3 className="text-xl md:text-2xl font-bold tracking-tight text-white transition-colors duration-300 group-hover/text-content:text-white">
+                    <div className="space-y-3">
+                        <h3 className="text-xl md:text-2xl font-bold tracking-tight text-white">
                             {project.title}
                         </h3>
-                        <p className="text-sm md:text-base leading-relaxed text-gray-300 transition-colors duration-300 group-hover/text-content:text-white">
+                        <p className="text-sm md:text-base leading-relaxed text-gray-300 group-hover/glass:text-white transition-colors duration-300">
                             {project.description}
                         </p>
                     </div>
 
-                    <div
-                        className="flex items-center gap-2 mt-4 text-white font-bold cursor-pointer transition-all duration-300 hover:text-cyan-400 hover:scale-110 tracking-[0.2em] group/btn"
-                        onClick={onContactOpen}
-                    >
+                    <div className="flex items-center gap-2 mt-4 text-white font-bold tracking-[0.2em] transition-all duration-300 group-hover/glass:text-cyan-400 group-hover/glass:scale-110 origin-left">
                         <span className="uppercase text-[10px]">Dettagli</span>
-                        <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-2" />
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover/glass:translate-x-2" />
                     </div>
                 </div>
             </div>
