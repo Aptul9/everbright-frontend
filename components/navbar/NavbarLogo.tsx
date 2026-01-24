@@ -3,8 +3,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useThaiData } from '@/lib/thai-context'
 
 export function NavbarLogo() {
+  const { isThai } = useThaiData()
   const [isTouched, setIsTouched] = useState(false)
 
   return (
@@ -36,7 +38,7 @@ export function NavbarLogo() {
           <div className="flex items-center gap-1 md:gap-2">
             <div className="h-px w-3 md:w-4 bg-linear-to-r from-transparent via-cyan-400/50 to-transparent" />
             <span className="text-[8px] md:text-[8px] lg:text-[9px] font-bold tracking-[0.3em] md:tracking-[0.45em] lg:tracking-[0.55em] text-cyan-300/80 uppercase">
-              IT SERVICES
+              {isThai ? 'บริการไอที' : 'IT SERVICES'}
             </span>
             <div className="h-px w-3 md:w-4 bg-linear-to-r from-transparent via-cyan-400/50 to-transparent" />
           </div>

@@ -2,19 +2,21 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { ContactModal } from '@/components/contact/ContactModal'
-import { projectsData } from '@/lib/data'
+import { useThaiData } from '@/lib/thai-context'
 import { ProjectCard } from './ProjectCard'
 import { ProjectModal } from './ProjectModal'
+import { projectsData } from '@/lib/data'
 
 export function Projects() {
-    const [selectedProject, setSelectedProject] = useState<(typeof projectsData)[0] | null>(null)
+    const { projects, isThai } = useThaiData()
+    const [selectedProject, setSelectedProject] = useState<typeof projectsData[0] | null>(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isContactOpen, setIsContactOpen] = useState(false)
     const [visibleProjects, setVisibleProjects] = useState<boolean[]>(
-        new Array(projectsData.length).fill(false)
+        new Array(projects.length).fill(false)
     )
     const [hoveredProjects, setHoveredProjects] = useState<boolean[]>(
-        new Array(projectsData.length).fill(false)
+        new Array(projects.length).fill(false)
     )
     const [touchedHeader, setTouchedHeader] = useState(false)
     const projectRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -33,8 +35,8 @@ export function Projects() {
                         }
                         timeoutsRef.current[index] = setTimeout(() => {
                             setVisibleProjects((prev) => {
-                                if (prev[index]) return prev
                                 const next = [...prev]
+                                if (next[index]) return prev
                                 next[index] = true
                                 return next
                             })
@@ -45,8 +47,8 @@ export function Projects() {
                             timeoutsRef.current[index] = null
                         }
                         setVisibleProjects((prev) => {
-                            if (!prev[index]) return prev
                             const next = [...prev]
+                            if (!next[index]) return prev
                             next[index] = false
                             return next
                         })
@@ -70,7 +72,7 @@ export function Projects() {
                 if (timeout) clearTimeout(timeout)
             })
         }
-    }, [])
+    }, [projects.length, isThai])
 
     const handleHoverChange = (index: number, isHovered: boolean) => {
         if (isHovered && Date.now() - lastTouchTime.current < 1000) return
@@ -83,7 +85,7 @@ export function Projects() {
         })
     }
 
-    const openProject = (project: (typeof projectsData)[0]) => {
+    const openProject = (project: typeof projectsData[0]) => {
         setSelectedProject(project)
         setIsModalOpen(true)
     }
@@ -103,17 +105,17 @@ export function Projects() {
                         className={`text-center space-y-4 mb-4 transition-transform duration-500 ease-out hover:scale-105 cursor-default ${touchedHeader ? 'scale-105' : ''}`}
                     >
                         <h2 className="text-4xl md:text-6xl font-bold tracking-tighter text-white uppercase">
-                            I NOSTRI PROGETTI
+                            {isThai ? 'โครงการของเรา' : 'I NOSTRI PROGETTI'}
                         </h2>
                         <p className="text-gray-400 text-base max-w-2xl mx-auto">
-                            Soluzioni concrete per sfide complesse.
+                            {isThai ? 'โซลูชันที่เป็นรูปธรรมสำหรับความท้าทายที่ซับซ้อน' : 'Soluzioni concrete per sfide complesse.'}
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 lg:gap-x-32 gap-y-12 lg:gap-y-16 items-start">
-                        {projectsData.map((project, index) => (
+                        {projects.map((project, index) => (
                             <ProjectCard
-                                key={index}
+                                key={`${isThai ? 'th' : 'it'}-${index}`}
                                 ref={(el) => {
                                     projectRefs.current[index] = el
                                 }}

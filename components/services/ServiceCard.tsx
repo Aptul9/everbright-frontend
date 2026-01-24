@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { servicesData } from '@/lib/data'
+import { useThaiData } from '@/lib/thai-context'
 
 interface ServiceCardProps {
   service: (typeof servicesData)[0]
@@ -17,6 +18,7 @@ interface ServiceCardProps {
 
 export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
   ({ service, index, isVisible, isHovered, onHoverChange, onContactOpen }, ref) => {
+    const { labels } = useThaiData()
     // Determine layout: alternate based on index for the 2-column grid
     // index 0: image-left, glass-right
     // index 1: image-right, glass-left
@@ -122,11 +124,11 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
           </div>
 
           <div className="hidden md:flex items-center gap-2 opacity-0">
-            <span className="uppercase text-sm">Dettagli</span>
+            <span className="uppercase text-sm">{labels.details}</span>
             <ArrowRight className="w-5 h-5" />
           </div>
           <div className="flex items-center gap-2 mt-4 text-white font-bold tracking-[0.2em] transition-all duration-300 group-hover/glass:text-cyan-400 group-hover/glass:scale-110 origin-left">
-            <span className="uppercase text-[10px]">Dettagli</span>
+            <span className="uppercase text-[10px]">{labels.details}</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover/glass:translate-x-2" />
           </div>
         </div>

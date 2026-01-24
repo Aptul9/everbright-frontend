@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { X, Zap, Layers, Rocket, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
+import { useThaiData } from '@/lib/thai-context'
 import { servicesData } from '@/lib/data'
 
 interface ServiceModalProps {
@@ -14,6 +15,7 @@ interface ServiceModalProps {
 }
 
 export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceModalProps) {
+    const { isThai, labels } = useThaiData()
     const [isVisible, setIsVisible] = useState(false)
 
     useEffect(() => {
@@ -81,7 +83,9 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
                         <div className="space-y-3 group/item cursor-default">
                             <div className="flex items-center gap-2 text-cyan-400 transition-all duration-300 group-hover/item:text-cyan-300 group-hover/item:scale-110 origin-left">
                                 <Zap className="w-4 h-4" />
-                                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Overview</h3>
+                                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">
+                                    {isThai ? 'ภาพรวม' : 'Overview'}
+                                </h3>
                             </div>
                             <p className="text-gray-200 text-sm md:text-base leading-relaxed font-normal transition-all duration-500 group-hover/item:text-white group-hover/item:scale-[1.02] origin-left">
                                 {service?.details.overview}
@@ -92,7 +96,9 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
                         <div className="space-y-3 group/item cursor-default">
                             <div className="flex items-center gap-2 text-purple-400 transition-all duration-300 group-hover/item:text-purple-300 group-hover/item:scale-110 origin-left">
                                 <Layers className="w-4 h-4" />
-                                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Cosa Offriamo</h3>
+                                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">
+                                    {isThai ? 'สิ่งที่เรานำเสนอ' : 'Cosa Offriamo'}
+                                </h3>
                             </div>
                             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 transition-all duration-300 group-hover/item:scale-[1.02] origin-left">
                                 {service?.details.features.slice(0, 4).map((feature, i) => (
@@ -108,7 +114,9 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
                         <div className="space-y-4 pt-4 border-t border-white/5 group/stack cursor-default">
                             <div className="flex items-center gap-2 text-white transition-all duration-300 group-hover/stack:text-cyan-400 group-hover/stack:scale-110 origin-left">
                                 <Rocket className="w-4 h-4 text-cyan-400" />
-                                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Tecnologie</h3>
+                                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">
+                                    {isThai ? 'เทคโนโลยี' : 'Tecnologie'}
+                                </h3>
                             </div>
                             <div className="flex flex-wrap gap-2 transition-transform duration-300 group-hover/stack:scale-[1.02] origin-left">
                                 {service?.details.techStack.map((tech, i) => (
@@ -128,7 +136,7 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
                         onClick={onContact}
                         className="w-full mt-6 flex items-center justify-center gap-2 bg-white text-black py-4 rounded-xl font-bold tracking-wider uppercase hover:bg-cyan-400 transition-all duration-300 hover:scale-105 active:scale-95 group/btn"
                     >
-                        <span>CONTATTACI</span>
+                        <span>{labels.contact}</span>
                         <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
                     </button>
                 </div>

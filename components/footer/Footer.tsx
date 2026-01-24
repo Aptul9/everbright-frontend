@@ -4,8 +4,10 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { PolicyModal } from './PolicyModal'
 import { privacyContent, cookieContent } from './policy-data'
+import { useThaiData } from '@/lib/thai-context'
 
 export function Footer() {
+  const { isThai } = useThaiData()
   const [touchedElement, setTouchedElement] = useState<string | null>(null)
   const [activePolicy, setActivePolicy] = useState<'privacy' | 'cookie' | null>(null)
 
@@ -34,7 +36,7 @@ export function Footer() {
                 <div className="flex items-center gap-1 md:gap-2">
                   <div className="h-px w-3 md:w-4 bg-linear-to-r from-transparent via-cyan-400/50 to-transparent" />
                   <span className="text-[8px] md:text-[8px] lg:text-[9px] font-bold tracking-[0.3em] md:tracking-[0.45em] lg:tracking-[0.55em] text-cyan-300/80 uppercase">
-                    IT SERVICES
+                    {isThai ? 'บริการไอที' : 'IT SERVICES'}
                   </span>
                   <div className="h-px w-3 md:w-4 bg-linear-to-r from-transparent via-cyan-400/50 to-transparent" />
                 </div>
@@ -63,7 +65,7 @@ export function Footer() {
               onTouchStart={() => setTouchedElement('privacy')}
               onTouchEnd={() => setTouchedElement(null)}
             >
-              Privacy Policy
+              {isThai ? 'นโยบายความเป็นส่วนตัว' : 'Privacy Policy'}
             </button>
             <button
               onClick={(e) => {
@@ -74,7 +76,7 @@ export function Footer() {
               onTouchStart={() => setTouchedElement('cookie')}
               onTouchEnd={() => setTouchedElement(null)}
             >
-              Cookie Policy
+              {isThai ? 'นโยบายคุกกี้' : 'Cookie Policy'}
             </button>
           </div>
         </div>
@@ -90,10 +92,10 @@ export function Footer() {
           </p>
           <p
             className={`text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-default ${touchedElement === 'sede' ? 'text-cyan-400 scale-110' : ''}`}
-            onTouchStart={() => setTouchedElement('sede')}
+            onTouchStart={() => setTouchedElement('piva')}
             onTouchEnd={() => setTouchedElement(null)}
           >
-            Sede Legale: Via Castromurro 39, 87021 Belvedere Marittimo (CS)
+            {isThai ? 'สำนักงานใหญ่:' : 'Sede Legale:'} Via Castromurro 39, 87021 Belvedere Marittimo (CS)
           </p>
           <p
             className={`text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-default ${touchedElement === 'rea' ? 'text-cyan-400 scale-110' : ''}`}
@@ -108,14 +110,14 @@ export function Footer() {
       <PolicyModal
         isOpen={activePolicy === 'privacy'}
         onClose={() => setActivePolicy(null)}
-        title="Privacy Policy"
+        title={isThai ? 'นโยบายความเป็นส่วนตัว' : 'Privacy Policy'}
         content={privacyContent}
       />
 
       <PolicyModal
         isOpen={activePolicy === 'cookie'}
         onClose={() => setActivePolicy(null)}
-        title="Cookie Policy"
+        title={isThai ? 'นโยบายคุกกี้' : 'Cookie Policy'}
         content={cookieContent}
       />
     </footer>

@@ -4,6 +4,8 @@ import { StarField } from '@/components/effects/StarField'
 import { NavContactButton } from './NavContactButton'
 import { useState } from 'react'
 
+import { useThaiData } from '@/lib/thai-context'
+
 interface MobileMenuProps {
   isOpen: boolean
   onClose: () => void
@@ -12,6 +14,7 @@ interface MobileMenuProps {
 }
 
 export function MobileMenu({ isOpen, onClose, onContactClick, onScroll }: MobileMenuProps) {
+  const { labels, isThai } = useThaiData()
   const [touchedLink, setTouchedLink] = useState<string | null>(null)
 
   return (
@@ -28,12 +31,12 @@ export function MobileMenu({ isOpen, onClose, onContactClick, onScroll }: Mobile
         onClick={(e) => e.stopPropagation()}
       >
         {[
-          { name: 'SERVIZI', id: '#servizi' },
-          { name: 'PROGETTI', id: '#progetti' },
-          { name: 'AZIENDA', id: '#azienda' },
+          { name: labels.services, id: '#servizi' },
+          { name: labels.projects, id: '#progetti' },
+          { name: isThai ? 'บริษัท' : 'AZIENDA', id: '#azienda' },
         ].map((link) => (
           <a
-            key={link.name}
+            key={link.id}
             href={link.id}
             onClick={(e) => {
               e.preventDefault()
@@ -42,9 +45,9 @@ export function MobileMenu({ isOpen, onClose, onContactClick, onScroll }: Mobile
                 onClose()
               }, 300)
             }}
-            onTouchStart={() => setTouchedLink(link.name)}
+            onTouchStart={() => setTouchedLink(link.id)}
             onTouchEnd={() => setTouchedLink(null)}
-            className={`text-2xl font-bold tracking-[0.2em] text-gray-300 hover:text-cyan-400 transition-all duration-300 ${touchedLink === link.name ? 'text-cyan-400 scale-110' : ''}`}
+            className={`text-2xl font-bold tracking-[0.2em] text-gray-300 hover:text-cyan-400 transition-all duration-300 uppercase ${touchedLink === link.id ? 'text-cyan-400 scale-110' : ''}`}
           >
             {link.name}
           </a>

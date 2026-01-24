@@ -2,19 +2,21 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { ContactModal } from '@/components/contact/ContactModal'
-import { servicesData } from '@/lib/data'
+import { useThaiData } from '@/lib/thai-context'
 import { ServiceCard } from './ServiceCard'
 import { ServiceModal } from './ServiceModal'
+import { servicesData } from '@/lib/data'
 
 export function Services() {
-  const [selectedService, setSelectedService] = useState<(typeof servicesData)[0] | null>(null)
+  const { services, isThai } = useThaiData()
+  const [selectedService, setSelectedService] = useState<typeof servicesData[0] | null>(null)
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false)
   const [isContactOpen, setIsContactOpen] = useState(false)
   const [visibleServices, setVisibleServices] = useState<boolean[]>(
-    new Array(servicesData.length).fill(false)
+    new Array(services.length).fill(false)
   )
   const [hoveredServices, setHoveredServices] = useState<boolean[]>(
-    new Array(servicesData.length).fill(false)
+    new Array(services.length).fill(false)
   )
   const [touchedHeader, setTouchedHeader] = useState(false)
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -33,8 +35,8 @@ export function Services() {
             }
             timeoutsRef.current[index] = setTimeout(() => {
               setVisibleServices((prev) => {
-                if (prev[index]) return prev
                 const next = [...prev]
+                if (next[index]) return prev
                 next[index] = true
                 return next
               })
@@ -45,8 +47,8 @@ export function Services() {
               timeoutsRef.current[index] = null
             }
             setVisibleServices((prev) => {
-              if (!prev[index]) return prev
               const next = [...prev]
+              if (!next[index]) return prev
               next[index] = false
               return next
             })
@@ -70,7 +72,7 @@ export function Services() {
         if (timeout) clearTimeout(timeout)
       })
     }
-  }, [])
+  }, [services.length, isThai])
 
   const handleHoverChange = (index: number, isHovered: boolean) => {
     if (isHovered && Date.now() - lastTouchTime.current < 1000) return
@@ -83,7 +85,7 @@ export function Services() {
     })
   }
 
-  const openService = (service: (typeof servicesData)[0]) => {
+  const openService = (service: typeof servicesData[0]) => {
     setSelectedService(service)
     setIsServiceModalOpen(true)
   }
@@ -103,17 +105,17 @@ export function Services() {
             className={`text-center space-y-4 mb-4 transition-transform duration-500 ease-out hover:scale-105 cursor-default ${touchedHeader ? 'scale-105' : ''}`}
           >
             <h2 className="text-4xl md:text-6xl font-bold tracking-tighter text-white uppercase">
-              I NOSTRI SERVIZI
+              {isThai ? 'บริการของเรา' : 'I NOSTRI SERVIZI'}
             </h2>
             <p className="text-gray-400 text-base max-w-2xl mx-auto">
-              Eccellenza tecnologica al servizio della tua impresa.
+              {isThai ? 'ความเป็นเลิศทางเทคโนโลยีที่ตอบโจทย์ธุรกิจของคุณ' : 'Eccellenza tecnologica al servizio della tua impresa.'}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 lg:gap-x-32 gap-y-12 lg:gap-y-16 items-start">
-            {servicesData.map((service, index) => (
+            {services.map((service, index) => (
               <ServiceCard
-                key={index}
+                key={`${isThai ? 'th' : 'it'}-${index}`}
                 ref={(el) => {
                   serviceRefs.current[index] = el
                 }}

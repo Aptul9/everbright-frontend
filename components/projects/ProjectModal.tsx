@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { X, FlaskConical, Target, Rocket, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
+import { useThaiData } from '@/lib/thai-context'
 
 interface ProjectModalProps {
     isOpen: boolean
@@ -24,6 +25,7 @@ interface ProjectModalProps {
 }
 
 export function ProjectModal({ isOpen, onClose, onContact, project }: ProjectModalProps) {
+    const { isThai, labels } = useThaiData()
     const [isVisible, setIsVisible] = useState(false)
 
     useEffect(() => {
@@ -91,7 +93,9 @@ export function ProjectModal({ isOpen, onClose, onContact, project }: ProjectMod
                         <div className="space-y-2 group/item cursor-default">
                             <div className="flex items-center gap-2 text-cyan-400 transition-all duration-300 group-hover/item:text-cyan-300 group-hover/item:scale-110 origin-left">
                                 <Target className="w-4 h-4" />
-                                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Situation</h3>
+                                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">
+                                    {isThai ? 'สถานการณ์' : 'Situation'}
+                                </h3>
                             </div>
                             <p className="text-gray-200 text-sm md:text-base leading-relaxed font-normal transition-all duration-500 group-hover/item:text-white group-hover/item:scale-[1.02] origin-left">
                                 {project?.details.situation}
@@ -102,7 +106,9 @@ export function ProjectModal({ isOpen, onClose, onContact, project }: ProjectMod
                         <div className="space-y-2 group/item cursor-default">
                             <div className="flex items-center gap-2 text-purple-400 transition-all duration-300 group-hover/item:text-purple-300 group-hover/item:scale-110 origin-left">
                                 <FlaskConical className="w-4 h-4" />
-                                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Solution & Result</h3>
+                                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">
+                                    {isThai ? 'ทางแก้และผลลัพธ์' : 'Solution & Result'}
+                                </h3>
                             </div>
                             <p className="text-gray-200 text-sm md:text-base leading-relaxed font-normal transition-all duration-500 group-hover/item:text-white group-hover/item:scale-[1.02] origin-left">
                                 {project?.details.action} {project?.details.result}
@@ -113,7 +119,9 @@ export function ProjectModal({ isOpen, onClose, onContact, project }: ProjectMod
                         <div className="space-y-4 pt-4 border-t border-white/5 group/stack cursor-default">
                             <div className="flex items-center gap-2 text-white transition-all duration-300 group-hover/stack:text-cyan-400 group-hover/stack:scale-110 origin-left">
                                 <Rocket className="w-4 h-4 text-cyan-400" />
-                                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Tech Stack</h3>
+                                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">
+                                    {isThai ? 'เทคโนโลยีที่ใช้' : 'Tech Stack'}
+                                </h3>
                             </div>
                             <div className="flex flex-wrap gap-2 transition-transform duration-300 group-hover/stack:scale-[1.02] origin-left">
                                 {project?.details.techStack.map((tech, i) => (
@@ -133,7 +141,7 @@ export function ProjectModal({ isOpen, onClose, onContact, project }: ProjectMod
                         onClick={onContact}
                         className="w-full mt-6 flex items-center justify-center gap-2 bg-white text-black py-4 rounded-xl font-bold tracking-wider uppercase hover:bg-cyan-400 transition-all duration-300 hover:scale-105 active:scale-95 group/btn shrink-0"
                     >
-                        <span>CONTATTACI</span>
+                        <span>{labels.contact}</span>
                         <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
                     </button>
                 </div>
