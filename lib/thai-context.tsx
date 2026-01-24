@@ -23,12 +23,29 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
     const [isThai, setIsThai] = useState(false);
     const [, setInput] = useState('');
     const lastToggleRef = useRef(0);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+
+    useEffect(() => {
+        // Initialize audio on mount
+        audioRef.current = new Audio('/Forfettaria Superstar.mp3');
+        audioRef.current.loop = true; // Optional: loop if you want non-stop party
+    }, []);
 
     useEffect(() => {
         if (isThai) {
             document.body.classList.add('thai-mode');
+            // Play audio
+            if (audioRef.current) {
+                audioRef.current.currentTime = 0;
+                audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+            }
         } else {
             document.body.classList.remove('thai-mode');
+            // Stop audio
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+            }
         }
     }, [isThai]);
 
