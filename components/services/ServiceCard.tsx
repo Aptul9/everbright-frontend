@@ -88,6 +88,14 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
         >
           <Image src={service.image} alt={service.title} fill className="object-cover" />
           <div className="absolute inset-0 bg-black/20" />
+          <div className={cn(
+            "absolute top-4 z-10",
+            isImageLeft ? "left-4" : "right-4"
+          )}>
+            <span className="px-3 py-1 text-[10px] font-bold tracking-[0.2em] uppercase bg-black/50 backdrop-blur-md border border-white/10 rounded-full text-cyan-400 transition-all duration-500 hover:scale-110 hover:bg-white hover:text-black hover:px-5 hover:tracking-[0.4em] cursor-default">
+              {service.category}
+            </span>
+          </div>
         </div>
 
         {/* Foreground Glass Information Card */}
