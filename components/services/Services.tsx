@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { ContactModal } from '@/components/contact/ContactModal'
 import { servicesData } from '@/lib/data'
 import { ServiceCard } from './ServiceCard'
 import { ServiceModal } from './ServiceModal'
@@ -8,6 +9,7 @@ import { ServiceModal } from './ServiceModal'
 export function Services() {
   const [selectedService, setSelectedService] = useState<(typeof servicesData)[0] | null>(null)
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false)
+  const [isContactOpen, setIsContactOpen] = useState(false)
   const [visibleServices, setVisibleServices] = useState<boolean[]>(
     new Array(servicesData.length).fill(false)
   )
@@ -86,6 +88,11 @@ export function Services() {
     setIsServiceModalOpen(true)
   }
 
+  const handleContactFromService = () => {
+    setIsServiceModalOpen(false)
+    setIsContactOpen(true)
+  }
+
   return (
     <>
       <section id="servizi" className="relative w-full bg-black text-white py-24 lg:py-24 overflow-hidden min-h-screen flex flex-col justify-center">
@@ -125,7 +132,9 @@ export function Services() {
         isOpen={isServiceModalOpen}
         onClose={() => setIsServiceModalOpen(false)}
         service={selectedService}
+        onContact={handleContactFromService}
       />
+      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </>
   )
 }
