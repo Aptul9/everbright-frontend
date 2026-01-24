@@ -31,17 +31,19 @@ export function Projects() {
                         }
                         timeoutsRef.current[index] = setTimeout(() => {
                             setVisibleProjects((prev) => {
+                                if (prev[index]) return prev
                                 const next = [...prev]
                                 next[index] = true
                                 return next
                             })
-                        }, 400)
+                        }, 100)
                     } else {
                         if (timeoutsRef.current[index]) {
                             clearTimeout(timeoutsRef.current[index]!)
                             timeoutsRef.current[index] = null
                         }
                         setVisibleProjects((prev) => {
+                            if (!prev[index]) return prev
                             const next = [...prev]
                             next[index] = false
                             return next
@@ -50,8 +52,8 @@ export function Projects() {
                 })
             },
             {
-                threshold: 0.3, // Lower threshold as there are more items on screen
-                rootMargin: '-5% 0px -5% 0px',
+                threshold: 0.15,
+                rootMargin: '-2% 0px -2% 0px',
             }
         )
 
@@ -86,12 +88,12 @@ export function Projects() {
 
     return (
         <>
-            <section id="progetti" className="relative w-full bg-black text-white py-32 lg:py-48 overflow-hidden">
-                <div className="container mx-auto px-4 lg:px-24 xl:px-32 max-w-[1400px] relative z-10 flex flex-col space-y-32 md:space-y-48">
+            <section id="progetti" className="relative w-full bg-black text-white py-24 lg:py-24 overflow-hidden min-h-screen flex flex-col justify-center">
+                <div className="container mx-auto px-4 lg:px-24 xl:px-32 max-w-[1400px] relative z-10 flex flex-col space-y-12 lg:space-y-16">
                     <div
                         onTouchStart={() => setTouchedHeader(true)}
                         onTouchEnd={() => setTouchedHeader(false)}
-                        className={`text-center space-y-6 mb-10 transition-transform duration-500 ease-out hover:scale-105 cursor-default ${touchedHeader ? 'scale-105' : ''}`}
+                        className={`text-center space-y-4 mb-4 transition-transform duration-500 ease-out hover:scale-105 cursor-default ${touchedHeader ? 'scale-105' : ''}`}
                     >
                         <h2 className="text-4xl md:text-6xl font-bold tracking-tighter text-white uppercase">
                             I NOSTRI PROGETTI
@@ -101,7 +103,7 @@ export function Projects() {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 lg:gap-x-32 gap-y-32 md:gap-y-48 items-start">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 lg:gap-x-32 gap-y-12 lg:gap-y-16 items-start">
                         {projectsData.map((project, index) => (
                             <ProjectCard
                                 key={index}

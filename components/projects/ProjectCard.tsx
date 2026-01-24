@@ -52,7 +52,7 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
                     {/* Black background spacer behind the image to create layers */}
                     <div
                         className={cn(
-                            'relative w-[85%] md:w-[75%] h-80 md:h-[350px] rounded-[32px] bg-black transition-transform duration-[1.5s] z-10',
+                            'relative w-[85%] md:w-[75%] h-80 md:h-[280px] rounded-[32px] bg-black transition-transform duration-[1.5s] z-10',
                             isHovered ? 'scale-105 md:scale-100' : '',
                             'md:group-hover:scale-105',
                             isImageLeft ? 'order-1' : 'order-2'
@@ -80,7 +80,7 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
                 {/* Image Container */}
                 <div
                     className={cn(
-                        'relative w-[85%] md:w-[75%] h-80 md:h-[350px] overflow-hidden rounded-[32px] transition-transform duration-[1.5s]',
+                        'relative w-[85%] md:w-[75%] h-80 md:h-[280px] overflow-hidden rounded-[32px] transition-transform duration-[1.5s]',
                         isHovered ? 'scale-105 md:scale-100' : '',
                         'md:group-hover:scale-105',
                         isImageLeft ? 'order-1' : 'order-2'
@@ -123,7 +123,7 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
                         <ArrowRight className="w-4 h-4 transition-transform group-hover/glass:translate-x-2" />
                     </div>
                 </div>
-            </div>
+            </div >
         )
     }
 )

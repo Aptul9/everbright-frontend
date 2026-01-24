@@ -1,31 +1,95 @@
 export const servicesData = [
   {
     title: 'Sviluppo Software',
-    description:
-      'Ingegneria del software su misura. Realizziamo piattaforme scalabili, applicazioni enterprise e soluzioni digitali che supportano la crescita del tuo business con codice pulito ed efficiente.',
+    category: 'Development',
+    description: 'Soluzioni software su misura per la crescita del tuo business.',
     image: '/services/software.png',
     align: 'right' as const,
+    details: {
+      overview: 'Progettiamo e sviluppiamo software custom di alta qualità, perfettamente allineati con i tuoi obiettivi aziendali. Dalle applicazioni web complesse ai sistemi enterprise, il nostro approccio ingegneristico garantisce scalabilità, sicurezza e performance.',
+      features: [
+        'Sviluppo Full-Stack Custom',
+        'Architetture a Microservizi',
+        'Integrazione API & Sistemi Legacy',
+        'Modernizzazione Applicazioni'
+      ],
+      benefits: [
+        'Automazione dei processi core',
+        'Riduzione del debito tecnico',
+        'Scalabilità illimitata',
+        'UX/UI Design centrato sull\'utente'
+      ],
+      techStack: ['React', 'Next.js', 'Node.js', 'Python', 'PostgreSQL', 'Docker', 'Kubernetes']
+    }
   },
   {
     title: 'Cloud & Infrastruttura',
-    description:
-      'Architetture cloud-native resilienti e sicure. Migrazione, gestione e ottimizzazione su AWS, Azure e Google Cloud per garantire continuità operativa e performance elevate.',
+    category: 'Cloud',
+    description: 'Architetture resilienti per la massima continuità operativa.',
     image: '/services/cloud.png',
     align: 'left' as const,
+    details: {
+      overview: 'Trasformiamo la tua infrastruttura IT con soluzioni cloud-native sicure e performanti. Gestiamo la migrazione e l\'ottimizzazione su ambienti multi-cloud per garantire affidabilità e costi prevedibili.',
+      features: [
+        'Cloud Migration & Strategy',
+        'DevOps & CI/CD Pipelines',
+        'Monitoraggio Infrastrutturale 24/7',
+        'Serverless Computing'
+      ],
+      benefits: [
+        'Riduzione costi operativi (TCO)',
+        'Business Continuity & DR',
+        'Deployment rapidi e sicuri',
+        'High Availability (99.99%)'
+      ],
+      techStack: ['AWS', 'Azure', 'Google Cloud', 'Terraform', 'Ansible', 'Prometheus', 'Grafana']
+    }
   },
   {
     title: 'Cyber Security',
-    description:
-      'Difesa attiva e proattiva. Proteggiamo i tuoi asset critici con strategie di sicurezza avanzate, penetration testing e monitoraggio continuo contro le minacce informatiche.',
+    category: 'Security',
+    description: 'Protezione proattiva per i tuoi asset digitali critici.',
     image: '/services/security.png',
     align: 'right' as const,
+    details: {
+      overview: 'Difendiamo il tuo perimetro digitale con strategie di sicurezza offensive e difensive. Dal penetration testing alla formazione del personale, costruiamo una cultura della sicurezza che protegge i tuoi dati e la tua reputazione.',
+      features: [
+        'Vulnerability Assessment & PT',
+        'Security Operations Center (SOC)',
+        'Compliance GDPR & ISO 27001',
+        'Incident Response Plan'
+      ],
+      benefits: [
+        'Protezione dai Ransomware',
+        'Conformità normativa garantita',
+        'Minimizzazione rischio data breach',
+        'Sicurezza proattiva e continua'
+      ],
+      techStack: ['Kali Linux', 'Burp Suite', 'Splunk', 'CrowdStrike', 'Wireshark', 'Metasploit', 'OWASP']
+    }
   },
   {
-    title: 'IT Help Desk & Supporto',
-    description:
-      'Supporto tecnico proattivo e multicanale. Forniamo assistenza remota e on-site per risolvere ogni criticità IT, garantendo efficienza operativa e minimizzando i tempi di inattività del tuo team.',
+    title: 'IT Help Desk',
+    category: 'Support',
+    description: 'Assistenza tecnica rapida per la massima efficienza.',
     image: '/services/helpdesk.png',
     align: 'left' as const,
+    details: {
+      overview: 'Un unico punto di contatto per tutte le tue esigenze IT. Il nostro team di supporto fornisce assistenza rapida e risolutiva, permettendo al tuo staff di concentrarsi sul business senza interruzioni tecnologiche.',
+      features: [
+        'Supporto Multicanale H24',
+        'Gestione Asset & Inventario',
+        'Onboarding & Offboarding Utenti',
+        'Manutenzione Preventiva'
+      ],
+      benefits: [
+        'Riduzione tempi di inattività',
+        'Aumento produttività dipendenti',
+        'Tracciamento ticket in real-time',
+        'SLA garantiti e monitorati'
+      ],
+      techStack: ['Jira Service Desk', 'ServiceNow', 'TeamViewer', 'Slack Integration', 'Microsoft 365', 'Zendesk']
+    }
   },
 ]
 
