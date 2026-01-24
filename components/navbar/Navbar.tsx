@@ -38,7 +38,7 @@ export function Navbar() {
         <div
           onTouchStart={() => setIsTouched(true)}
           onTouchEnd={() => setIsTouched(false)}
-          className={`max-w-7xl mx-auto h-16 pointer-events-auto flex items-center px-4 md:px-8 bg-[#121212]/98 backdrop-blur-2xl border border-white/20 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-cyan-400/30 hover:scale-[1.02] group/nav relative overflow-hidden ${isTouched ? 'scale-[1.02] border-cyan-400/30' : ''}`}
+          className={`max-w-7xl mx-auto h-16 pointer-events-auto flex justify-between items-center px-4 md:px-8 bg-[#121212]/98 backdrop-blur-2xl border border-white/20 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-cyan-400/30 hover:scale-[1.02] group/nav relative overflow-hidden ${isTouched ? 'scale-[1.02] border-cyan-400/30' : ''}`}
         >
           <div className="absolute inset-0 -translate-x-full group-hover/nav:translate-x-full duration-[1.5s] ease-in-out bg-linear-to-r from-transparent via-white/10 to-transparent z-0 pointer-events-none" />
 
