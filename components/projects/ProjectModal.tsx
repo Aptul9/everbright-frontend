@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { X, CheckCircle2, FlaskConical, Target, Rocket, ArrowRight } from 'lucide-react'
+import { X, FlaskConical, Target, Rocket, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 
@@ -93,7 +93,7 @@ export function ProjectModal({ isOpen, onClose, onContact, project }: ProjectMod
                                 <Target className="w-4 h-4" />
                                 <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Situation</h3>
                             </div>
-                            <p className="text-gray-300 text-sm leading-relaxed font-light transition-all duration-500 group-hover/item:text-white group-hover/item:scale-[1.02] origin-left line-clamp-3">
+                            <p className="text-gray-200 text-sm md:text-base leading-relaxed font-normal transition-all duration-500 group-hover/item:text-white group-hover/item:scale-[1.02] origin-left">
                                 {project?.details.situation}
                             </p>
                         </div>
@@ -104,7 +104,7 @@ export function ProjectModal({ isOpen, onClose, onContact, project }: ProjectMod
                                 <FlaskConical className="w-4 h-4" />
                                 <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Solution & Result</h3>
                             </div>
-                            <p className="text-gray-300 text-sm leading-relaxed font-light transition-all duration-500 group-hover/item:text-white group-hover/item:scale-[1.02] origin-left line-clamp-4">
+                            <p className="text-gray-200 text-sm md:text-base leading-relaxed font-normal transition-all duration-500 group-hover/item:text-white group-hover/item:scale-[1.02] origin-left">
                                 {project?.details.action} {project?.details.result}
                             </p>
                         </div>

@@ -83,7 +83,7 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
                                 <Zap className="w-4 h-4" />
                                 <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Overview</h3>
                             </div>
-                            <p className="text-gray-300 text-sm md:text-base leading-relaxed font-light transition-all duration-500 group-hover/item:text-white group-hover/item:scale-[1.02] origin-left">
+                            <p className="text-gray-200 text-sm md:text-base leading-relaxed font-normal transition-all duration-500 group-hover/item:text-white group-hover/item:scale-[1.02] origin-left">
                                 {service?.details.overview}
                             </p>
                         </div>
