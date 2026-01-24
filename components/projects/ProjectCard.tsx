@@ -54,7 +54,7 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
                     {/* Black background spacer behind the image to create layers */}
                     <div
                         className={cn(
-                            'relative w-[80%] md:w-[75%] h-80 md:h-[280px] rounded-[32px] bg-black transition-transform duration-[1.5s] z-10',
+                            'relative w-[75%] md:w-[75%] h-80 md:h-[280px] rounded-[32px] bg-black transition-transform duration-[1.5s] z-10',
                             isHovered ? 'scale-105 md:scale-100' : '',
                             'md:group-hover:scale-105',
                             isImageLeft ? 'order-1' : 'order-2'
@@ -68,8 +68,8 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
                             isHovered ? 'scale-105 md:scale-100' : '',
                             'md:group-hover:scale-105',
                             isImageLeft
-                                ? 'right-0 md:-right-10 lg:right-0 top-[55%] md:top-1/2 md:-translate-y-1/2'
-                                : 'left-0 md:-left-10 lg:left-0 top-[55%] md:top-1/2 md:-translate-y-1/2'
+                                ? 'right-0 md:-right-10 lg:right-0 top-[50%] md:top-1/2 md:-translate-y-1/2'
+                                : 'left-0 md:-left-10 lg:left-0 top-[50%] md:top-1/2 md:-translate-y-1/2'
                         )}
                     >
                         <div className="space-y-3 opacity-0">
@@ -82,7 +82,7 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
                 {/* Image Container */}
                 <div
                     className={cn(
-                        'relative w-[80%] md:w-[75%] h-80 md:h-[280px] overflow-hidden rounded-[32px] transition-transform duration-[1.5s]',
+                        'relative w-[75%] md:w-[75%] h-80 md:h-[280px] overflow-hidden rounded-[32px] transition-transform duration-[1.5s]',
                         isHovered ? 'scale-105 md:scale-100' : '',
                         'md:group-hover:scale-105',
                         isImageLeft ? 'order-1' : 'order-2'
@@ -110,8 +110,8 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
                             : '',
                         'hover:scale-105 hover:bg-white/10 hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]',
                         isImageLeft
-                            ? 'right-0 md:-right-10 lg:right-0 top-[55%] md:top-1/2 md:-translate-y-1/2'
-                            : 'left-0 md:-left-10 lg:left-0 top-[55%] md:top-1/2 md:-translate-y-1/2'
+                            ? 'right-0 md:-right-10 lg:right-0 top-[50%] md:top-1/2 md:-translate-y-1/2'
+                            : 'left-0 md:-left-10 lg:left-0 top-[50%] md:top-1/2 md:-translate-y-1/2'
                     )}
                 >
                     <div className="space-y-3">

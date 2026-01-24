@@ -112,7 +112,7 @@ export function Services() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 lg:gap-x-32 gap-y-12 lg:gap-y-16 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 lg:gap-x-32 gap-y-24 lg:gap-y-16 items-start">
             {services.map((service, index) => (
               <ServiceCard
                 key={`${isThai ? 'th' : 'it'}-${index}`}
