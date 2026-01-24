@@ -42,7 +42,7 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
         >
             <div
                 className={cn(
-                    'relative w-full max-w-5xl h-auto md:h-[600px] overflow-hidden bg-[#0a0a0a] border border-white/10 rounded-[30px] shadow-2xl transition-all duration-500 flex flex-col md:flex-row shadow-cyan-900/20',
+                    'relative w-full max-w-5xl max-h-[85vh] md:h-[600px] md:max-h-none flex flex-col md:flex-row bg-[#0a0a0a] border border-white/10 rounded-[30px] shadow-2xl transition-all duration-500 shadow-cyan-900/20 overflow-hidden',
                     isOpen ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'
                 )}
                 onClick={(e) => e.stopPropagation()}
@@ -56,7 +56,7 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
                 </button>
 
                 {/* Left Side: Visual & Title */}
-                <div className="relative w-full md:w-[40%] h-48 md:h-full">
+                <div className="relative w-full md:w-[40%] h-48 md:h-full shrink-0">
                     <Image
                         src={service?.image || ''}
                         alt={service?.title || ''}
@@ -77,7 +77,7 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
                 </div>
 
                 {/* Right Side: Content */}
-                <div className="flex-1 p-6 md:p-10 flex flex-col justify-between bg-black/40 backdrop-blur-sm overflow-hidden">
+                <div className="flex-1 p-6 md:p-10 flex flex-col justify-between bg-black/40 backdrop-blur-sm overflow-y-auto md:overflow-hidden">
                     <div className="space-y-8">
                         {/* Overview */}
                         <div className="space-y-3 group/item cursor-default">
