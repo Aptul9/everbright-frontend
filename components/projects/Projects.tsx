@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { ContactModal } from '@/components/contact/ContactModal'
 import { projectsData } from '@/lib/data'
 import { ProjectCard } from './ProjectCard'
 import { ProjectModal } from './ProjectModal'
@@ -8,6 +9,7 @@ import { ProjectModal } from './ProjectModal'
 export function Projects() {
     const [selectedProject, setSelectedProject] = useState<(typeof projectsData)[0] | null>(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isContactOpen, setIsContactOpen] = useState(false)
     const [visibleProjects, setVisibleProjects] = useState<boolean[]>(
         new Array(projectsData.length).fill(false)
     )
@@ -86,6 +88,11 @@ export function Projects() {
         setIsModalOpen(true)
     }
 
+    const handleContactFromProject = () => {
+        setIsModalOpen(false)
+        setIsContactOpen(true)
+    }
+
     return (
         <>
             <section id="progetti" className="relative w-full bg-black text-white pt-12 pb-24 lg:pt-12 lg:pb-24 overflow-hidden min-h-screen flex flex-col justify-center">
@@ -125,7 +132,9 @@ export function Projects() {
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 project={selectedProject}
+                onContact={handleContactFromProject}
             />
+            <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
         </>
     )
 }

@@ -75,28 +75,28 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
                 </div>
 
                 {/* Right Side: Content */}
-                <div className="flex-1 p-6 md:p-10 flex flex-col justify-between bg-black/40 backdrop-blur-sm">
+                <div className="flex-1 p-6 md:p-10 flex flex-col justify-between bg-black/40 backdrop-blur-sm overflow-hidden">
                     <div className="space-y-8">
                         {/* Overview */}
                         <div className="space-y-3 group/item cursor-default">
-                            <div className="flex items-center gap-2 text-cyan-400 transition-all duration-300 group-hover/item:scale-110 origin-left">
+                            <div className="flex items-center gap-2 text-cyan-400 transition-all duration-300 group-hover/item:text-cyan-300 group-hover/item:scale-110 origin-left">
                                 <Zap className="w-4 h-4" />
                                 <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Overview</h3>
                             </div>
-                            <p className="text-gray-300 text-sm md:text-base leading-relaxed font-light transition-all duration-500 group-hover/item:text-white group-hover/item:scale-105 origin-left">
+                            <p className="text-gray-300 text-sm md:text-base leading-relaxed font-light transition-all duration-500 group-hover/item:text-white group-hover/item:scale-[1.02] origin-left">
                                 {service?.details.overview}
                             </p>
                         </div>
 
                         {/* Features (Combined list) */}
                         <div className="space-y-3 group/item cursor-default">
-                            <div className="flex items-center gap-2 text-purple-400 transition-all duration-300 group-hover/item:scale-110 origin-left">
+                            <div className="flex items-center gap-2 text-purple-400 transition-all duration-300 group-hover/item:text-purple-300 group-hover/item:scale-110 origin-left">
                                 <Layers className="w-4 h-4" />
                                 <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Cosa Offriamo</h3>
                             </div>
-                            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+                            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 transition-all duration-300 group-hover/item:scale-[1.02] origin-left">
                                 {service?.details.features.slice(0, 4).map((feature, i) => (
-                                    <li key={i} className="flex items-center gap-2 text-sm text-gray-400 transition-all duration-500 group-hover/item:text-gray-200 group-hover/item:scale-105 origin-left">
+                                    <li key={i} className="flex items-center gap-2 text-sm text-gray-400 transition-colors duration-500 group-hover/item:text-gray-200">
                                         <div className="w-1 h-1 rounded-full bg-purple-400" />
                                         {feature}
                                     </li>
@@ -106,15 +106,15 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
 
                         {/* Tech Stack */}
                         <div className="space-y-4 pt-4 border-t border-white/5 group/stack cursor-default">
-                            <div className="flex items-center gap-2 text-white transition-transform duration-300 group-hover/stack:scale-110 origin-left">
+                            <div className="flex items-center gap-2 text-white transition-all duration-300 group-hover/stack:text-cyan-400 group-hover/stack:scale-110 origin-left">
                                 <Rocket className="w-4 h-4 text-cyan-400" />
                                 <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">Tecnologie</h3>
                             </div>
-                            <div className="flex flex-wrap gap-2 transition-transform duration-300 group-hover/stack:scale-105 origin-left">
+                            <div className="flex flex-wrap gap-2 transition-transform duration-300 group-hover/stack:scale-[1.02] origin-left">
                                 {service?.details.techStack.map((tech, i) => (
                                     <span
                                         key={i}
-                                        className="px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase bg-white/5 border border-white/10 rounded-md text-gray-400 transition-all duration-300 hover:bg-cyan-500 hover:text-black hover:scale-110 hover:-translate-y-1"
+                                        className="px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase bg-white/5 border border-white/10 rounded-md text-gray-400 transition-all duration-300 hover:bg-cyan-500 hover:text-black hover:border-cyan-500 hover:scale-110"
                                     >
                                         {tech}
                                     </span>
