@@ -96,7 +96,7 @@ export function Services() {
   return (
     <>
       <section id="servizi" className="relative w-full bg-black text-white py-24 lg:py-24 overflow-hidden min-h-screen flex flex-col justify-center">
-        <div className="container mx-auto px-4 lg:px-24 xl:px-32 max-w-[1400px] relative z-10 flex flex-col space-y-12 lg:space-y-16">
+        <div className="container mx-auto px-4 lg:px-24 xl:px-32 max-w-[1400px] relative z-10 flex flex-col space-y-20 lg:space-y-24">
           <div
             onTouchStart={() => setTouchedHeader(true)}
             onTouchEnd={() => setTouchedHeader(false)}
