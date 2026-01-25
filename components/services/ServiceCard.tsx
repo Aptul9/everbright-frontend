@@ -10,126 +10,81 @@ import { useThaiData } from '@/lib/thai-context'
 interface ServiceCardProps {
   service: (typeof servicesData)[0]
   index: number
-  isVisible: boolean
-  isHovered: boolean
-  onHoverChange: (index: number, isHovered: boolean) => void
-  onContactOpen: () => void
+  isActive: boolean
+  onClick: () => void
 }
 
 export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
-  ({ service, index, isVisible, isHovered, onHoverChange, onContactOpen }, ref) => {
+  ({ service, isActive, onClick }, ref) => {
     const { labels } = useThaiData()
-    // Determine layout: alternate based on index for the 2-column grid
-    // index 0: image-left, glass-right
-    // index 1: image-right, glass-left
-    // index 2: image-left, glass-right
-    // index 3: image-right, glass-left
-    const isImageLeft = index % 2 === 0
 
     return (
       <div
         ref={ref}
-        data-service-index={index}
-        onMouseEnter={() => onHoverChange(index, true)}
-        onMouseLeave={() => onHoverChange(index, false)}
-        onTouchStart={() => onHoverChange(index, true)}
-        onTouchEnd={() => onHoverChange(index, false)}
+        onClick={onClick}
         className={cn(
-          'relative flex w-full items-center group transition-all duration-700',
-          isImageLeft ? 'justify-start' : 'justify-end',
-          isVisible || isHovered ? 'opacity-100 translate-y-0' : 'opacity-20 translate-y-20'
+          'relative w-full h-[450px] md:h-[700px] cursor-pointer group transition-all duration-500 overflow-visible',
+          isActive ? 'scale-100 opacity-100 blur-0' : 'scale-90 opacity-40 blur-[1px]'
         )}
       >
-        {/* Shadow/Glow Background Effect */}
-        <div
-          className={cn(
-            'absolute inset-0 flex w-full items-center -z-10 pointer-events-none transition-[filter] duration-500',
-            isHovered
-              ? 'delay-[1500ms] drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] md:drop-shadow-none'
-              : '',
-            'md:group-hover:delay-[1500ms] md:group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]',
-            isImageLeft ? 'justify-start' : 'justify-end'
-          )}
-        >
-          {/* Black background spacer behind the image to create layers */}
-          <div
+        {/* Main Image Container */}
+        <div className={cn(
+          "absolute top-0 left-0 right-0 z-0",
+          "w-full h-[85%]", // 85% height on all screens
+          "rounded-[32px] overflow-hidden shadow-2xl", // Rounded & Shadow on all screens
+          isActive ? 'ring-1 ring-white/20' : ''
+        )}>
+          <Image
+            src={service.image}
+            alt={service.title}
+            fill
             className={cn(
-              'relative w-[75%] md:w-[75%] h-80 md:h-[280px] rounded-[32px] bg-black transition-transform duration-[1.5s] z-10',
-              isHovered ? 'scale-105 md:scale-100' : '',
-              'md:group-hover:scale-105',
-              isImageLeft ? 'order-1' : 'order-2'
+              "object-cover transition-transform duration-[1.5s] ease-out",
+              isActive ? "scale-105" : "scale-100",
+              "group-hover:scale-110"
             )}
           />
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
 
-          {/* Hidden text div for correct layout flow in absolute world */}
-          <div
-            className={cn(
-              'absolute w-[70%] md:w-[320px] p-6 lg:p-8 rounded-[32px] bg-black transition-all duration-500 z-0',
-              isHovered ? 'scale-105 md:scale-100' : '',
-              'md:group-hover:scale-105',
-              isImageLeft
-                ? 'right-0 md:-right-10 lg:right-0 top-[50%] md:top-1/2 md:-translate-y-1/2'
-                : 'left-0 md:-left-10 lg:left-0 top-[50%] md:top-1/2 md:-translate-y-1/2'
-            )}
-          >
-            <div className="space-y-3 opacity-0">
-              <h3 className="text-xl md:text-2xl font-bold tracking-tight">{service.title}</h3>
-              <p className="text-sm md:text-base leading-relaxed">{service.description}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Image Container */}
-        <div
-          className={cn(
-            'relative w-[75%] md:w-[75%] h-80 md:h-[280px] overflow-hidden rounded-[32px] transition-transform duration-[1.5s]',
-            isHovered ? 'scale-105 md:scale-100' : '',
-            'md:group-hover:scale-105',
-            isImageLeft ? 'order-1' : 'order-2'
-          )}
-        >
-          <Image src={service.image} alt={service.title} fill className="object-cover" />
-          <div className="absolute inset-0 bg-black/20" />
-          <div className={cn(
-            "absolute top-4 z-10",
-            isImageLeft ? "left-4" : "right-4"
-          )}>
-            <span className="px-3 py-1 text-[10px] font-bold tracking-[0.2em] uppercase bg-black/50 backdrop-blur-md border border-white/10 rounded-full text-cyan-400 transition-all duration-500 hover:scale-110 hover:bg-white hover:text-black hover:px-5 hover:tracking-[0.4em] cursor-default">
+          {/* Category Badge */}
+          <div className="absolute top-6 right-6 z-10">
+            <span className="px-4 py-2 text-[10px] font-bold tracking-[0.2em] uppercase bg-black/60 backdrop-blur-md border border-white/10 rounded-full text-cyan-400 shadow-xl">
               {service.category}
             </span>
           </div>
         </div>
 
-        {/* Foreground Glass Information Card */}
-        <div
-          onClick={onContactOpen}
-          className={cn(
-            'absolute z-20 w-[70%] md:w-[320px] p-6 lg:p-8 rounded-[32px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500 cursor-pointer group/glass',
-            isHovered
-              ? 'scale-105 bg-white/10 shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]'
-              : '',
-            'hover:scale-105 hover:bg-white/10 hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]',
-            isImageLeft
-              ? 'right-0 md:-right-10 lg:right-0 top-[50%] md:top-1/2 md:-translate-y-1/2'
-              : 'left-0 md:-left-10 lg:left-0 top-[50%] md:top-1/2 md:-translate-y-1/2'
-          )}
-        >
-          <div className="space-y-3">
-            <h3 className="text-xl md:text-2xl font-bold tracking-tight text-white">
-              {service.title}
-            </h3>
-            <p className="text-sm md:text-base leading-relaxed text-gray-300 group-hover/glass:text-white transition-colors duration-300">
-              {service.description}
-            </p>
-          </div>
+        {/* Glass Content Panel - Overlay */}
+        <div className={cn(
+          "absolute z-20 transition-all duration-500",
+          "bottom-0 left-4 right-4", // Mobile Position (Hanging)
+          "md:bottom-0 md:left-[8%] md:right-[8%]", // Desktop Position (Hanging)
+          "group-hover:translate-y-[-8px]"
+        )}>
+          <div
+            className={cn(
+              'w-full p-6 md:p-8 rounded-[24px] backdrop-blur-3xl bg-white/10 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] transition-all duration-500 flex flex-col',
+              'group-hover:bg-white/15 group-hover:border-white/20 group-hover:shadow-[0_8px_32px_0_rgba(34,211,238,0.15)]'
+            )}
+          >
+            <div className="space-y-4">
+              <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-white group-hover:text-cyan-400 transition-colors">
+                {service.title}
+              </h3>
+              <p className="text-sm md:text-base leading-relaxed text-gray-300 line-clamp-2 md:line-clamp-none">
+                {service.description}
+              </p>
+              {/* Extra Desktop Content */}
+              <p className="hidden md:block text-sm leading-relaxed text-gray-400 border-t border-white/10 pt-4 mt-4">
+                {service.details.overview}
+              </p>
+            </div>
 
-          <div className="hidden md:flex items-center gap-2 opacity-0">
-            <span className="uppercase text-sm">{labels.details}</span>
-            <ArrowRight className="w-5 h-5" />
-          </div>
-          <div className="flex items-center gap-2 mt-4 text-white font-bold tracking-[0.2em] transition-all duration-300 group-hover/glass:text-cyan-400 group-hover/glass:scale-110 origin-left">
-            <span className="uppercase text-[10px]">{labels.details}</span>
-            <ArrowRight className="w-4 h-4 transition-transform group-hover/glass:translate-x-2" />
+            <div className="flex items-center gap-3 mt-6 text-white font-bold tracking-[0.2em] transition-all duration-300 group-hover:translate-x-2">
+              <span className="uppercase text-xs">{labels.details}</span>
+              <ArrowRight className="w-5 h-5 text-cyan-400" />
+            </div>
           </div>
         </div>
       </div>
