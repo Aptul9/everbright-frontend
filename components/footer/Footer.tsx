@@ -88,14 +88,14 @@ export function Footer() {
             onTouchEnd={() => setTouchedElement(null)}
           >
             P.IVA 03943760789
-            {/* | Capitale Sociale € 1 i.v. */}
           </p>
           <p
             className={`text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-default ${touchedElement === 'sede' ? 'text-cyan-400 scale-110' : ''}`}
             onTouchStart={() => setTouchedElement('piva')}
             onTouchEnd={() => setTouchedElement(null)}
           >
-            {isThai ? 'สำนักงานใหญ่:' : 'Sede Legale:'} Via Castromurro 39, 87021 Belvedere Marittimo (CS)
+            {isThai ? 'สำนักงานใหญ่:' : 'Sede Legale:'} Via Castromurro 39, 87021 Belvedere
+            Marittimo (CS)
           </p>
           <p
             className={`text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-default ${touchedElement === 'rea' ? 'text-cyan-400 scale-110' : ''}`}

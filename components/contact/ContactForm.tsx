@@ -60,7 +60,7 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
     if (isSubmitting || submitStatus === 'success') return
 
     const newErrors: string[] = []
-    const nameRegex = /^[A-Za-zÀ-ÿ\u0E00-\u0E7F\s]{3,}$/ // Added Thai characters to regex
+    const nameRegex = /^[A-Za-zÀ-ÿ\u0E00-\u0E7F\s]{3,}$/
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
     if (!nameRegex.test(formData.nome)) newErrors.push('nome')
@@ -140,10 +140,11 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           onTouchStart={() => setTouchedElement('submit')}
           onTouchEnd={() => setTouchedElement(null)}
           className={`w-full font-bold rounded-full py-4 md:py-6 text-sm md:text-lg transition-all relative overflow-hidden
-                            ${submitStatus === 'success'
-              ? 'bg-green-500 text-white shadow-[0_0_30px_rgba(34,197,94,0.4)]'
-              : 'bg-white text-black hover:bg-cyan-400 hover:text-black shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)]'
-            } 
+                            ${
+                              submitStatus === 'success'
+                                ? 'bg-green-500 text-white shadow-[0_0_30px_rgba(34,197,94,0.4)]'
+                                : 'bg-white text-black hover:bg-cyan-400 hover:text-black shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)]'
+                            } 
                             ${touchedElement === 'submit' ? 'scale-105' : ''} 
                             ${isSubmitting ? 'opacity-80' : ''}`}
         >

@@ -24,9 +24,16 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       }, 10)
       document.body.style.overflow = 'hidden'
       const shineResetTimer = setTimeout(() => setTriggerShine(false), 2500)
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') onClose()
+      }
+      window.addEventListener('keydown', handleKeyDown)
+
       return () => {
         clearTimeout(timer)
         clearTimeout(shineResetTimer)
+        window.removeEventListener('keydown', handleKeyDown)
       }
     } else {
       const timer = setTimeout(() => {
@@ -43,15 +50,17 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-100 flex justify-center items-start md:items-center p-4 sm:p-6 overflow-y-auto transition-all duration-500 ${isOpen
-        ? 'bg-black/40 backdrop-blur-md opacity-100'
-        : 'bg-black/0 backdrop-blur-none opacity-0 pointer-events-none'
-        }`}
+      className={`fixed inset-0 z-100 flex justify-center items-start md:items-center p-4 sm:p-6 overflow-y-auto transition-all duration-500 ${
+        isOpen
+          ? 'bg-black/40 backdrop-blur-md opacity-100'
+          : 'bg-black/0 backdrop-blur-none opacity-0 pointer-events-none'
+      }`}
       onClick={onClose}
     >
       <div
-        className={`relative w-full max-w-2xl my-auto bg-zinc-900/90 backdrop-blur-xl border border-white/20 rounded-[32px] shadow-[0_0_60px_rgba(34,211,238,0.15)] p-6 sm:p-8 md:p-12 overflow-hidden transition-all duration-500 transform group/form ${isOpen ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-10 opacity-0'
-          } hover:shadow-[0_0_120px_rgba(34,211,238,0.3)] hover:border-cyan-400/30`}
+        className={`relative w-full max-w-2xl my-auto bg-zinc-900/90 backdrop-blur-xl border border-white/20 rounded-[32px] shadow-[0_0_60px_rgba(34,211,238,0.15)] p-6 sm:p-8 md:p-12 overflow-hidden transition-all duration-500 transform group/form ${
+          isOpen ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-10 opacity-0'
+        } hover:shadow-[0_0_120px_rgba(34,211,238,0.3)] hover:border-cyan-400/30`}
         onClick={(e) => e.stopPropagation()}
       >
         <div
@@ -72,13 +81,19 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
         >
           <h2 className="text-xl md:text-3xl font-bold tracking-tighter text-white uppercase">
             {isThai ? (
-              <>บอกเราเกี่ยวกับ <span className="text-cyan-400">คุณ</span></>
+              <>
+                บอกเราเกี่ยวกับ <span className="text-cyan-400">คุณ</span>
+              </>
             ) : (
-              <>PARLAMI DI <span className="text-cyan-400">TE</span>.</>
+              <>
+                PARLAMI DI <span className="text-cyan-400">TE</span>.
+              </>
             )}
           </h2>
           <p className="text-gray-400 text-[10px] md:text-sm">
-            {isThai ? 'เราพร้อมรับฟังวิสัยทัศน์ของคุณ' : 'Siamo pronti ad ascoltare la tua visione.'}
+            {isThai
+              ? 'เราพร้อมรับฟังวิสัยทัศน์ของคุณ'
+              : 'Siamo pronti ad ascoltare la tua visione.'}
           </p>
         </div>
 

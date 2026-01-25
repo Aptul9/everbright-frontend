@@ -27,27 +27,27 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
           isActive ? 'scale-100 opacity-100 blur-0' : 'scale-90 opacity-40 blur-[1px]'
         )}
       >
-        {/* Main Image Container */}
-        <div className={cn(
-          "absolute top-0 left-0 right-0 z-0",
-          "w-full h-[85%]", // 85% height on all screens
-          "rounded-[32px] overflow-hidden shadow-2xl", // Rounded & Shadow on all screens
-          isActive ? 'ring-1 ring-white/20' : ''
-        )}>
+        <div
+          className={cn(
+            'absolute top-0 left-0 right-0 z-0',
+            'w-full h-[85%]',
+            'rounded-[32px] overflow-hidden shadow-2xl',
+            isActive ? 'ring-1 ring-white/20' : ''
+          )}
+        >
           <Image
             src={service.image}
             alt={service.title}
             fill
             className={cn(
-              "object-cover transition-transform duration-[1.5s] ease-out",
-              isActive ? "scale-105" : "scale-100",
-              "group-hover:scale-110"
+              'object-cover transition-transform duration-[1.5s] ease-out',
+              isActive ? 'scale-105' : 'scale-100',
+              'group-hover:scale-110'
             )}
           />
-          {/* Gradient Overlay */}
+
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
 
-          {/* Category Badge */}
           <div className="absolute top-6 right-6 z-10">
             <span className="px-4 py-2 text-[10px] font-bold tracking-[0.2em] uppercase bg-black/60 backdrop-blur-md border border-white/10 rounded-full text-cyan-400 shadow-xl">
               {service.category}
@@ -55,13 +55,14 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
           </div>
         </div>
 
-        {/* Glass Content Panel - Overlay */}
-        <div className={cn(
-          "absolute z-20 transition-all duration-500",
-          "bottom-0 left-4 right-4", // Mobile Position (Hanging)
-          "md:bottom-0 md:left-[8%] md:right-[8%]", // Desktop Position (Hanging)
-          "group-hover:translate-y-[-8px]"
-        )}>
+        <div
+          className={cn(
+            'absolute z-20 transition-all duration-500',
+            'bottom-0 left-4 right-4',
+            'md:bottom-0 md:left-[8%] md:right-[8%]',
+            'group-hover:translate-y-[-8px]'
+          )}
+        >
           <div
             className={cn(
               'w-full p-6 md:p-8 rounded-[24px] backdrop-blur-3xl bg-white/10 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] transition-all duration-500 flex flex-col',
@@ -75,7 +76,7 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
               <p className="text-sm md:text-base leading-relaxed text-gray-300 line-clamp-2 md:line-clamp-none">
                 {service.description}
               </p>
-              {/* Extra Desktop Content */}
+
               <p className="hidden md:block text-sm leading-relaxed text-gray-400 border-t border-white/10 pt-4 mt-4">
                 {service.details.overview}
               </p>

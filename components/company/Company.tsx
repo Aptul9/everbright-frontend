@@ -78,8 +78,9 @@ export function Company() {
             ref={sectionRef}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className={`flex flex-col md:flex-row items-center gap-16 md:gap-24 group transition-all duration-700 ${isVisible || isHovered ? 'opacity-100 translate-y-0' : 'opacity-20 translate-y-20'
-              }`}
+            className={`flex flex-col md:flex-row items-center gap-16 md:gap-24 group transition-all duration-700 ${
+              isVisible || isHovered ? 'opacity-100 translate-y-0' : 'opacity-20 translate-y-20'
+            }`}
           >
             <div
               className="w-full md:w-1/2 relative transition-transform duration-[1.5s]"
@@ -114,9 +115,13 @@ export function Company() {
             >
               <h2 className="text-5xl md:text-6xl font-bold tracking-tighter leading-tight uppercase">
                 {isThai ? (
-                  <>อนาคตอยู่ <span className="text-cyan-400">ตอนนี้</span></>
+                  <>
+                    อนาคตอยู่ <span className="text-cyan-400">ตอนนี้</span>
+                  </>
                 ) : (
-                  <>IL FUTURO È <span className="text-cyan-400">ORA.</span></>
+                  <>
+                    IL FUTURO È <span className="text-cyan-400">ORA.</span>
+                  </>
                 )}
               </h2>
 
@@ -124,10 +129,21 @@ export function Company() {
                 {isThai ? (
                   <>
                     <p>
-                      เราคือ <span className="everbright-highlight group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-1000">Everbright</span> เราไม่ใช่แค่ที่ปรึกษา แต่เป็นผู้ออกแบบการเปลี่ยนแปลงทางดิจิทัล เราเกิดจากความหลงใหลในเทคโนโลยีและขับเคลื่อนด้วยนวัตกรรม เราช่วยให้บริษัทต่างๆ ก้าวข้ามขีดจำกัดของสิ่งที่เป็นไปได้
+                      เราคือ{' '}
+                      <span className="everbright-highlight group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-1000">
+                        Everbright
+                      </span>{' '}
+                      เราไม่ใช่แค่ที่ปรึกษา แต่เป็นผู้ออกแบบการเปลี่ยนแปลงทางดิจิทัล
+                      เราเกิดจากความหลงใหลในเทคโนโลยีและขับเคลื่อนด้วยนวัตกรรม เราช่วยให้บริษัทต่างๆ
+                      ก้าวข้ามขีดจำกัดของสิ่งที่เป็นไปได้
                     </p>
                     <p>
-                      ที่ <span className="everbright-highlight group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-1000">Everbright</span> ทีมผู้เชี่ยวชาญของเราทำงานทุกวันเพื่อเปลี่ยนความท้าทายที่ซับซ้อนให้เป็นโซลูชันที่สง่างามและขยายขนาดได้ เราเชื่อว่าเทคโนโลยีควรเป็นตัวควบคุมความเร็ว ไม่ใช่จุดอุปสรรค
+                      ที่{' '}
+                      <span className="everbright-highlight group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-1000">
+                        Everbright
+                      </span>{' '}
+                      ทีมผู้เชี่ยวชาญของเราทำงานทุกวันเพื่อเปลี่ยนความท้าทายที่ซับซ้อนให้เป็นโซลูชันที่สง่างามและขยายขนาดได้
+                      เราเชื่อว่าเทคโนโลยีควรเป็นตัวควบคุมความเร็ว ไม่ใช่จุดอุปสรรค
                     </p>
                   </>
                 ) : (
@@ -137,17 +153,17 @@ export function Company() {
                       <span className="everbright-highlight group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-1000">
                         Everbright
                       </span>
-                      . Non siamo solo consulenti, siamo architetti del cambiamento digitale. Nati dalla
-                      passione per la tecnologia e guidati dall&apos;innovazione, aiutiamo le aziende a
-                      superare i confini del possibile.
+                      . Non siamo solo consulenti, siamo architetti del cambiamento digitale. Nati
+                      dalla passione per la tecnologia e guidati dall&apos;innovazione, aiutiamo le
+                      aziende a superare i confini del possibile.
                     </p>
                     <p>
                       In{' '}
                       <span className="everbright-highlight group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-1000">
                         Everbright
                       </span>
-                      , il nostro team di esperti lavora ogni giorno per trasformare sfide complesse in
-                      soluzioni eleganti e scalabili. Crediamo che la tecnologia debba essere un
+                      , il nostro team di esperti lavora ogni giorno per trasformare sfide complesse
+                      in soluzioni eleganti e scalabili. Crediamo che la tecnologia debba essere un
                       acceleratore, non un ostacolo.
                     </p>
                   </>
@@ -160,18 +176,19 @@ export function Company() {
                   style={
                     shouldPulse
                       ? {
-                        boxShadow:
-                          '0 0 80px rgba(255, 255, 255, 0.9), 0 0 40px rgba(255, 255, 255, 0.6)',
-                        transform: 'scale(1.1)',
-                      }
+                          boxShadow:
+                            '0 0 80px rgba(255, 255, 255, 0.9), 0 0 40px rgba(255, 255, 255, 0.6)',
+                          transform: 'scale(1.1)',
+                        }
                       : {}
                   }
                   className={`font-bold px-10 h-14 rounded-full text-sm tracking-[0.2em] uppercase active:scale-95 relative z-50
                                         ${shouldPulse ? 'animate-pulse' : ''}
-                                        ${touchedElement === 'contact'
-                      ? 'bg-cyan-400 text-black scale-105 shadow-[0_0_30px_rgba(34,211,238,0.4)]'
-                      : 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105'
-                    } ${!shouldPulse && !touchedElement ? 'transition-all duration-300' : ''}`}
+                                        ${
+                                          touchedElement === 'contact'
+                                            ? 'bg-cyan-400 text-black scale-105 shadow-[0_0_30px_rgba(34,211,238,0.4)]'
+                                            : 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105'
+                                        } ${!shouldPulse && !touchedElement ? 'transition-all duration-300' : ''}`}
                   onClick={() => {
                     setTimeout(() => setIsContactOpen(true), 300)
                   }}

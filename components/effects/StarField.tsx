@@ -55,7 +55,7 @@ export function StarField() {
 
     const initStars = () => {
       const { width, height } = canvas
-      // Density for moving stars: ~1 star per 4000px^2
+
       const count = Math.floor((width * height) / 4000)
       const stars: Star[] = []
 
@@ -63,7 +63,7 @@ export function StarField() {
         stars.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.2, // Small initial drift
+          vx: (Math.random() - 0.5) * 0.2,
           vy: (Math.random() - 0.5) * 0.2,
           radius: Math.random() * 1.5 + 0.5,
           alpha: Math.random() * 0.5 + 0.3,
@@ -72,20 +72,18 @@ export function StarField() {
       }
       starsRef.current = stars
 
-      // Static stars (fewer, but visible)
       const staticCount = Math.floor(count / 3)
       const staticStars: StaticStar[] = []
       for (let i = 0; i < staticCount; i++) {
         staticStars.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          radius: Math.random() * 2.0 + 0.5, // Visible size
-          alpha: Math.random() * 0.5 + 0.4, // Visible brightness
+          radius: Math.random() * 2.0 + 0.5,
+          alpha: Math.random() * 0.5 + 0.4,
         })
       }
       staticStarsRef.current = staticStars
 
-      // Scroll Reactive Stars (for Mobile)
       const scrollCount = Math.floor(count / 2)
       const scrollStars: Star[] = []
       for (let i = 0; i < scrollCount; i++) {
@@ -108,7 +106,6 @@ export function StarField() {
 
       const mouse = mouseRef.current
 
-      // Draw Static Stars
       staticStarsRef.current.forEach((star) => {
         ctx.beginPath()
         ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`
@@ -121,37 +118,26 @@ export function StarField() {
       const scrollDelta = currentScrollY - lastScrollY.current
       lastScrollY.current = currentScrollY
 
-      // Draw and Update Scroll Reactive Stars
       scrollStarsRef.current.forEach((star) => {
-        // React to scroll
         if (Math.abs(scrollDelta) > 0) {
-          // React to scroll with variable speed (parallax effect)
           const depth = star.alpha * 2
           star.vy = -scrollDelta * 0.8 * depth
         }
 
-        // Friction
         star.vy *= 0.95
 
-        // Move
         star.y += star.vy
 
-        // Screen Wrap
         if (star.y < 0) star.y = canvas.height
         if (star.y > canvas.height) star.y = 0
 
-        // Draw
         ctx.beginPath()
         ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2)
         ctx.fill()
       })
 
-      // Draw and Update Moving Stars
       starsRef.current.forEach((star) => {
-        // Physics update
-
-        // 1. Mouse Attraction (Magnetic Effect)
         if (mouse) {
           const dx = mouse.x - star.x
           const dy = mouse.y - star.y
@@ -160,39 +146,33 @@ export function StarField() {
 
           if (dist < threshold) {
             const force = (threshold - dist) / threshold
-            // Accel towards mouse
+
             star.vx += (dx / dist) * force * 0.15
             star.vy += (dy / dist) * force * 0.15
           }
         }
 
-        // 2. Friction (Damping) - prevents infinite acceleration
         star.vx *= 0.98
         star.vy *= 0.98
 
-        // 3. Move
         star.x += star.vx
         star.y += star.vy
 
-        // 4. Screen Wrap
         if (star.x < 0) star.x = canvas.width
         if (star.x > canvas.width) star.x = 0
         if (star.y < 0) star.y = canvas.height
         if (star.y > canvas.height) star.y = 0
 
-        // 5. Draw
         ctx.beginPath()
         ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2)
         ctx.fill()
       })
 
-      // --- Comets Logic ---
-      // Randomly spawn a comet if there aren't too many
       if (cometsRef.current.length < 2 && Math.random() < 0.005) {
         const side = Math.random() > 0.5 ? 'left' : 'top'
         const length = Math.random() * 80 + 40
-        const angle = (Math.random() * 30 + 15) * (Math.PI / 180) // 15 to 45 degrees
+        const angle = (Math.random() * 30 + 15) * (Math.PI / 180)
         const speed = Math.random() * 4 + 3
 
         cometsRef.current.push({
@@ -206,12 +186,11 @@ export function StarField() {
         })
       }
 
-      // Update and draw comets
       for (let i = cometsRef.current.length - 1; i >= 0; i--) {
         const comet = cometsRef.current[i]
         comet.x += comet.vx
         comet.y += comet.vy
-        comet.alpha -= 0.002 // Slow fade
+        comet.alpha -= 0.002
 
         if (
           comet.alpha <= 0 ||
@@ -222,7 +201,6 @@ export function StarField() {
           continue
         }
 
-        // Draw Comet Tail
         const gradient = ctx.createLinearGradient(
           comet.x,
           comet.y,
@@ -240,13 +218,11 @@ export function StarField() {
         ctx.lineTo(comet.x - comet.vx * (comet.length / 5), comet.y - comet.vy * (comet.length / 5))
         ctx.stroke()
 
-        // Draw Comet Head Glow
         ctx.beginPath()
         ctx.fillStyle = `rgba(255, 255, 255, ${comet.alpha})`
         ctx.arc(comet.x, comet.y, comet.thickness * 1.2, 0, Math.PI * 2)
         ctx.fill()
 
-        // Extra subtle glow
         ctx.shadowBlur = 10
         ctx.shadowColor = 'rgba(100, 150, 255, 0.5)'
         ctx.stroke()
@@ -256,12 +232,10 @@ export function StarField() {
       requestAnimationFrame(render)
     }
 
-    // Handle mouse move globally to catch events even when hovering over content
     const handleGlobalMouseMove = (e: MouseEvent) => {
       if (!container) return
       const rect = container.getBoundingClientRect()
 
-      // Check if mouse is inside the container
       if (
         e.clientX >= rect.left &&
         e.clientX <= rect.right &&
