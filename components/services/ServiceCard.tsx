@@ -65,7 +65,10 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
         >
           <div
             className={cn(
-              'w-full p-6 md:p-8 rounded-[32px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500 flex flex-col',
+              'w-full p-6 md:p-8 rounded-[32px] backdrop-blur-xl border border-white/10 shadow-2xl transition-all duration-500 flex flex-col',
+              isActive
+                ? 'bg-white/10 shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]'
+                : 'bg-white/5',
               'group-hover:bg-white/10 group-hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]'
             )}
           >
