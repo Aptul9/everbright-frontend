@@ -99,7 +99,7 @@ export function Projects() {
     <>
       <section
         id="progetti"
-        className="relative w-full bg-black text-white pt-12 pb-24 lg:pt-12 lg:pb-24 overflow-hidden min-h-screen flex flex-col justify-center"
+        className="relative z-10 w-full text-white pt-12 pb-24 lg:pt-12 lg:pb-24 overflow-hidden min-h-screen flex flex-col justify-center"
       >
         <div className="container mx-auto px-4 lg:px-24 xl:px-32 max-w-[1400px] relative z-10 flex flex-col space-y-20 lg:space-y-24">
           <div

@@ -107,7 +107,7 @@ export function Services() {
     <>
       <section
         id="servizi"
-        className="relative w-full bg-black text-white py-12 md:py-20 overflow-hidden"
+        className="relative z-10 w-full text-white py-12 md:py-20 overflow-hidden"
       >
         <div className="container mx-auto px-4 lg:px-24 xl:px-32 max-w-[1400px] relative z-10 flex flex-col space-y-8 md:space-y-12 mb-8">
           <div
@@ -182,15 +182,15 @@ export function Services() {
 
           <style jsx>{`
             div {
-              --card-width: 85vw;
-              --card-half-width: 42.5vw;
+              --card-width: 80vw;
+              --card-half-width: 40vw;
               --card-gap: 16px;
               --half-gap: 8px;
             }
             @media (min-width: 768px) {
               div {
-                --card-width: 65vw;
-                --card-half-width: 32.5vw;
+                --card-width: 55vw;
+                --card-half-width: 27.5vw;
                 --card-gap: 64px;
                 --half-gap: 32px;
               }

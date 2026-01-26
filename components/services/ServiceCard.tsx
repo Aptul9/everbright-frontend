@@ -23,7 +23,7 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
         ref={ref}
         onClick={onClick}
         className={cn(
-          'relative w-full h-[450px] md:h-[700px] cursor-pointer group transition-all duration-500 overflow-visible',
+          'relative w-full h-[400px] md:h-[550px] cursor-pointer group transition-all duration-500 overflow-visible',
           isActive ? 'scale-100 opacity-100 blur-0' : 'scale-90 opacity-40 blur-[1px]'
         )}
       >
@@ -65,8 +65,8 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
         >
           <div
             className={cn(
-              'w-full p-6 md:p-8 rounded-[24px] backdrop-blur-3xl bg-white/10 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] transition-all duration-500 flex flex-col',
-              'group-hover:bg-white/15 group-hover:border-white/20 group-hover:shadow-[0_8px_32px_0_rgba(34,211,238,0.15)]'
+              'w-full p-6 md:p-8 rounded-[32px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl transition-all duration-500 flex flex-col',
+              'group-hover:bg-white/10 group-hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]'
             )}
           >
             <div className="space-y-4">
