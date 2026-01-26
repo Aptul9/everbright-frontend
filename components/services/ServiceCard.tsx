@@ -11,17 +11,18 @@ interface ServiceCardProps {
   service: (typeof servicesData)[0]
   index: number
   isActive: boolean
-  onClick: () => void
+  onCenter: () => void
+  onOpen: () => void
 }
 
 export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
-  ({ service, isActive, onClick }, ref) => {
+  ({ service, isActive, onCenter, onOpen }, ref) => {
     const { labels } = useThaiData()
 
     return (
       <div
         ref={ref}
-        onClick={onClick}
+        onClick={onCenter}
         className={cn(
           'relative w-full h-[400px] md:h-[550px] cursor-pointer group/card transition-all duration-500 overflow-visible',
           isActive ? 'scale-100 opacity-100 blur-0' : 'scale-90 opacity-40 blur-[1px]'
@@ -80,6 +81,12 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
                   ? 'bg-white/10 shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]'
                   : 'bg-white/5'
               )}
+              onClick={(e) => {
+                if (isActive) {
+                  e.stopPropagation()
+                  onOpen()
+                }
+              }}
             >
               <div className="space-y-4">
                 <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-white transition-transform duration-500 group-hover/glass:scale-105 origin-left">

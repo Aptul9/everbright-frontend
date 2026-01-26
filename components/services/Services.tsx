@@ -92,6 +92,14 @@ export function Services() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [handlePrev, handleNext])
 
+  const handleCardClick = (index: number) => {
+    if (isDragging || isTransitioning) return
+    if (index !== currentIndex) {
+      setIsTransitioning(true)
+      setCurrentIndex(index)
+    }
+  }
+
   const openService = (service: (typeof servicesData)[0]) => {
     if (isDragging) return
     setSelectedService(service)
@@ -173,7 +181,8 @@ export function Services() {
                     index={i}
                     service={service}
                     isActive={isActive}
-                    onClick={() => openService(service)}
+                    onCenter={() => handleCardClick(i)}
+                    onOpen={() => openService(service)}
                   />
                 </div>
               )
