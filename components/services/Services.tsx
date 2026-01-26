@@ -189,10 +189,44 @@ export function Services() {
             })}
           </div>
 
+          <div className="flex justify-center items-center gap-10 mt-12 md:hidden">
+            <button
+              onClick={handlePrev}
+              className="w-12 h-12 flex items-center justify-center bg-white/5 border border-white/10 rounded-full text-white transition-all duration-300 active:scale-75 active:bg-cyan-400/20 active:text-cyan-400 active:shadow-[0_0_20px_rgba(34,211,238,0.4)] active:border-cyan-400/40"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+
+            <div className="flex items-center gap-3">
+              {services.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => handleCardClick(i + services.length)}
+                  className={cn(
+                    'w-2 h-2 rounded-full transition-all duration-300',
+                    currentIndex % services.length === i
+                      ? 'bg-cyan-400 w-8 shadow-[0_0_10px_rgba(34,211,238,0.5)]'
+                      : 'bg-white/20'
+                  )}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={handleNext}
+              className="w-12 h-12 flex items-center justify-center bg-white/5 border border-white/10 rounded-full text-white transition-all duration-300 active:scale-75 active:bg-cyan-400/20 active:text-cyan-400 active:shadow-[0_0_20px_rgba(34,211,238,0.4)] active:border-cyan-400/40"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+
           <style jsx>{`
             div {
-              --card-width: 80vw;
-              --card-half-width: 40vw;
+              --card-width: 75vw;
+              --card-half-width: 37.5vw;
               --card-gap: 16px;
               --half-gap: 8px;
             }
