@@ -18,10 +18,12 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
   const { isThai, labels } = useThaiData()
   const [isVisible, setIsVisible] = useState(false)
   const [touchedElement, setTouchedElement] = useState<string | null>(null)
+  const [triggerShine, setTriggerShine] = useState(false)
 
   useEffect(() => {
     if (isOpen) {
       const timer = setTimeout(() => setIsVisible(true), 10)
+      const shineTimer = setTimeout(() => setTriggerShine(true), 800)
       document.body.style.overflow = 'hidden'
 
       const handleKeyDown = (e: KeyboardEvent) => {
@@ -31,10 +33,12 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
 
       return () => {
         clearTimeout(timer)
+        clearTimeout(shineTimer)
         window.removeEventListener('keydown', handleKeyDown)
       }
     } else {
       const timer = setTimeout(() => setIsVisible(false), 300)
+      setTriggerShine(false)
       document.body.style.overflow = 'unset'
       return () => clearTimeout(timer)
     }
@@ -52,7 +56,7 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
     >
       <div
         className={cn(
-          'relative w-full max-w-5xl max-h-[85vh] md:h-[600px] md:max-h-none flex flex-col md:flex-row bg-[#0a0a0a] border border-white/10 rounded-[30px] shadow-2xl transition-all duration-500 shadow-cyan-900/20 overflow-hidden',
+          'relative w-full max-w-5xl md:min-h-[600px] max-h-[90vh] flex flex-col md:flex-row bg-[#0a0a0a] border border-white/10 rounded-[30px] shadow-2xl transition-all duration-500 shadow-cyan-900/20 overflow-hidden',
           isOpen ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'
         )}
         onClick={(e) => e.stopPropagation()}
@@ -64,14 +68,14 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
           <X className="w-5 h-5" />
         </button>
 
-        <div className="relative w-full md:w-[40%] h-48 md:h-full shrink-0">
+        <div className="relative w-full md:w-[40%] h-64 md:h-auto md:self-stretch shrink-0 overflow-hidden">
           <Image
             src={service?.image || ''}
             alt={service?.title || ''}
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black via-black/50 to-transparent opacity-90" />
+          <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
           <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end items-start space-y-4">
             <div
               className={cn(
@@ -104,7 +108,7 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
           </div>
         </div>
 
-        <div className="flex-1 p-6 md:p-10 flex flex-col justify-between bg-black/40 backdrop-blur-sm overflow-y-auto md:overflow-hidden">
+        <div className="flex-1 p-6 md:p-8 flex flex-col justify-between bg-white/[0.02] backdrop-blur-3xl overflow-y-auto overflow-x-hidden custom-scrollbar">
           <div className="space-y-8">
             <div
               className="space-y-3 group/item cursor-default"
@@ -218,7 +222,8 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
               'w-full mt-6 flex items-center justify-center gap-2 bg-white text-black py-4 rounded-xl font-bold tracking-wider uppercase transition-all duration-300 group/btn',
               'hover:bg-cyan-400 hover:scale-105',
               'active:scale-90 active:bg-cyan-500 active:shadow-[0_0_40px_rgba(34,211,238,0.8)]',
-              touchedElement === 'contact-btn' && 'bg-cyan-400 scale-105 shadow-[0_0_30px_rgba(34,211,238,0.5)]'
+              touchedElement === 'contact-btn' && 'bg-cyan-400 scale-105 shadow-[0_0_30px_rgba(34,211,238,0.5)]',
+              triggerShine && 'animate-button-glow'
             )}
           >
             <span>{labels.contact}</span>
