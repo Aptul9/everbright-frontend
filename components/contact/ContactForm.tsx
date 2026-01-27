@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { CheckCircle2, AlertCircle } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import { sendEmail } from '@/app/actions/sendEmail'
 import { ShineInput } from '@/components/effects/shine-input'
 import { formStructure } from './form-config'
@@ -20,9 +21,10 @@ interface ContactFormData {
 
 interface ContactFormProps {
   onSuccess: () => void
+  triggerAnimation?: boolean
 }
 
-export function ContactForm({ onSuccess }: ContactFormProps) {
+export function ContactForm({ onSuccess, triggerAnimation }: ContactFormProps) {
   const { isThai, labels: contextLabels } = useThaiData()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -139,14 +141,15 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           disabled={isSubmitting || submitStatus === 'success'}
           onTouchStart={() => setTouchedElement('submit')}
           onTouchEnd={() => setTouchedElement(null)}
-          className={`w-full font-bold rounded-full py-4 md:py-6 text-sm md:text-lg transition-all relative overflow-hidden
-                            ${
-                              submitStatus === 'success'
-                                ? 'bg-green-500 text-white shadow-[0_0_30px_rgba(34,197,94,0.4)]'
-                                : 'bg-white text-black hover:bg-cyan-400 hover:text-black shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)]'
-                            } 
-                            ${touchedElement === 'submit' ? 'scale-105' : ''} 
-                            ${isSubmitting ? 'opacity-80' : ''}`}
+          className={cn(
+            'w-full font-bold rounded-full py-4 md:py-6 text-sm md:text-lg transition-all relative overflow-hidden',
+            submitStatus === 'success'
+              ? 'bg-green-500 text-white shadow-[0_0_30px_rgba(34,197,94,0.4)]'
+              : 'bg-white text-black hover:bg-cyan-400 hover:text-black shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)]',
+            touchedElement === 'submit' && 'scale-105',
+            isSubmitting && 'opacity-80',
+            (isSubmitting || triggerAnimation) && 'animate-button-glow'
+          )}
         >
           <span className="relative z-10 flex items-center justify-center gap-3">
             {isSubmitting ? (

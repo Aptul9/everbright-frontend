@@ -17,6 +17,7 @@ interface ServiceModalProps {
 export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceModalProps) {
   const { isThai, labels } = useThaiData()
   const [isVisible, setIsVisible] = useState(false)
+  const [touchedElement, setTouchedElement] = useState<string | null>(null)
 
   useEffect(() => {
     if (isOpen) {
@@ -72,11 +73,31 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
           />
           <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black via-black/50 to-transparent opacity-90" />
           <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end items-start space-y-4">
-            <div className="group/title cursor-default space-y-4 transition-transform duration-300 hover:scale-105 origin-bottom-left">
-              <span className="px-2.5 py-1 text-[10px] font-bold tracking-[0.2em] uppercase bg-cyan-500 text-black rounded-full transition-all duration-300 group-hover/title:bg-white">
+            <div
+              className={cn(
+                'group/title cursor-default space-y-4 transition-transform duration-300 origin-bottom-left',
+                (touchedElement === 'title' || touchedElement === 'image') && 'scale-105',
+                'md:hover:scale-105'
+              )}
+              onTouchStart={() => setTouchedElement('title')}
+              onTouchEnd={() => setTouchedElement(null)}
+            >
+              <span
+                className={cn(
+                  'px-2.5 py-1 text-[10px] font-bold tracking-[0.2em] uppercase bg-cyan-500 text-black rounded-full transition-all duration-300',
+                  touchedElement === 'title' && 'bg-white',
+                  'group-hover/title:bg-white'
+                )}
+              >
                 {service?.category}
               </span>
-              <h2 className="text-3xl md:text-4xl font-black tracking-tighter text-white uppercase leading-tight transition-colors duration-300 group-hover/title:text-cyan-400">
+              <h2
+                className={cn(
+                  'text-3xl md:text-4xl font-black tracking-tighter text-white uppercase leading-tight transition-colors duration-300',
+                  touchedElement === 'title' && 'text-cyan-400',
+                  'group-hover/title:text-cyan-400'
+                )}
+              >
                 {service?.title}
               </h2>
             </div>
@@ -85,30 +106,66 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
 
         <div className="flex-1 p-6 md:p-10 flex flex-col justify-between bg-black/40 backdrop-blur-sm overflow-y-auto md:overflow-hidden">
           <div className="space-y-8">
-            <div className="space-y-3 group/item cursor-default">
-              <div className="flex items-center gap-2 text-cyan-400 transition-all duration-300 group-hover/item:text-cyan-300 group-hover/item:scale-110 origin-left">
+            <div
+              className="space-y-3 group/item cursor-default"
+              onTouchStart={() => setTouchedElement('overview')}
+              onTouchEnd={() => setTouchedElement(null)}
+            >
+              <div
+                className={cn(
+                  'flex items-center gap-2 text-cyan-400 transition-all duration-300 origin-left',
+                  touchedElement === 'overview' && 'text-cyan-300 scale-110',
+                  'group-hover/item:text-cyan-300 group-hover/item:scale-110'
+                )}
+              >
                 <Zap className="w-4 h-4" />
                 <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">
                   {isThai ? 'ภาพรวม' : 'Overview'}
                 </h3>
               </div>
-              <p className="text-gray-200 text-sm md:text-base leading-relaxed font-normal transition-all duration-500 group-hover/item:text-white group-hover/item:scale-[1.02] origin-left">
+              <p
+                className={cn(
+                  'text-gray-200 text-sm md:text-base leading-relaxed font-normal transition-all duration-500 origin-left',
+                  touchedElement === 'overview' && 'text-white scale-[1.02]',
+                  'group-hover/item:text-white group-hover/item:scale-[1.02]'
+                )}
+              >
                 {service?.details.overview}
               </p>
             </div>
 
-            <div className="space-y-3 group/item cursor-default">
-              <div className="flex items-center gap-2 text-purple-400 transition-all duration-300 group-hover/item:text-purple-300 group-hover/item:scale-110 origin-left">
+            <div
+              className="space-y-3 group/item cursor-default"
+              onTouchStart={() => setTouchedElement('features')}
+              onTouchEnd={() => setTouchedElement(null)}
+            >
+              <div
+                className={cn(
+                  'flex items-center gap-2 text-purple-400 transition-all duration-300 origin-left',
+                  touchedElement === 'features' && 'text-purple-300 scale-110',
+                  'group-hover/item:text-purple-300 group-hover/item:scale-110'
+                )}
+              >
                 <Layers className="w-4 h-4" />
                 <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">
                   {isThai ? 'สิ่งที่เรานำเสนอ' : 'Cosa Offriamo'}
                 </h3>
               </div>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 transition-all duration-300 group-hover/item:scale-[1.02] origin-left">
+              <ul
+                className={cn(
+                  'grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 transition-all duration-300 origin-left',
+                  touchedElement === 'features' && 'scale-[1.02]',
+                  'group-hover/item:scale-[1.02]'
+                )}
+              >
                 {service?.details.features.slice(0, 4).map((feature, i) => (
                   <li
                     key={i}
-                    className="flex items-center gap-2 text-sm text-gray-400 transition-colors duration-500 group-hover/item:text-gray-200"
+                    className={cn(
+                      'flex items-center gap-2 text-sm text-gray-400 transition-colors duration-500',
+                      touchedElement === 'features' && 'text-gray-200',
+                      'group-hover/item:text-gray-200'
+                    )}
                   >
                     <div className="w-1 h-1 rounded-full bg-purple-400" />
                     {feature}
@@ -117,18 +174,34 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
               </ul>
             </div>
 
-            <div className="space-y-4 pt-4 border-t border-white/5 group/stack cursor-default">
-              <div className="flex items-center gap-2 text-white transition-all duration-300 group-hover/stack:text-cyan-400 group-hover/stack:scale-110 origin-left">
+            <div
+              className="space-y-4 pt-4 border-t border-white/5 group/stack cursor-default"
+              onTouchStart={() => setTouchedElement('stack')}
+              onTouchEnd={() => setTouchedElement(null)}
+            >
+              <div
+                className={cn(
+                  'flex items-center gap-2 text-white transition-all duration-300 origin-left',
+                  touchedElement === 'stack' && 'text-cyan-400 scale-110',
+                  'group-hover/stack:text-cyan-400 group-hover/stack:scale-110'
+                )}
+              >
                 <Rocket className="w-4 h-4 text-cyan-400" />
                 <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">
                   {isThai ? 'เทคโนโลยี' : 'Tecnologie'}
                 </h3>
               </div>
-              <div className="flex flex-wrap gap-2 transition-transform duration-300 group-hover/stack:scale-[1.02] origin-left">
+              <div
+                className={cn(
+                  'flex flex-wrap gap-2 transition-transform duration-300 origin-left',
+                  touchedElement === 'stack' && 'scale-[1.02]',
+                  'group-hover/stack:scale-[1.02]'
+                )}
+              >
                 {service?.details.techStack.map((tech, i) => (
                   <span
                     key={i}
-                    className="px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase bg-white/5 border border-white/10 rounded-md text-gray-400 transition-all duration-300 hover:bg-cyan-500 hover:text-black hover:border-cyan-500 hover:scale-110"
+                    className="px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase bg-white/5 border border-white/10 rounded-md text-gray-400 transition-all duration-300 hover:bg-cyan-500 hover:text-black hover:border-cyan-500 hover:scale-110 active:bg-cyan-500 active:text-black active:scale-110"
                   >
                     {tech}
                   </span>
@@ -139,7 +212,14 @@ export function ServiceModal({ isOpen, onClose, onContact, service }: ServiceMod
 
           <button
             onClick={onContact}
-            className="w-full mt-6 flex items-center justify-center gap-2 bg-white text-black py-4 rounded-xl font-bold tracking-wider uppercase hover:bg-cyan-400 transition-all duration-300 hover:scale-105 active:scale-95 group/btn"
+            onTouchStart={() => setTouchedElement('contact-btn')}
+            onTouchEnd={() => setTouchedElement(null)}
+            className={cn(
+              'w-full mt-6 flex items-center justify-center gap-2 bg-white text-black py-4 rounded-xl font-bold tracking-wider uppercase transition-all duration-300 group/btn',
+              'hover:bg-cyan-400 hover:scale-105',
+              'active:scale-90 active:bg-cyan-500 active:shadow-[0_0_40px_rgba(34,211,238,0.8)]',
+              touchedElement === 'contact-btn' && 'bg-cyan-400 scale-105 shadow-[0_0_30px_rgba(34,211,238,0.5)]'
+            )}
           >
             <span>{labels.contact}</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />

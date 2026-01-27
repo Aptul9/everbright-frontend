@@ -50,17 +50,15 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-100 flex justify-center items-start md:items-center p-4 sm:p-6 overflow-y-auto transition-all duration-500 ${
-        isOpen
+      className={`fixed inset-0 z-100 flex justify-center items-start md:items-center p-4 sm:p-6 overflow-y-auto transition-all duration-500 ${isOpen
           ? 'bg-black/40 backdrop-blur-md opacity-100'
           : 'bg-black/0 backdrop-blur-none opacity-0 pointer-events-none'
-      }`}
+        }`}
       onClick={onClose}
     >
       <div
-        className={`relative w-full max-w-2xl my-auto bg-zinc-900/90 backdrop-blur-xl border border-white/20 rounded-[32px] shadow-[0_0_60px_rgba(34,211,238,0.15)] p-6 sm:p-8 md:p-12 overflow-hidden transition-all duration-500 transform group/form ${
-          isOpen ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-10 opacity-0'
-        } hover:shadow-[0_0_120px_rgba(34,211,238,0.3)] hover:border-cyan-400/30`}
+        className={`relative w-full max-w-2xl my-auto bg-zinc-900/90 backdrop-blur-xl border border-white/20 rounded-[32px] shadow-[0_0_60px_rgba(34,211,238,0.15)] p-6 sm:p-8 md:p-12 overflow-hidden transition-all duration-500 transform group/form ${isOpen ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-10 opacity-0'
+          } hover:shadow-[0_0_120px_rgba(34,211,238,0.3)] hover:border-cyan-400/30`}
         onClick={(e) => e.stopPropagation()}
       >
         <div
@@ -97,7 +95,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
           </p>
         </div>
 
-        <ContactForm onSuccess={onClose} />
+        <ContactForm onSuccess={onClose} triggerAnimation={triggerShine} />
       </div>
     </div>
   )

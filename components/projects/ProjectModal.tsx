@@ -27,6 +27,7 @@ interface ProjectModalProps {
 export function ProjectModal({ isOpen, onClose, onContact, project }: ProjectModalProps) {
   const { isThai, labels } = useThaiData()
   const [isVisible, setIsVisible] = useState(false)
+  const [touchedElement, setTouchedElement] = useState<string | null>(null)
 
   useEffect(() => {
     if (isOpen) {
@@ -73,11 +74,31 @@ export function ProjectModal({ isOpen, onClose, onContact, project }: ProjectMod
           />
           <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black via-black/50 to-transparent opacity-90" />
           <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end items-start space-y-4">
-            <div className="group/title cursor-default space-y-4 transition-transform duration-300 hover:scale-105 origin-bottom-left">
-              <span className="px-2.5 py-1 text-[10px] font-bold tracking-[0.2em] uppercase bg-cyan-500 text-black rounded-full transition-all duration-300 group-hover/title:bg-white">
+            <div
+              className={cn(
+                'group/title cursor-default space-y-4 transition-transform duration-300 origin-bottom-left',
+                (touchedElement === 'title' || touchedElement === 'image') && 'scale-105',
+                'md:hover:scale-105'
+              )}
+              onTouchStart={() => setTouchedElement('title')}
+              onTouchEnd={() => setTouchedElement(null)}
+            >
+              <span
+                className={cn(
+                  'px-2.5 py-1 text-[10px] font-bold tracking-[0.2em] uppercase bg-cyan-500 text-black rounded-full transition-all duration-300',
+                  touchedElement === 'title' && 'bg-white',
+                  'group-hover/title:bg-white'
+                )}
+              >
                 {project?.category}
               </span>
-              <h2 className="text-3xl md:text-4xl font-black tracking-tighter text-white uppercase leading-tight transition-colors duration-300 group-hover/title:text-cyan-400">
+              <h2
+                className={cn(
+                  'text-3xl md:text-4xl font-black tracking-tighter text-white uppercase leading-tight transition-colors duration-300',
+                  touchedElement === 'title' && 'text-cyan-400',
+                  'group-hover/title:text-cyan-400'
+                )}
+              >
                 {project?.title}
               </h2>
             </div>
@@ -86,42 +107,90 @@ export function ProjectModal({ isOpen, onClose, onContact, project }: ProjectMod
 
         <div className="flex-1 p-6 md:p-10 flex flex-col justify-between bg-black/40 backdrop-blur-sm overflow-y-auto md:overflow-hidden">
           <div className="space-y-6 md:space-y-8">
-            <div className="space-y-2 group/item cursor-default">
-              <div className="flex items-center gap-2 text-cyan-400 transition-all duration-300 group-hover/item:text-cyan-300 group-hover/item:scale-110 origin-left">
+            <div
+              className="space-y-2 group/item cursor-default"
+              onTouchStart={() => setTouchedElement('situation')}
+              onTouchEnd={() => setTouchedElement(null)}
+            >
+              <div
+                className={cn(
+                  'flex items-center gap-2 text-cyan-400 transition-all duration-300 origin-left',
+                  touchedElement === 'situation' && 'text-cyan-300 scale-110',
+                  'group-hover/item:text-cyan-300 group-hover/item:scale-110'
+                )}
+              >
                 <Target className="w-4 h-4" />
                 <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">
                   {isThai ? 'สถานการณ์' : 'Situation'}
                 </h3>
               </div>
-              <p className="text-gray-200 text-sm md:text-base leading-relaxed font-normal transition-all duration-500 group-hover/item:text-white group-hover/item:scale-[1.02] origin-left">
+              <p
+                className={cn(
+                  'text-gray-200 text-sm md:text-base leading-relaxed font-normal transition-all duration-500 origin-left',
+                  touchedElement === 'situation' && 'text-white scale-[1.02]',
+                  'group-hover/item:text-white group-hover/item:scale-[1.02]'
+                )}
+              >
                 {project?.details.situation}
               </p>
             </div>
 
-            <div className="space-y-2 group/item cursor-default">
-              <div className="flex items-center gap-2 text-purple-400 transition-all duration-300 group-hover/item:text-purple-300 group-hover/item:scale-110 origin-left">
+            <div
+              className="space-y-2 group/item cursor-default"
+              onTouchStart={() => setTouchedElement('solution')}
+              onTouchEnd={() => setTouchedElement(null)}
+            >
+              <div
+                className={cn(
+                  'flex items-center gap-2 text-purple-400 transition-all duration-300 origin-left',
+                  touchedElement === 'solution' && 'text-purple-300 scale-110',
+                  'group-hover/item:text-purple-300 group-hover/item:scale-110'
+                )}
+              >
                 <FlaskConical className="w-4 h-4" />
                 <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">
                   {isThai ? 'ทางแก้และผลลัพธ์' : 'Solution & Result'}
                 </h3>
               </div>
-              <p className="text-gray-200 text-sm md:text-base leading-relaxed font-normal transition-all duration-500 group-hover/item:text-white group-hover/item:scale-[1.02] origin-left">
+              <p
+                className={cn(
+                  'text-gray-200 text-sm md:text-base leading-relaxed font-normal transition-all duration-500 origin-left',
+                  touchedElement === 'solution' && 'text-white scale-[1.02]',
+                  'group-hover/item:text-white group-hover/item:scale-[1.02]'
+                )}
+              >
                 {project?.details.action} {project?.details.result}
               </p>
             </div>
 
-            <div className="space-y-4 pt-4 border-t border-white/5 group/stack cursor-default">
-              <div className="flex items-center gap-2 text-white transition-all duration-300 group-hover/stack:text-cyan-400 group-hover/stack:scale-110 origin-left">
+            <div
+              className="space-y-4 pt-4 border-t border-white/5 group/stack cursor-default"
+              onTouchStart={() => setTouchedElement('stack')}
+              onTouchEnd={() => setTouchedElement(null)}
+            >
+              <div
+                className={cn(
+                  'flex items-center gap-2 text-white transition-all duration-300 origin-left',
+                  touchedElement === 'stack' && 'text-cyan-400 scale-110',
+                  'group-hover/stack:text-cyan-400 group-hover/stack:scale-110'
+                )}
+              >
                 <Rocket className="w-4 h-4 text-cyan-400" />
                 <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase">
                   {isThai ? 'เทคโนโลยีที่ใช้' : 'Tech Stack'}
                 </h3>
               </div>
-              <div className="flex flex-wrap gap-2 transition-transform duration-300 group-hover/stack:scale-[1.02] origin-left">
+              <div
+                className={cn(
+                  'flex flex-wrap gap-2 transition-transform duration-300 origin-left',
+                  touchedElement === 'stack' && 'scale-[1.02]',
+                  'group-hover/stack:scale-[1.02]'
+                )}
+              >
                 {project?.details.techStack.map((tech, i) => (
                   <span
                     key={i}
-                    className="px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase bg-white/5 border border-white/10 rounded-md text-gray-400 transition-all duration-300 hover:bg-cyan-500 hover:text-black hover:border-cyan-500 hover:scale-110"
+                    className="px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase bg-white/5 border border-white/10 rounded-md text-gray-400 transition-all duration-300 hover:bg-cyan-500 hover:text-black hover:border-cyan-500 hover:scale-110 active:bg-cyan-500 active:text-black active:scale-110"
                   >
                     {tech}
                   </span>
@@ -132,7 +201,14 @@ export function ProjectModal({ isOpen, onClose, onContact, project }: ProjectMod
 
           <button
             onClick={onContact}
-            className="w-full mt-6 flex items-center justify-center gap-2 bg-white text-black py-4 rounded-xl font-bold tracking-wider uppercase hover:bg-cyan-400 transition-all duration-300 hover:scale-105 active:scale-95 group/btn shrink-0"
+            onTouchStart={() => setTouchedElement('contact-btn')}
+            onTouchEnd={() => setTouchedElement(null)}
+            className={cn(
+              'w-full mt-6 flex items-center justify-center gap-2 bg-white text-black py-4 rounded-xl font-bold tracking-wider uppercase transition-all duration-300 group/btn shrink-0',
+              'hover:bg-cyan-400 hover:scale-105',
+              'active:scale-90 active:bg-cyan-500 active:shadow-[0_0_40px_rgba(34,211,238,0.8)]',
+              touchedElement === 'contact-btn' && 'bg-cyan-400 scale-105 shadow-[0_0_30px_rgba(34,211,238,0.5)]'
+            )}
           >
             <span>{labels.contact}</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
