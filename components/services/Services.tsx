@@ -115,7 +115,7 @@ export function Services() {
     <>
       <section
         id="servizi"
-        className="relative z-10 w-full text-white pt-8 pb-12 md:pt-0 md:pb-16 overflow-hidden"
+        className="relative z-10 w-full text-white pt-8 pb-4 md:pt-0 md:pb-4 overflow-hidden"
       >
         <div className="container mx-auto px-4 lg:px-24 xl:px-32 max-w-[1400px] relative z-10 flex flex-col space-y-8 md:space-y-12 mb-4 md:mb-8">
           <div
