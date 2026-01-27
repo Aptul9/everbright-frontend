@@ -78,9 +78,8 @@ export function Company() {
             ref={sectionRef}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className={`flex flex-col md:flex-row items-center gap-16 md:gap-24 group transition-all duration-700 ${
-              isVisible || isHovered ? 'opacity-100 translate-y-0' : 'opacity-20 translate-y-20'
-            }`}
+            className={`flex flex-col md:flex-row items-center gap-16 md:gap-24 group transition-all duration-700 ${isVisible || isHovered ? 'opacity-100 translate-y-0' : 'opacity-20 translate-y-20'
+              }`}
           >
             <div
               className="w-full md:w-1/2 relative transition-transform duration-[1.5s]"
@@ -91,12 +90,12 @@ export function Company() {
                 className={`absolute inset-0 -z-10 pointer-events-none transition-[filter] duration-500 group-hover:delay-[1500ms] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] ${touchedElement === 'image' ? 'delay-[1500ms] drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]' : ''}`}
               >
                 <div
-                  className={`relative h-125 w-full rounded-[32px] bg-black transition-transform duration-[1.5s] group-hover:scale-105 ${touchedElement === 'image' ? 'scale-105' : ''}`}
+                  className={`relative h-80 md:h-125 w-full rounded-[32px] bg-black transition-transform duration-[1.5s] group-hover:scale-105 ${touchedElement === 'image' ? 'scale-105' : ''}`}
                 />
               </div>
 
               <div
-                className={`relative h-125 w-full rounded-[32px] overflow-hidden transition-transform duration-[1.5s] group-hover:scale-105 ${touchedElement === 'image' ? 'scale-105' : ''}`}
+                className={`relative h-80 md:h-125 w-full rounded-[32px] overflow-hidden transition-transform duration-[1.5s] group-hover:scale-105 ${touchedElement === 'image' ? 'scale-105' : ''}`}
               >
                 <Image
                   src="/company.png"
@@ -176,19 +175,18 @@ export function Company() {
                   style={
                     shouldPulse
                       ? {
-                          boxShadow:
-                            '0 0 80px rgba(255, 255, 255, 0.9), 0 0 40px rgba(255, 255, 255, 0.6)',
-                          transform: 'scale(1.1)',
-                        }
+                        boxShadow:
+                          '0 0 80px rgba(255, 255, 255, 0.9), 0 0 40px rgba(255, 255, 255, 0.6)',
+                        transform: 'scale(1.1)',
+                      }
                       : {}
                   }
                   className={`font-bold px-10 h-14 rounded-full text-sm tracking-[0.2em] uppercase active:scale-95 relative z-50
                                         ${shouldPulse ? 'animate-pulse' : ''}
-                                        ${
-                                          touchedElement === 'contact'
-                                            ? 'bg-cyan-400 text-black scale-105 shadow-[0_0_30px_rgba(34,211,238,0.4)]'
-                                            : 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105'
-                                        } ${!shouldPulse && !touchedElement ? 'transition-all duration-300' : ''}`}
+                                        ${touchedElement === 'contact'
+                      ? 'bg-cyan-400 text-black scale-105 shadow-[0_0_30px_rgba(34,211,238,0.4)]'
+                      : 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-105'
+                    } ${!shouldPulse && !touchedElement ? 'transition-all duration-300' : ''}`}
                   onClick={() => {
                     setTimeout(() => setIsContactOpen(true), 300)
                   }}
