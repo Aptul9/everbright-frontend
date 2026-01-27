@@ -28,11 +28,16 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
           isActive ? 'scale-100 opacity-100 blur-0' : 'scale-90 opacity-40 blur-[1px]'
         )}
       >
-        <div className="relative w-full h-full transition-all duration-700 ease-out group-hover/card:scale-105">
+        <div
+          className={cn(
+            'relative w-full h-full transition-all duration-700 ease-out',
+            isActive ? 'group-hover/card:scale-105' : ''
+          )}
+        >
           <div
             className={cn(
               'absolute inset-0 -z-10 pointer-events-none transition-[filter] duration-500',
-              'group-hover/card:delay-[700ms] group-hover/card:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]'
+              isActive ? 'group-hover/card:delay-[700ms] group-hover/card:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]' : ''
             )}
           >
             <div className="w-full h-[85%] rounded-[32px] bg-black" />
@@ -70,15 +75,14 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
               'absolute z-20 transition-all duration-500',
               'bottom-0 left-4 right-4',
               'md:bottom-0 md:left-[8%] md:right-[8%]',
-              'group-hover/card:translate-y-[-8px]'
+              isActive ? 'group-hover/card:translate-y-[-8px]' : ''
             )}
           >
             <div
               className={cn(
                 'w-full p-6 md:p-8 rounded-[32px] backdrop-blur-xl border border-white/10 shadow-2xl transition-all duration-500 flex flex-col group/glass',
-                'hover:scale-[1.02] hover:bg-white/10 hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.15)]',
                 isActive
-                  ? 'bg-white/10 shadow-[inset_0_0_30px_rgba(255,255,255,0.1)]'
+                  ? 'bg-white/10 shadow-[inset_0_0_30px_rgba(255,255,255,0.1)] hover:scale-[1.02] hover:bg-white/10 hover:shadow-[inset_0_0_30px_rgba(255,255,255,0.15)]'
                   : 'bg-white/5'
               )}
               onClick={(e) => {
@@ -89,21 +93,46 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
               }}
             >
               <div className="space-y-4">
-                <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-white transition-transform duration-500 group-hover/glass:scale-105 origin-left">
+                <h3
+                  className={cn(
+                    'text-2xl md:text-3xl font-bold tracking-tight text-white transition-transform duration-500 origin-left',
+                    isActive ? 'group-hover/glass:scale-105' : ''
+                  )}
+                >
                   {service.title}
                 </h3>
-                <p className="text-sm md:text-base leading-relaxed text-gray-300 line-clamp-2 md:line-clamp-none transition-colors group-hover/glass:text-white">
+                <p
+                  className={cn(
+                    'text-sm md:text-base leading-relaxed text-gray-300 line-clamp-2 md:line-clamp-none transition-colors',
+                    isActive ? 'group-hover/glass:text-white' : ''
+                  )}
+                >
                   {service.description}
                 </p>
 
-                <p className="hidden md:block text-sm leading-relaxed text-gray-400 border-t border-white/10 pt-4 mt-4 transition-colors group-hover/glass:text-gray-300">
+                <p
+                  className={cn(
+                    'hidden md:block text-sm leading-relaxed text-gray-400 border-t border-white/10 pt-4 mt-4 transition-colors',
+                    isActive ? 'group-hover/glass:text-gray-300' : ''
+                  )}
+                >
                   {service.details.overview}
                 </p>
               </div>
 
-              <div className="flex items-center gap-3 mt-6 text-white font-bold tracking-[0.2em] transition-all duration-300 group-hover/glass:text-cyan-400 group-hover/glass:translate-x-2">
+              <div
+                className={cn(
+                  'flex items-center gap-3 mt-6 text-white font-bold tracking-[0.2em] transition-all duration-300',
+                  isActive ? 'group-hover/glass:text-cyan-400 group-hover/glass:translate-x-2' : ''
+                )}
+              >
                 <span className="uppercase text-xs">{labels.details}</span>
-                <ArrowRight className="w-5 h-5 transition-transform group-hover/glass:translate-x-1" />
+                <ArrowRight
+                  className={cn(
+                    'w-5 h-5 transition-transform',
+                    isActive ? 'group-hover/glass:translate-x-1' : ''
+                  )}
+                />
               </div>
             </div>
           </div>

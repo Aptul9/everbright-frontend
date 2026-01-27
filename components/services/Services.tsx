@@ -115,9 +115,9 @@ export function Services() {
     <>
       <section
         id="servizi"
-        className="relative z-10 w-full text-white py-12 md:py-20 overflow-hidden"
+        className="relative z-10 w-full text-white pt-8 pb-12 md:pt-0 md:pb-16 overflow-hidden"
       >
-        <div className="container mx-auto px-4 lg:px-24 xl:px-32 max-w-[1400px] relative z-10 flex flex-col space-y-8 md:space-y-12 mb-8">
+        <div className="container mx-auto px-4 lg:px-24 xl:px-32 max-w-[1400px] relative z-10 flex flex-col space-y-8 md:space-y-12 mb-4 md:mb-8">
           <div
             onTouchStart={() => setTouchedHeader(true)}
             onTouchEnd={() => setTouchedHeader(false)}
@@ -135,7 +135,7 @@ export function Services() {
         </div>
 
         <div
-          className="relative w-full overflow-hidden py-12"
+          className="relative w-full overflow-hidden py-12 md:pt-4 md:pb-12"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -189,10 +189,10 @@ export function Services() {
             })}
           </div>
 
-          <div className="flex justify-center items-center gap-10 mt-12 md:hidden">
+          <div className="flex justify-center items-center gap-10 mt-16 md:hidden">
             <button
               onClick={handlePrev}
-              className="w-12 h-12 flex items-center justify-center bg-white/5 border border-white/10 rounded-full text-white transition-all duration-300 active:scale-75 active:bg-cyan-400/20 active:text-cyan-400 active:shadow-[0_0_20px_rgba(34,211,238,0.4)] active:border-cyan-400/40"
+              className="w-14 h-14 flex items-center justify-center bg-white/5 border border-white/10 rounded-full text-white transition-all duration-300 active:scale-75 active:bg-cyan-400/20 active:text-cyan-400 active:shadow-[0_0_20px_rgba(34,211,238,0.4)] active:border-cyan-400/40"
               aria-label="Previous slide"
             >
               <ChevronLeft className="w-6 h-6" />
@@ -204,10 +204,10 @@ export function Services() {
                   key={i}
                   onClick={() => handleCardClick(i + services.length)}
                   className={cn(
-                    'w-2 h-2 rounded-full transition-all duration-300',
+                    'h-2.5 rounded-full transition-all duration-500',
                     currentIndex % services.length === i
-                      ? 'bg-cyan-400 w-8 shadow-[0_0_10px_rgba(34,211,238,0.5)]'
-                      : 'bg-white/20'
+                      ? 'bg-cyan-400 w-10 shadow-[0_0_15px_rgba(34,211,238,0.6)]'
+                      : 'bg-white/20 w-2.5'
                   )}
                   aria-label={`Go to slide ${i + 1}`}
                 />
@@ -216,11 +216,30 @@ export function Services() {
 
             <button
               onClick={handleNext}
-              className="w-12 h-12 flex items-center justify-center bg-white/5 border border-white/10 rounded-full text-white transition-all duration-300 active:scale-75 active:bg-cyan-400/20 active:text-cyan-400 active:shadow-[0_0_20px_rgba(34,211,238,0.4)] active:border-cyan-400/40"
+              className="w-14 h-14 flex items-center justify-center bg-white/5 border border-white/10 rounded-full text-white transition-all duration-300 active:scale-75 active:bg-cyan-400/20 active:text-cyan-400 active:shadow-[0_0_20px_rgba(34,211,238,0.4)] active:border-cyan-400/40"
               aria-label="Next slide"
             >
               <ChevronRight className="w-6 h-6" />
             </button>
+          </div>
+
+          {/* Desktop Pagination Dots Only */}
+          <div className="hidden md:flex justify-center items-center mt-12">
+            <div className="flex items-center gap-5 p-4 rounded-full bg-white/[0.02] border border-white/[0.05] backdrop-blur-sm">
+              {services.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => handleCardClick(i + services.length)}
+                  className={cn(
+                    'h-3 rounded-full transition-all duration-500 cursor-pointer',
+                    currentIndex % services.length === i
+                      ? 'bg-cyan-400 w-16 shadow-[0_0_25px_rgba(34,211,238,0.8)]'
+                      : 'bg-white/20 w-3 hover:bg-white/40 border border-white/10'
+                  )}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
+              ))}
+            </div>
           </div>
 
           <style jsx>{`
