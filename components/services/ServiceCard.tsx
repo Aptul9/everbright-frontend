@@ -13,16 +13,20 @@ interface ServiceCardProps {
   isActive: boolean
   onCenter: () => void
   onOpen: () => void
+  onMouseEnter?: () => void
+  onMouseLeave?: () => void
 }
 
 export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
-  ({ service, isActive, onCenter, onOpen }, ref) => {
+  ({ service, isActive, onCenter, onOpen, onMouseEnter, onMouseLeave }, ref) => {
     const { labels } = useThaiData()
 
     return (
       <div
         ref={ref}
         onClick={onCenter}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         className={cn(
           'relative w-full h-[400px] md:h-[550px] cursor-pointer group/card transition-all duration-500 overflow-visible',
           isActive ? 'scale-100 opacity-100 blur-0' : 'scale-90 opacity-40 blur-[1px]'
@@ -64,7 +68,7 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
 
             <div className="absolute top-6 right-6 z-10">
-              <span className="px-4 py-2 text-[10px] font-bold tracking-[0.2em] uppercase bg-black/60 backdrop-blur-md border border-white/10 rounded-full text-cyan-400 shadow-xl">
+              <span className="px-4 py-2 text-[10px] font-bold tracking-[0.2em] uppercase bg-black/60 backdrop-blur-md border border-white/10 rounded-full text-cyan-400 shadow-xl transition-all duration-500 hover:scale-110 hover:bg-white hover:text-black hover:px-6 hover:tracking-[0.4em] cursor-default">
                 {service.category}
               </span>
             </div>

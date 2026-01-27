@@ -25,6 +25,7 @@ interface ThaiContextType {
     next: () => void
     prev: () => void
     seek: (time: number) => void
+    playTrack: (index: number) => void
     currentTime: number
     duration: number
   }
@@ -34,7 +35,7 @@ const ThaiContext = createContext<ThaiContextType | undefined>(undefined)
 
 const PLAYLIST = [
   { name: 'Forfettaria Superstar', file: '/Forfettaria Superstar.mp3' },
-  // Add more here if needed
+  { name: 'Spritz e Spliff', file: '/Spritz e Spliff.mp3' },
 ]
 
 export function ThaiProvider({ children }: { children: React.ReactNode }) {
@@ -111,6 +112,12 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const playTrack = (index: number) => {
+    setCurrentSongIndex(index)
+    if (isPlaying) setTimeout(play, 100)
+    else play() // If it was paused, start playing the new track
+  }
+
   useEffect(() => {
     if (isThai) {
       document.body.classList.add('thai-mode')
@@ -180,6 +187,7 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
       next,
       prev,
       seek,
+      playTrack,
       currentTime: progress.current,
       duration: progress.duration,
     },

@@ -15,6 +15,7 @@ export function Services() {
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false)
   const [isContactOpen, setIsContactOpen] = useState(false)
   const [touchedHeader, setTouchedHeader] = useState(false)
+  const [isHoveringCard, setIsHoveringCard] = useState(false)
 
   const extendedServices = [...services, ...services, ...services]
   const [currentIndex, setCurrentIndex] = useState(services.length)
@@ -142,13 +143,29 @@ export function Services() {
         >
           <button
             onClick={handlePrev}
-            className="absolute left-4 md:left-12 top-1/2 -translate-y-1/2 z-30 p-3 bg-black/50 border border-white/10 rounded-full hover:bg-white hover:text-black transition-all duration-300 hidden md:flex"
+            className={cn(
+              "absolute left-4 md:left-12 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full transition-all duration-500 hidden md:flex items-center justify-center",
+              "border backdrop-blur-md",
+              isHoveringCard
+                ? "bg-white/10 border-white/40 text-white shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                : "bg-black/50 border-white/10 text-white/50",
+              "hover:bg-cyan-400 hover:border-cyan-400 hover:text-black hover:scale-110 hover:shadow-[0_0_30px_rgba(34,211,238,0.8)]"
+            )}
+            aria-label="Previous slide"
           >
             <ChevronLeft className="w-8 h-8" />
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 z-30 p-3 bg-black/50 border border-white/10 rounded-full hover:bg-white hover:text-black transition-all duration-300 hidden md:flex"
+            className={cn(
+              "absolute right-4 md:right-12 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full transition-all duration-500 hidden md:flex items-center justify-center",
+              "border backdrop-blur-md",
+              isHoveringCard
+                ? "bg-white/10 border-white/40 text-white shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                : "bg-black/50 border-white/10 text-white/50",
+              "hover:bg-cyan-400 hover:border-cyan-400 hover:text-black hover:scale-110 hover:shadow-[0_0_30px_rgba(34,211,238,0.8)]"
+            )}
+            aria-label="Next slide"
           >
             <ChevronRight className="w-8 h-8" />
           </button>
@@ -183,6 +200,8 @@ export function Services() {
                     isActive={isActive}
                     onCenter={() => handleCardClick(i)}
                     onOpen={() => openService(service)}
+                    onMouseEnter={() => setIsHoveringCard(true)}
+                    onMouseLeave={() => setIsHoveringCard(false)}
                   />
                 </div>
               )
