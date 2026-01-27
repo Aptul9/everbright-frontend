@@ -5,6 +5,7 @@ import { StarField } from '@/components/effects/StarField'
 import { Company } from '@/components/company/Company'
 import { Footer } from '@/components/footer/Footer'
 import { ClickSparkle } from '@/components/effects/ClickSparkle'
+import { ThaiMusicPlayer } from '@/components/effects/ThaiMusicPlayer'
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <Company />
       <Footer />
       <ClickSparkle />
+      <ThaiMusicPlayer />
     </main>
   )
 }
