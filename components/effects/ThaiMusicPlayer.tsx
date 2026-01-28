@@ -3,7 +3,87 @@
 import { useThaiData } from '@/lib/thai-context'
 import { Play, Pause, SkipBack, SkipForward, Music, List, Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
+
+function SoundVisualizer({ analyser, isPlaying }: { analyser: AnalyserNode | null, isPlaying: boolean }) {
+    const canvasRef = useRef<HTMLCanvasElement>(null)
+    const requestRef = useRef<number>(0)
+
+    useEffect(() => {
+        if (!analyser || !canvasRef.current) return
+
+        const canvas = canvasRef.current
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return
+
+        // Set higher resolution for the canvas
+        const dpr = window.devicePixelRatio || 1
+        const rect = canvas.getBoundingClientRect()
+        canvas.width = rect.width * dpr
+        canvas.height = rect.height * dpr
+        ctx.scale(dpr, dpr)
+
+        const bufferLength = analyser.frequencyBinCount
+        const dataArray = new Uint8Array(bufferLength)
+
+        const draw = () => {
+            requestRef.current = requestAnimationFrame(draw)
+            analyser.getByteFrequencyData(dataArray)
+
+            ctx.clearRect(0, 0, rect.width, rect.height)
+
+            const totalBars = 64 // Use a fixed number of bars for better distribution
+            const barWidth = (rect.width / totalBars) * 0.8
+            const gap = (rect.width / totalBars) * 0.2
+
+            let x = 0
+
+            for (let i = 0; i < totalBars; i++) {
+                // Map the frequency data to our restricted bar count
+                const dataIndex = Math.floor((i / totalBars) * (bufferLength / 2))
+                const value = dataArray[dataIndex]
+                const barHeight = (value / 255) * rect.height * 0.8
+
+                // Vibrant cyan gradient for bars
+                const gradient = ctx.createLinearGradient(0, rect.height, 0, 0)
+                gradient.addColorStop(0, '#22d3ee11')
+                gradient.addColorStop(0.5, '#22d3ee66')
+                gradient.addColorStop(1, '#22d3eeaa')
+
+                ctx.fillStyle = gradient
+
+                // Add glow to bars
+                ctx.shadowBlur = 10
+                ctx.shadowColor = '#22d3ee66'
+
+                // Draw rounded rect (simplified for canvas)
+                ctx.beginPath()
+                ctx.roundRect(x, rect.height - barHeight, barWidth, barHeight, [2, 2, 0, 0])
+                ctx.fill()
+
+                // Reset shadow for next bar performance
+                ctx.shadowBlur = 0
+
+                x += barWidth + gap
+            }
+        }
+
+        if (isPlaying) {
+            draw()
+        } else {
+            ctx.clearRect(0, 0, rect.width, rect.height)
+        }
+
+        return () => cancelAnimationFrame(requestRef.current)
+    }, [analyser, isPlaying])
+
+    return (
+        <canvas
+            ref={canvasRef}
+            className="absolute inset-0 w-full h-full pointer-events-none opacity-80 z-0 rounded-2xl"
+        />
+    )
+}
 
 export function ThaiMusicPlayer() {
     const { isThai, audio } = useThaiData()
@@ -75,12 +155,15 @@ export function ThaiMusicPlayer() {
                 {/* Glow Background (Stronger and Always slightly visible) */}
                 <div className="absolute inset-0 bg-cyan-500/10 rounded-2xl blur-3xl transition-all duration-500 group-hover/player:bg-cyan-500/30" />
 
-                <div className="bg-white/10 backdrop-blur-3xl border border-white/20 rounded-2xl p-5 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] flex items-center gap-6 min-w-[340px] relative z-10 hover:border-white/40 transition-all duration-500">
+                <div className="bg-white/10 backdrop-blur-3xl border border-white/20 rounded-2xl p-5 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] flex items-center gap-6 min-w-[340px] relative z-10 hover:border-white/40 transition-all duration-500 overflow-hidden">
+                    {/* Background Visualizer */}
+                    <SoundVisualizer analyser={audio.analyser} isPlaying={audio.isPlaying} />
+
                     {/* Album Art / Playlist Toggle */}
                     <button
                         onClick={() => setShowPlaylist(!showPlaylist)}
                         className={cn(
-                            "w-14 h-14 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-500 active:scale-95 group/icon",
+                            "w-14 h-14 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-500 active:scale-95 group/icon z-10",
                             showPlaylist ? "bg-cyan-500 shadow-[0_0_20px_rgba(34,211,238,0.6)]" : "bg-white/10 hover:bg-white/20"
                         )}
                     >
