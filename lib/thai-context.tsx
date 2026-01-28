@@ -1,8 +1,14 @@
 'use client'
 
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react'
+import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react'
 import { servicesData, projectsData } from './data'
 import { thaiServicesData, thaiProjectsData } from './thai-data'
+
+interface Track {
+  id: number
+  name: string
+  file: string
+}
 
 interface ThaiContextType {
   isThai: boolean
@@ -19,6 +25,7 @@ interface ThaiContextType {
   audio: {
     isPlaying: boolean
     currentSong: string
+    playlist: Track[]
     play: () => void
     pause: () => void
     toggle: () => void
@@ -33,105 +40,148 @@ interface ThaiContextType {
 
 const ThaiContext = createContext<ThaiContextType | undefined>(undefined)
 
-const PLAYLIST = [
-  { name: 'Forfettaria Superstar', file: '/Forfettaria Superstar.mp3' },
-  { name: 'Spritz e Spliff', file: '/Spritz e Spliff.mp3' },
-]
-
 export function ThaiProvider({ children }: { children: React.ReactNode }) {
   const [isThai, setIsThai] = useState(false)
   const [, setInput] = useState('')
   const lastToggleRef = useRef(0)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  const [playlist, setPlaylist] = useState<Track[]>([])
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
   const [progress, setProgress] = useState({ current: 0, duration: 0 })
 
-  useEffect(() => {
-    audioRef.current = new Audio(PLAYLIST[currentSongIndex].file)
-    audioRef.current.loop = true
-
-    const updateProgress = () => {
-      if (audioRef.current) {
-        setProgress({
-          current: audioRef.current.currentTime,
-          duration: audioRef.current.duration || 0,
-        })
-      }
-    }
-
-    audioRef.current.addEventListener('timeupdate', updateProgress)
-    audioRef.current.addEventListener('loadedmetadata', updateProgress)
-    audioRef.current.addEventListener('ended', () => {
-      if (PLAYLIST.length > 1) {
-        next()
-      } else {
-        setIsPlaying(false)
-      }
-    })
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.removeEventListener('timeupdate', updateProgress)
-        audioRef.current.removeEventListener('loadedmetadata', updateProgress)
-        audioRef.current.pause()
-      }
-    }
-  }, [currentSongIndex])
-
-  const play = () => {
+  const play = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.play().catch((e) => console.error('Audio play failed:', e))
       setIsPlaying(true)
     }
-  }
+  }, [])
 
-  const pause = () => {
+  const pause = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause()
       setIsPlaying(false)
     }
-  }
+  }, [])
 
-  const toggle = () => (isPlaying ? pause() : play())
+  const next = useCallback(() => {
+    if (playlist.length === 0) return
+    setCurrentSongIndex((prev) => (prev + 1) % playlist.length)
+  }, [playlist.length])
 
-  const next = () => {
-    setCurrentSongIndex((prev) => (prev + 1) % PLAYLIST.length)
-    if (isPlaying) setTimeout(play, 100)
-  }
+  const prev = useCallback(() => {
+    if (playlist.length === 0) return
+    setCurrentSongIndex((prev) => (prev - 1 + playlist.length) % playlist.length)
+  }, [playlist.length])
 
-  const prev = () => {
-    setCurrentSongIndex((prev) => (prev - 1 + PLAYLIST.length) % PLAYLIST.length)
-    if (isPlaying) setTimeout(play, 100)
-  }
+  const toggle = useCallback(() => {
+    if (isPlaying) {
+      pause()
+    } else {
+      play()
+    }
+  }, [isPlaying, pause, play])
 
-  const seek = (time: number) => {
+  const seek = useCallback((time: number) => {
     if (audioRef.current) {
       audioRef.current.currentTime = time
       setProgress((prev) => ({ ...prev, current: time }))
     }
-  }
+  }, [])
 
-  const playTrack = (index: number) => {
+  const playTrack = useCallback((index: number) => {
     setCurrentSongIndex(index)
-    if (isPlaying) setTimeout(play, 100)
-    else play() // If it was paused, start playing the new track
-  }
+    setIsPlaying(true)
+  }, [])
+
+  // Fetch playlist on mount
+  useEffect(() => {
+    fetch('/api/music')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setPlaylist(data)
+        }
+      })
+      .catch(err => console.error('Failed to fetch playlist:', err))
+  }, [])
+
+  // Handle Audio Instance
+  useEffect(() => {
+    if (playlist.length === 0) return
+
+    const track = playlist[currentSongIndex]
+    if (!track) return
+
+    // Pause and cleanup previous audio if it exists
+    if (audioRef.current) {
+      audioRef.current.pause()
+    }
+
+    const audio = new Audio(track.file)
+    audio.loop = true
+    audioRef.current = audio
+
+    const updateProgress = () => {
+      setProgress({
+        current: audio.currentTime,
+        duration: audio.duration || 0,
+      })
+    }
+
+    audio.addEventListener('timeupdate', updateProgress)
+    audio.addEventListener('loadedmetadata', updateProgress)
+
+    const handleEnded = () => {
+      if (playlist.length > 1) {
+        next()
+      } else {
+        setIsPlaying(false)
+      }
+    }
+    audio.addEventListener('ended', handleEnded)
+
+    // Sync initial play state
+    if (isPlaying) {
+      audio.play().catch(console.error)
+    }
+
+    return () => {
+      audio.removeEventListener('timeupdate', updateProgress)
+      audio.removeEventListener('loadedmetadata', updateProgress)
+      audio.removeEventListener('ended', handleEnded)
+      audio.pause()
+    }
+  }, [currentSongIndex, playlist, next])
+
+  // Handle Play/Pause
+  useEffect(() => {
+    if (!audioRef.current) return
+
+    if (isPlaying) {
+      audioRef.current.play().catch(console.error)
+    } else {
+      audioRef.current.pause()
+    }
+  }, [isPlaying])
+
+  const hasAutoPlayedRef = useRef(false)
 
   useEffect(() => {
     if (isThai) {
       document.body.classList.add('thai-mode')
-      // Resume if it was playing, or start if first time
-      if (!isPlaying) {
+      // Only auto-play once when entering Thai mode
+      if (!hasAutoPlayedRef.current && playlist.length > 0) {
+        hasAutoPlayedRef.current = true
         play()
       }
     } else {
       document.body.classList.remove('thai-mode')
-      // Pause when exiting Thai mode
+      hasAutoPlayedRef.current = false
       pause()
-      // Note: We don't reset currentTime here, so it resumes from same spot next time
     }
-  }, [isThai])
+  }, [isThai, playlist.length, play, pause])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -180,7 +230,8 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
       },
     audio: {
       isPlaying,
-      currentSong: PLAYLIST[currentSongIndex].name,
+      currentSong: playlist[currentSongIndex]?.name || 'Loading...',
+      playlist,
       play,
       pause,
       toggle,

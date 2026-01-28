@@ -1,20 +1,22 @@
 'use client'
 
 import { useThaiData } from '@/lib/thai-context'
-import { Play, Pause, SkipBack, SkipForward, Music, List } from 'lucide-react'
+import { Play, Pause, SkipBack, SkipForward, Music, List, Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 
 export function ThaiMusicPlayer() {
     const { isThai, audio } = useThaiData()
     const [showPlaylist, setShowPlaylist] = useState(false)
+    const [searchQuery, setSearchQuery] = useState('')
+
+    const filteredPlaylist = useMemo(() => {
+        return audio.playlist
+            .map((track, index) => ({ ...track, originalIndex: index }))
+            .filter(track => track.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    }, [audio.playlist, searchQuery])
 
     if (!isThai) return null
-
-    const PLAYLIST = [
-        { name: 'Forfettaria Superstar', id: 0 },
-        { name: 'Spritz e Spliff', id: 1 },
-    ]
 
     return (
         <div className="fixed bottom-6 right-6 z-[100] animate-in fade-in slide-in-from-bottom-5 duration-700">
@@ -22,34 +24,50 @@ export function ThaiMusicPlayer() {
                 {/* Playlist Dropdown */}
                 {showPlaylist && (
                     <div className="absolute bottom-[calc(100%+12px)] left-0 w-full bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        <div className="p-3 border-b border-white/10 bg-white/5">
-                            <p className="text-[10px] font-bold tracking-[0.2em] text-cyan-400 uppercase">Playlist</p>
+                        <div className="p-3 border-b border-white/10 bg-white/5 flex items-center justify-between gap-4">
+                            <p className="text-[10px] font-bold tracking-[0.2em] text-cyan-400 uppercase shrink-0">Playlist</p>
+                            <div className="relative flex-1 group/search">
+                                <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-white/30 group-focus-within/search:text-cyan-400 transition-colors" />
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    placeholder="Cerca canzone..."
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg py-1 pl-7 pr-2 text-[11px] text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-400/50 transition-all font-medium"
+                                />
+                            </div>
                         </div>
                         <div className="max-h-48 overflow-y-auto custom-scrollbar">
-                            {PLAYLIST.map((track) => (
-                                <button
-                                    key={track.id}
-                                    onClick={() => {
-                                        audio.playTrack(track.id)
-                                        setShowPlaylist(false)
-                                    }}
-                                    className={cn(
-                                        "w-full px-4 py-3 text-left text-sm transition-all flex items-center justify-between group/track",
-                                        audio.currentSong === track.name
-                                            ? "text-cyan-400 bg-cyan-400/20"
-                                            : "text-white/70 hover:text-white hover:bg-white/10"
-                                    )}
-                                >
-                                    <span className="font-medium">{track.name}</span>
-                                    {audio.currentSong === track.name && (
-                                        <div className="flex gap-0.5 items-center">
-                                            <div className="w-1 h-3 bg-cyan-400 animate-[pulse_0.8s_infinite]" />
-                                            <div className="w-1 h-2 bg-cyan-400 animate-[pulse_1s_infinite]" />
-                                            <div className="w-1 h-3 bg-cyan-400 animate-[pulse_1.2s_infinite]" />
-                                        </div>
-                                    )}
-                                </button>
-                            ))}
+                            {filteredPlaylist.length > 0 ? (
+                                filteredPlaylist.map((track) => (
+                                    <button
+                                        key={track.id}
+                                        onClick={() => {
+                                            audio.playTrack(track.originalIndex)
+                                            setShowPlaylist(false)
+                                        }}
+                                        className={cn(
+                                            "w-full px-4 py-3 text-left text-sm transition-all flex items-center justify-between group/track",
+                                            audio.currentSong === track.name
+                                                ? "text-cyan-400 bg-cyan-400/20"
+                                                : "text-white/70 hover:text-white hover:bg-white/10"
+                                        )}
+                                    >
+                                        <span className="font-medium truncate mr-2">{track.name}</span>
+                                        {audio.currentSong === track.name && (
+                                            <div className="flex gap-0.5 items-center shrink-0">
+                                                <div className="w-1 h-3 bg-cyan-400 animate-[pulse_0.8s_infinite]" />
+                                                <div className="w-1 h-2 bg-cyan-400 animate-[pulse_1s_infinite]" />
+                                                <div className="w-1 h-3 bg-cyan-400 animate-[pulse_1.2s_infinite]" />
+                                            </div>
+                                        )}
+                                    </button>
+                                ))
+                            ) : (
+                                <div className="px-4 py-8 text-center bg-white/5">
+                                    <p className="text-white/30 text-xs font-medium italic">Nessun brano trovato</p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
