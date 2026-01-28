@@ -26,6 +26,7 @@ interface ThaiContextType {
     isPlaying: boolean
     currentSong: string
     playlist: Track[]
+    setPlaylist: (playlist: Track[]) => void
     play: () => void
     pause: () => void
     toggle: () => void
@@ -171,6 +172,11 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
       .catch(err => console.error('Failed to fetch playlist:', err))
   }, [])
 
+  const isPlayingRef = useRef(isPlaying)
+  useEffect(() => {
+    isPlayingRef.current = isPlaying
+  }, [isPlaying])
+
   // Handle Track Changes
   useEffect(() => {
     if (playlist.length === 0 || !audioRef.current) return
@@ -178,12 +184,13 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
     const track = playlist[currentSongIndex]
     if (!track) return
 
-    // Only update if source changed
-    const currentSrc = new URL(audioRef.current.src, window.location.origin).pathname
+    // Normalizziamo il percorso corrente dell'audio per il confronto
+    // Usiamo decodeURIComponent per gestire correttamente spazi (%20) e caratteri speciali
+    const currentSrc = decodeURIComponent(new URL(audioRef.current.src, window.location.origin).pathname)
+
     if (currentSrc !== track.file) {
-      const wasPlaying = isPlaying
       audioRef.current.src = track.file
-      if (wasPlaying) {
+      if (isPlayingRef.current) {
         audioRef.current.play().catch(console.error)
       }
     }
@@ -206,7 +213,9 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
       document.body.classList.add('thai-mode')
       if (!hasAutoPlayedRef.current && playlist.length > 0) {
         hasAutoPlayedRef.current = true
-        play()
+        // Use a microtask/timeout to avoid "cascading renders" lint error
+        const timer = setTimeout(() => play(), 0)
+        return () => clearTimeout(timer)
       }
     } else {
       document.body.classList.remove('thai-mode')
@@ -264,6 +273,14 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
       isPlaying,
       currentSong: playlist[currentSongIndex]?.name || 'Loading...',
       playlist,
+      setPlaylist: (newPlaylist: Track[]) => {
+        const currentSong = playlist[currentSongIndex]
+        setPlaylist(newPlaylist)
+        if (currentSong) {
+          const newIndex = newPlaylist.findIndex(t => t.id === currentSong.id)
+          if (newIndex !== -1) setCurrentSongIndex(newIndex)
+        }
+      },
       play,
       pause,
       toggle,
