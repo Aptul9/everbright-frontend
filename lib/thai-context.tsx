@@ -37,6 +37,23 @@ interface ThaiContextType {
     currentTime: number
     duration: number
     analyser: AnalyserNode | null
+    pitch: number
+    setPitch: (v: number) => void
+    eq: { bass: number; mid: number; treble: number }
+    setEQ: (type: 'bass' | 'mid' | 'treble', value: number) => void
+    volume: number
+    setVolume: (v: number) => void
+    isShuffle: boolean
+    toggleShuffle: () => void
+    repeatMode: 'none' | 'one' | 'all'
+    toggleRepeat: () => void
+    // Advanced DJ FX
+    filters: { lowPass: number; highPass: number; reverb: number }
+    setFilter: (type: 'lowPass' | 'highPass' | 'reverb', value: number) => void
+    bpm: number
+    setBPM: (v: number) => void
+    cues: (number | null)[]
+    setCue: (index: number) => void
   }
 }
 
@@ -58,21 +75,58 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
   const [progress, setProgress] = useState({ current: 0, duration: 0 })
   const [analyser, setAnalyser] = useState<AnalyserNode | null>(null)
 
+  // Mixer & Advanced State
+  const [pitch, setPitchState] = useState(1.0)
+  const [eq, setEqState] = useState({ bass: 0, mid: 0, treble: 0 })
+  const [volume, setVolumeState] = useState(0.8)
+  const [isShuffle, setIsShuffle] = useState(false)
+  const [repeatMode, setRepeatMode] = useState<'none' | 'one' | 'all'>('all')
+
+  // Advanced DJ State
+  const [filters, setFiltersState] = useState({ lowPass: 20000, highPass: 0, reverb: 0 })
+  const [bpm, setBpm] = useState(128)
+  const [cues, setCues] = useState<(number | null)[]>([null, null, null, null])
+
+  // Mixer Nodes
+  const nodesRef = useRef<{
+    low: BiquadFilterNode, mid: BiquadFilterNode, high: BiquadFilterNode,
+    lp: BiquadFilterNode, hp: BiquadFilterNode,
+    reverb: DelayNode, reverbGain: GainNode
+  } | null>(null)
+
   const next = useCallback(() => {
     if (playlist.length === 0) return
-    setCurrentSongIndex((prev) => (prev + 1) % playlist.length)
-  }, [playlist.length])
+    if (isShuffle) {
+      const randomIndex = Math.floor(Math.random() * playlist.length)
+      setCurrentSongIndex(randomIndex)
+    } else {
+      setCurrentSongIndex((prev) => (prev + 1) % playlist.length)
+    }
+  }, [playlist.length, isShuffle])
 
   const prev = useCallback(() => {
     if (playlist.length === 0) return
     setCurrentSongIndex((prev) => (prev - 1 + playlist.length) % playlist.length)
   }, [playlist.length])
 
+  const toggleShuffle = useCallback(() => {
+    setIsShuffle((prev) => !prev)
+  }, [])
+
+  const toggleRepeat = useCallback(() => {
+    setRepeatMode((prev) => {
+      if (prev === 'none') return 'one'
+      if (prev === 'one') return 'all'
+      return 'none'
+    })
+  }, [])
+
   // Initialize persistent audio and analyser
   useEffect(() => {
     const audio = new Audio()
-    audio.loop = true
+    audio.loop = false // Manual loop via 'ended'
     audio.crossOrigin = "anonymous"
+    audio.volume = volume
     audioRef.current = audio
 
     const updateProgress = () => {
@@ -86,7 +140,10 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
     audio.addEventListener('loadedmetadata', updateProgress)
 
     const handleEnded = () => {
-      if (playlist.length > 1) {
+      if (repeatMode === 'one') {
+        audio.currentTime = 0
+        audio.play().catch(console.error)
+      } else if (repeatMode === 'all' || playlist.length > 1) {
         next()
       } else {
         setIsPlaying(false)
@@ -100,28 +157,120 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
       audio.removeEventListener('ended', handleEnded)
       audio.pause()
     }
-  }, [playlist.length, next])
+  }, [playlist.length, next, repeatMode, volume])
 
   // Setup Web Audio API
   const initAudioContext = useCallback(() => {
     if (!audioContextRef.current && audioRef.current) {
       const AudioContextClass = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
       const context = new AudioContextClass()
+
+      // EQ Nodes
+      const low = context.createBiquadFilter()
+      low.type = 'lowshelf'
+      low.frequency.value = 200
+
+      const mid = context.createBiquadFilter()
+      mid.type = 'peaking'
+      mid.frequency.value = 1000
+      mid.Q.value = 1
+
+      const high = context.createBiquadFilter()
+      high.type = 'highshelf'
+      high.frequency.value = 3000
+
+      // LP/HP Filters
+      const lp = context.createBiquadFilter()
+      lp.type = 'lowpass'
+      lp.frequency.value = filters.lowPass
+
+      const hp = context.createBiquadFilter()
+      hp.type = 'highpass'
+      hp.frequency.value = filters.highPass
+
+      // Simple Reverb (Delay based)
+      const reverb = context.createDelay(1.0)
+      reverb.delayTime.value = 0.3
+      const reverbGain = context.createGain()
+      reverbGain.gain.value = filters.reverb
+
+      reverb.connect(reverbGain)
+      reverbGain.connect(reverb) // Feedback
+
       const analyserNode = context.createAnalyser()
       analyserNode.fftSize = 256
 
       const source = context.createMediaElementSource(audioRef.current)
-      source.connect(analyserNode)
+
+      // Chain: Source -> EQ -> LP -> HP -> Reverb (Parallel) -> Analyser -> Destination
+      source.connect(low)
+      low.connect(mid)
+      mid.connect(high)
+      high.connect(lp)
+      lp.connect(hp)
+
+      // Reverb connection
+      hp.connect(reverb)
+      reverbGain.connect(analyserNode)
+
+      hp.connect(analyserNode)
       analyserNode.connect(context.destination)
 
       audioContextRef.current = context
       analyserRef.current = analyserNode
       sourceRef.current = source
+      nodesRef.current = { low, mid, high, lp, hp, reverb, reverbGain }
       setAnalyser(analyserNode)
     }
 
     if (audioContextRef.current?.state === 'suspended') {
       audioContextRef.current.resume()
+    }
+  }, [])
+
+  const setPitch = useCallback((v: number) => {
+    setPitchState(v)
+    if (audioRef.current) {
+      audioRef.current.playbackRate = v
+    }
+  }, [])
+
+  const setEQ = useCallback((type: 'bass' | 'mid' | 'treble', value: number) => {
+    setEqState(prev => ({ ...prev, [type]: value }))
+    if (nodesRef.current) {
+      const node = type === 'bass' ? nodesRef.current.low : type === 'mid' ? nodesRef.current.mid : nodesRef.current.high
+      node.gain.value = value
+    }
+  }, [])
+
+  const setFilter = useCallback((type: 'lowPass' | 'highPass' | 'reverb', value: number) => {
+    setFiltersState(prev => ({ ...prev, [type]: value }))
+    if (nodesRef.current) {
+      if (type === 'lowPass') nodesRef.current.lp.frequency.value = value
+      if (type === 'highPass') nodesRef.current.hp.frequency.value = value
+      if (type === 'reverb') nodesRef.current.reverbGain.gain.value = value
+    }
+  }, [])
+
+  const setCue = useCallback((index: number) => {
+    if (audioRef.current) {
+      const currentTime = audioRef.current.currentTime
+      setCues(prev => {
+        const next = [...prev]
+        if (next[index] === null) {
+          next[index] = currentTime
+        } else {
+          audioRef.current!.currentTime = next[index]!
+        }
+        return next
+      })
+    }
+  }, [])
+
+  const setVolume = useCallback((v: number) => {
+    setVolumeState(v)
+    if (audioRef.current) {
+      audioRef.current.volume = v
     }
   }, [])
 
@@ -220,7 +369,7 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
     } else {
       document.body.classList.remove('thai-mode')
       hasAutoPlayedRef.current = false
-      pause()
+      setTimeout(() => pause(), 0)
     }
   }, [isThai, playlist.length, play, pause])
 
@@ -263,8 +412,8 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
         send: 'ส่งข้อความ',
       }
       : {
-        services: 'I NOSTRI SERVIZI',
-        projects: 'I NOSTRI PROGETTI',
+        services: 'SERVIZI',
+        projects: 'PROGETTI',
         contact: 'CONTATTACI',
         details: 'DETTAGLI',
         send: 'INVIA MESSAGGIO',
@@ -290,7 +439,23 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
       playTrack,
       currentTime: progress.current,
       duration: progress.duration,
-      analyser: analyser
+      analyser: analyser,
+      pitch,
+      setPitch,
+      eq,
+      setEQ,
+      volume,
+      setVolume,
+      isShuffle,
+      toggleShuffle,
+      repeatMode,
+      toggleRepeat,
+      filters,
+      setFilter,
+      bpm,
+      setBPM: setBpm,
+      cues,
+      setCue
     },
   }
 
