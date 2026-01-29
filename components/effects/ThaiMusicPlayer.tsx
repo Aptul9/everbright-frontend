@@ -85,12 +85,40 @@ function SoundVisualizer({ analyser, isPlaying }: { analyser: AnalyserNode | nul
     )
 }
 
-function DiscoMixer({ audio }: { audio: ThaiContextType['audio'] }) {
+function DiscoMixer({
+    audio,
+    mixerRef,
+    onMouseDown,
+    position
+}: {
+    audio: ThaiContextType['audio'],
+    mixerRef: React.RefObject<HTMLDivElement | null>,
+    onMouseDown: (e: React.MouseEvent) => void,
+    position: { x: number, y: number } | null
+}) {
     return (
-        <div className="absolute bottom-[calc(100%+16px)] right-0 bg-[#0a0a0a]/98 backdrop-blur-3xl border border-white/10 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-[100] animate-in fade-in slide-in-from-bottom-3 duration-300 max-h-[70vh] overflow-y-auto w-[650px]">
+        <div
+            ref={mixerRef}
+            style={position ? {
+                position: 'fixed',
+                left: position.x,
+                top: position.y,
+                bottom: 'auto',
+                right: 'auto',
+                transform: 'none'
+            } : {}}
+            className={cn(
+                "absolute bottom-[calc(100%+16px)] right-0 bg-[#0a0a0a]/98 backdrop-blur-3xl border border-white/10 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-[100] animate-in fade-in slide-in-from-bottom-3 duration-300 max-h-[70vh] overflow-y-auto w-[650px]",
+                position && "transition-none"
+            )}
+        >
+            {/* Drag Handle Area (Invisible overlay or specific part) */}
+            <div
+                className="absolute top-0 left-0 right-12 h-10 cursor-move z-10"
+                onMouseDown={onMouseDown}
+            />
             {/* Horizontal Layout Container */}
-
-            <div className="flex gap-6 mt-2">
+            <div className="flex gap-6 mt-1 relative z-0">
                 {/* Left Column: Header + Volume + Modes */}
                 <div className="flex flex-col gap-4 w-48">
                     {/* Pro Header */}
@@ -105,10 +133,17 @@ function DiscoMixer({ audio }: { audio: ThaiContextType['audio'] }) {
                         </div>
                         <button
                             onClick={() => {
-                                audio.setPitch(1.0); audio.setEQ('bass', 0); audio.setEQ('mid', 0); audio.setEQ('treble', 0);
-                                audio.setVolume(0.8); audio.setFilter('lowPass', 20000); audio.setFilter('highPass', 0); audio.setFilter('reverb', 0);
+                                audio.setPitch(1.0);
+                                audio.setEQ('bass', 0);
+                                audio.setEQ('mid', 0);
+                                audio.setEQ('treble', 0);
+                                audio.setVolume(0.8);
+                                audio.setFilter('lowPass', 20000);
+                                audio.setFilter('highPass', 0);
+                                audio.setFilter('reverb', 0);
                             }}
-                            className="p-1.5 hover:bg-white/5 rounded-full transition-all group/reset"
+                            className="p-1.5 hover:bg-white/5 rounded-full transition-all group/reset relative z-20"
+                            title="Reset Mixer"
                         >
                             <RotateCcw className="w-3 h-3 text-white/40 group-hover/reset:text-cyan-400 group-hover/reset:rotate-[-90deg] transition-all" />
                         </button>
@@ -286,6 +321,10 @@ export function ThaiMusicPlayer() {
     const [showMixer, setShowMixer] = useState(false)
     const [searchQuery, setSearchQuery] = useState('')
     const [draggedItemIndex, setDraggedItemIndex] = useState<number | null>(null)
+    const [mixerPos, setMixerPos] = useState<{ x: number, y: number } | null>(null)
+    const [isDragging, setIsDragging] = useState(false)
+    const mixerRef = useRef<HTMLDivElement>(null)
+    const dragStartRef = useRef({ x: 0, y: 0 })
 
     const filteredPlaylist = useMemo(() => {
         return audio.playlist
@@ -317,14 +356,55 @@ export function ThaiMusicPlayer() {
         setDraggedItemIndex(null)
     }
 
+    // Mixer Dragging Logic
+    const onMouseDown = (e: React.MouseEvent) => {
+        if (!mixerRef.current) return
+        const rect = mixerRef.current.getBoundingClientRect()
+        setIsDragging(true)
+        dragStartRef.current = {
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+        }
+        // Set initial position to prevent jump when switching from absolute to fixed
+        setMixerPos({
+            x: rect.left,
+            y: rect.top
+        })
+    }
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!isDragging) return
+            setMixerPos({
+                x: e.clientX - dragStartRef.current.x,
+                y: e.clientY - dragStartRef.current.y
+            })
+        }
+        const handleMouseUp = () => setIsDragging(false)
+
+        if (isDragging) {
+            window.addEventListener('mousemove', handleMouseMove)
+            window.addEventListener('mouseup', handleMouseUp)
+        }
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove)
+            window.removeEventListener('mouseup', handleMouseUp)
+        }
+    }, [isDragging])
+
     if (!isThai) return null
 
     return (
         <div className="fixed bottom-6 right-6 z-[100] animate-in fade-in slide-in-from-bottom-5 duration-700">
+            {showMixer && (
+                <DiscoMixer
+                    audio={audio}
+                    mixerRef={mixerRef}
+                    onMouseDown={onMouseDown}
+                    position={mixerPos}
+                />
+            )}
             <div className="group/player relative transition-all duration-500 hover:scale-[1.02]">
-
-                {/* Mixer Extension (Opens above) */}
-                {showMixer && <DiscoMixer audio={audio} />}
 
 
 
