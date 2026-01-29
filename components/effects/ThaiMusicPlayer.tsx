@@ -124,11 +124,11 @@ function DiscoMixer({
                     {/* Pro Header */}
 
                     <div className="flex items-center justify-between border-b border-white/5 pb-3">
-                        <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.5)]" />
+                        <div className="flex items-center gap-2 group/title cursor-default">
+                            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.5)] group-hover/title:scale-150 transition-transform" />
                             <div>
-                                <p className="text-[9px] font-black tracking-[0.2em] text-white uppercase">X-MIXER PRO</p>
-                                <p className="text-[6px] font-medium text-cyan-400/50 tracking-widest">ANALOG DECK v2.0</p>
+                                <p className="text-[9px] font-black tracking-[0.2em] text-white uppercase transition-all duration-500 group-hover/title:tracking-[0.4em] group-hover/title:text-cyan-400 group-hover/title:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]">X-MIXER PRO</p>
+                                <p className="text-[6px] font-medium text-cyan-400/50 tracking-widest transition-all duration-500 group-hover/title:text-white group-hover/title:translate-x-1">ANALOG DECK v2.0</p>
                             </div>
                         </div>
                         <button
@@ -142,7 +142,7 @@ function DiscoMixer({
                                 audio.setFilter('highPass', 0);
                                 audio.setFilter('reverb', 0);
                             }}
-                            className="p-1.5 hover:bg-white/5 rounded-full transition-all group/reset relative z-20"
+                            className="p-1.5 hover:bg-white/10 rounded-full transition-all group/reset relative z-20 active:scale-90"
                             title="Reset Mixer"
                         >
                             <RotateCcw className="w-3 h-3 text-white/40 group-hover/reset:text-cyan-400 group-hover/reset:rotate-[-90deg] transition-all" />
@@ -150,15 +150,16 @@ function DiscoMixer({
                     </div>
 
                     {/* Master Volume */}
-                    <div className="bg-white/5 rounded-xl p-3 border border-white/5">
-                        <div className="flex justify-between items-center text-[7px] uppercase font-black text-white/40 tracking-widest mb-2">
-                            <div className="flex items-center gap-1.5">
-                                <Volume2 className="w-3 h-3 text-cyan-400" />
-                                <span>Volume</span>
+                    <div className="bg-white/5 rounded-xl p-3 border border-white/5 group/vol hover:bg-white/10 transition-all hover:border-white/20 relative overflow-hidden">
+                        <div className="absolute inset-0 -translate-x-full group-hover/vol:translate-x-full duration-[1.5s] ease-in-out bg-linear-to-r from-transparent via-white/5 to-transparent z-0 pointer-events-none" />
+                        <div className="flex justify-between items-center text-[7px] uppercase font-black tracking-widest mb-2 relative z-10">
+                            <div className="flex items-center gap-1.5 transition-all duration-300 group-hover/vol:translate-x-1">
+                                <Volume2 className="w-3 h-3 text-cyan-400 group-hover/vol:scale-110 transition-transform" />
+                                <span className="text-white/40 group-hover/vol:text-white transition-colors">Volume</span>
                             </div>
-                            <span className="text-white text-[9px] font-mono">{(audio.volume * 100).toFixed(0)}%</span>
+                            <span className="text-white text-[9px] font-mono group-hover/vol:text-cyan-400 group-hover/vol:scale-110 transition-all overflow-visible px-1">{(audio.volume * 100).toFixed(0)}%</span>
                         </div>
-                        <input type="range" min="0" max="1" step="0.01" value={audio.volume} onChange={(e) => audio.setVolume(parseFloat(e.target.value))} className="w-full h-1.5 bg-white/10 rounded-full appearance-none cursor-pointer accent-cyan-400" />
+                        <input type="range" min="0" max="1" step="0.01" value={audio.volume} onChange={(e) => audio.setVolume(parseFloat(e.target.value))} className="w-full h-1.5 bg-white/10 rounded-full appearance-none cursor-pointer accent-cyan-400 relative z-10" />
                     </div>
 
                     {/* Playback Modes */}
@@ -166,48 +167,56 @@ function DiscoMixer({
                         <button
                             onClick={audio.toggleShuffle}
                             className={cn(
-                                "flex-1 py-2 rounded-lg border text-[8px] font-black uppercase transition-all flex items-center justify-center gap-1",
-                                audio.isShuffle ? "bg-cyan-500/20 border-cyan-500/50 text-cyan-400" : "bg-white/5 border-white/10 text-white/30 hover:bg-white/10"
+                                "flex-1 py-2 rounded-lg border text-[8px] font-black uppercase transition-all flex items-center justify-center gap-1 group/shfl relative overflow-hidden active:scale-95",
+                                audio.isShuffle
+                                    ? "bg-cyan-500/20 border-cyan-500/50 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.2)]"
+                                    : "bg-white/5 border-white/10 text-white/30 hover:bg-white/10 hover:border-white/30 hover:text-white"
                             )}
                         >
-                            <Shuffle className="w-3 h-3" />
-                            Shfl
+                            <div className="absolute inset-0 -translate-x-full group-hover/shfl:translate-x-full duration-[1s] ease-in-out bg-linear-to-r from-transparent via-white/5 to-transparent z-0 pointer-events-none" />
+                            <Shuffle className="w-3 h-3 group-hover/shfl:scale-110 transition-transform relative z-10" />
+                            <span className="relative z-10">Shfl</span>
                         </button>
                         <button
                             onClick={audio.toggleRepeat}
                             className={cn(
-                                "flex-1 py-2 rounded-lg border text-[8px] font-black uppercase transition-all flex items-center justify-center gap-1",
-                                audio.repeatMode !== 'none' ? "bg-cyan-500/20 border-cyan-500/50 text-cyan-400" : "bg-white/5 border-white/10 text-white/30 hover:bg-white/10"
+                                "flex-1 py-2 rounded-lg border text-[8px] font-black uppercase transition-all flex items-center justify-center gap-1 group/rpt relative overflow-hidden active:scale-95",
+                                audio.repeatMode !== 'none'
+                                    ? "bg-cyan-500/20 border-cyan-500/50 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.2)]"
+                                    : "bg-white/5 border-white/10 text-white/30 hover:bg-white/10 hover:border-white/30 hover:text-white"
                             )}
                         >
-                            <Repeat className="w-3 h-3" />
-                            {audio.repeatMode === 'one' ? '1' : audio.repeatMode === 'all' ? 'All' : 'Rpt'}
+                            <div className="absolute inset-0 -translate-x-full group-hover/rpt:translate-x-full duration-[1s] ease-in-out bg-linear-to-r from-transparent via-white/5 to-transparent z-0 pointer-events-none" />
+                            <Repeat className="w-3 h-3 group-hover/rpt:scale-110 transition-transform relative z-10" />
+                            <span className="relative z-10">
+                                {audio.repeatMode === 'one' ? '1' : audio.repeatMode === 'all' ? 'All' : 'Rpt'}
+                            </span>
                         </button>
                     </div>
 
                     {/* Master BPM */}
-                    <div className="bg-cyan-500/5 rounded-xl p-3 border border-cyan-500/10 flex items-center gap-3">
-                        <div className="w-6 h-6 rounded-full bg-cyan-500/10 flex items-center justify-center">
+                    <div className="bg-cyan-500/5 rounded-xl p-3 border border-cyan-500/10 flex items-center gap-3 group/bpm hover:bg-cyan-500/10 transition-all hover:border-cyan-500/30">
+                        <div className="w-6 h-6 rounded-full bg-cyan-500/10 flex items-center justify-center group-hover/bpm:scale-110 transition-transform">
                             <Disc className="w-3 h-3 text-cyan-400 animate-spin-slow" />
                         </div>
                         <div>
-                            <p className="text-[6px] uppercase font-black text-cyan-400/50">Master</p>
+                            <p className="text-[6px] uppercase font-black text-cyan-400/50 group-hover/bpm:text-cyan-400 transition-colors">Master</p>
                             <div className="flex items-center gap-2">
-                                <p className="text-[11px] font-mono font-bold text-white tracking-widest">{audio.bpm} BPM</p>
-                                <div className="px-1 py-0.5 rounded-[3px] bg-cyan-500/20 text-[6px] font-black text-cyan-300">SYNC</div>
+                                <p className="text-[11px] font-mono font-bold text-white tracking-widest group-hover/bpm:scale-105 transition-transform origin-left">{audio.bpm} BPM</p>
+                                <div className="px-1 py-0.5 rounded-[3px] bg-cyan-500/20 text-[6px] font-black text-cyan-300 group-hover/bpm:bg-cyan-500 group-hover/bpm:text-black transition-all">SYNC</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Center Column: EQ + Pitch */}
-                <div className="flex flex-col gap-3 border-l border-white/5 pl-6">
-                    <p className="text-[7px] font-black tracking-[0.2em] text-white/30 uppercase">Equalizer</p>
+                <div className="flex flex-col gap-3 border-l border-white/5 pl-6 group/eq">
+                    <p className="text-[7px] font-black tracking-[0.2em] text-white/30 uppercase transition-all duration-500 group-hover/eq:tracking-[0.4em] group-hover/eq:text-white">Equalizer</p>
                     <div className="flex gap-5">
                         {/* Pitch Fader */}
-                        <div className="flex flex-col items-center gap-1">
-                            <span className="text-[6px] uppercase font-black text-white/30">Pitch</span>
-                            <div className="relative w-6 h-28 bg-white/5 rounded-full border border-white/5 flex flex-col items-center py-2 group/pitch">
+                        <div className="flex flex-col items-center gap-1 group/p-label">
+                            <span className="text-[6px] uppercase font-black text-white/30 group-hover/p-label:text-cyan-400 transition-colors">Pitch</span>
+                            <div className="relative w-6 h-28 bg-white/5 rounded-full border border-white/5 flex flex-col items-center py-2 group/pitch hover:bg-white/10 transition-colors hover:border-white/20">
                                 <div className="absolute inset-x-0 bottom-0 top-0 pointer-events-none flex flex-col justify-between items-center py-2 opacity-20">
                                     {[1, 2, 3, 4, 5, 6, 7].map(i => <div key={i} className="w-2 h-[1px] bg-white" />)}
                                 </div>
@@ -215,10 +224,10 @@ function DiscoMixer({
                                     type="range" min="0.5" max="1.5" step="0.01"
                                     value={audio.pitch}
                                     onChange={(e) => audio.setPitch(parseFloat(e.target.value))}
-                                    className="appearance-none w-full h-full bg-transparent cursor-pointer accent-cyan-400 [writing-mode:vertical-lr] [direction:rtl]"
+                                    className="appearance-none w-full h-full bg-transparent cursor-pointer accent-cyan-400 [writing-mode:vertical-lr] [direction:rtl] relative z-10"
                                 />
                             </div>
-                            <span className="text-[8px] font-mono text-cyan-400">{(audio.pitch * 100).toFixed(0)}%</span>
+                            <span className="text-[8px] font-mono text-cyan-400 group-hover/p-label:scale-125 transition-transform duration-300">{(audio.pitch * 100).toFixed(0)}%</span>
                         </div>
 
                         {/* EQ Knobs */}
@@ -228,7 +237,7 @@ function DiscoMixer({
                                 { id: 'mid', label: 'Md', value: audio.eq.mid, color: 'rgb(168, 85, 247)' },
                                 { id: 'bass', label: 'Lo', value: audio.eq.bass, color: 'rgb(239, 68, 68)' }
                             ].map((knob) => (
-                                <div key={knob.id} className="flex items-center gap-2">
+                                <div key={knob.id} className="flex items-center gap-2 group/k-item">
                                     <div className="relative group/knob">
                                         <input
                                             type="range" min="-24" max="24" step="1"
@@ -236,7 +245,7 @@ function DiscoMixer({
                                             onChange={(e) => audio.setEQ(knob.id as 'bass' | 'mid' | 'treble', parseFloat(e.target.value))}
                                             className="w-8 h-8 absolute inset-0 opacity-0 cursor-pointer z-10"
                                         />
-                                        <div className="w-8 h-8 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center transition-all group-hover/knob:border-cyan-400/50">
+                                        <div className="w-8 h-8 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center transition-all group-hover/knob:border-cyan-400/50 group-hover/knob:scale-110">
                                             <div
                                                 className="w-0.5 h-2 bg-cyan-400 rounded-full origin-bottom transition-transform duration-100"
                                                 style={{
@@ -246,9 +255,9 @@ function DiscoMixer({
                                             />
                                         </div>
                                     </div>
-                                    <div className="flex flex-col">
-                                        <span className="text-[6px] uppercase font-black text-white/30">{knob.label}</span>
-                                        <span className="text-[8px] font-mono text-white/60">{knob.value > 0 ? `+${knob.value}` : knob.value}</span>
+                                    <div className="flex flex-col transition-all duration-300 group-hover/k-item:translate-x-1">
+                                        <span className="text-[6px] uppercase font-black text-white/30 group-hover/k-item:text-white transition-colors">{knob.label}</span>
+                                        <span className="text-[8px] font-mono text-white/60 group-hover/k-item:text-cyan-400 transition-colors">{knob.value > 0 ? `+${knob.value}` : knob.value}</span>
                                     </div>
                                 </div>
                             ))}
@@ -257,38 +266,36 @@ function DiscoMixer({
                 </div>
 
                 {/* Right Column: Filters + Hot Cues */}
-                <div className="flex flex-col gap-3 border-l border-white/5 pl-6 w-[180px]">
-                    <p className="text-[7px] font-black tracking-[0.2em] text-white/30 uppercase">FX Filters</p>
+                <div className="flex flex-col gap-3 border-l border-white/5 pl-6 w-[180px] group/fx">
+                    <p className="text-[7px] font-black tracking-[0.2em] text-white/30 uppercase transition-all duration-500 group-hover/fx:tracking-[0.4em] group-hover/fx:text-white">FX Filters</p>
 
                     <div className="space-y-2">
-                        <div className="space-y-1">
-                            <div className="flex justify-between text-[6px] uppercase font-black text-white/40">
-                                <span>LowPass</span>
-                                <span className="text-cyan-400">{(audio.filters.lowPass / 1000).toFixed(1)}k</span>
+                        {[
+                            { label: 'LowPass', value: `${(audio.filters.lowPass / 1000).toFixed(1)}k`, val: audio.filters.lowPass, min: 100, max: 20000, step: 100, id: 'lowPass', color: 'accent-cyan-400' },
+                            { label: 'HiPass', value: `${audio.filters.highPass}Hz`, val: audio.filters.highPass, min: 0, max: 5000, step: 50, id: 'highPass', color: 'accent-cyan-400' },
+                            { label: 'Reverb', icon: <Waves className="w-2 h-2 text-purple-400" />, val: audio.filters.reverb, min: 0, max: 0.8, step: 0.01, id: 'reverb', color: 'accent-purple-400' }
+                        ].map((f) => (
+                            <div key={f.id} className="space-y-1 group/f-item">
+                                <div className="flex justify-between text-[6px] uppercase font-black text-white/40 transition-all duration-300 group-hover/f-item:translate-x-1">
+                                    <span className="group-hover/f-item:text-white transition-colors">{f.label}</span>
+                                    {f.icon || <span className="text-cyan-400 group-hover/f-item:scale-110 transition-transform">{f.value}</span>}
+                                </div>
+                                <input
+                                    type="range"
+                                    min={f.min} max={f.max} step={f.step}
+                                    value={f.val}
+                                    onChange={(e) => audio.setFilter(f.id as 'lowPass' | 'highPass' | 'reverb', parseFloat(e.target.value))}
+                                    className={cn("w-full h-1 bg-white/5 rounded-full appearance-none cursor-pointer transition-all hover:h-1.5", f.color)}
+                                />
                             </div>
-                            <input type="range" min="100" max="20000" step="100" value={audio.filters.lowPass} onChange={(e) => audio.setFilter('lowPass', parseFloat(e.target.value))} className="w-full h-1 bg-white/5 rounded-full appearance-none cursor-pointer accent-cyan-400" />
-                        </div>
-                        <div className="space-y-1">
-                            <div className="flex justify-between text-[6px] uppercase font-black text-white/40">
-                                <span>HiPass</span>
-                                <span className="text-cyan-400">{audio.filters.highPass}Hz</span>
-                            </div>
-                            <input type="range" min="0" max="5000" step="50" value={audio.filters.highPass} onChange={(e) => audio.setFilter('highPass', parseFloat(e.target.value))} className="w-full h-1 bg-white/5 rounded-full appearance-none cursor-pointer accent-cyan-400" />
-                        </div>
-                        <div className="space-y-1">
-                            <div className="flex justify-between text-[6px] uppercase font-black text-white/40">
-                                <span>Reverb</span>
-                                <Waves className="w-2 h-2 text-purple-400" />
-                            </div>
-                            <input type="range" min="0" max="0.8" step="0.01" value={audio.filters.reverb} onChange={(e) => audio.setFilter('reverb', parseFloat(e.target.value))} className="w-full h-1 bg-white/5 rounded-full appearance-none cursor-pointer accent-purple-400" />
-                        </div>
+                        ))}
                     </div>
 
                     {/* Hot Cues */}
-                    <div className="mt-auto pt-2 border-t border-white/5">
-                        <div className="flex justify-between items-center text-[6px] uppercase font-black text-white/40 mb-2">
-                            <span>Hot Cues</span>
-                            <Zap className="w-2 h-2 text-yellow-400" />
+                    <div className="mt-auto pt-2 border-t border-white/5 group/hc">
+                        <div className="flex justify-between items-center text-[6px] uppercase font-black text-white/40 mb-2 transition-all duration-500 group-hover/hc:tracking-[0.1em]">
+                            <span className="group-hover/hc:text-white transition-colors">Hot Cues</span>
+                            <Zap className="w-2 h-2 text-yellow-400 group-hover/hc:animate-bounce" />
                         </div>
                         <div className="grid grid-cols-4 gap-1">
                             {audio.cues.map((cue: number | null, i: number) => (
@@ -296,13 +303,14 @@ function DiscoMixer({
                                     key={i}
                                     onClick={() => audio.setCue(i)}
                                     className={cn(
-                                        "aspect-square rounded border text-[8px] font-black transition-all active:scale-95 flex items-center justify-center",
+                                        "aspect-square rounded border text-[8px] font-black transition-all active:scale-95 flex items-center justify-center relative overflow-hidden group/cue",
                                         cue !== null
                                             ? "bg-red-500/20 border-red-500 text-red-400 shadow-[0_0_8px_rgba(239,68,68,0.3)]"
-                                            : "bg-white/5 border-white/10 text-white/20 hover:bg-white/10 hover:border-white/30"
+                                            : "bg-white/5 border-white/10 text-white/20 hover:border-white/40 hover:text-white"
                                     )}
                                 >
-                                    {i + 1}
+                                    <div className="absolute inset-0 -translate-x-full group-hover/cue:translate-x-full duration-[0.6s] ease-in-out bg-linear-to-r from-transparent via-white/10 to-transparent z-0 pointer-events-none" />
+                                    <span className="relative z-10">{i + 1}</span>
                                 </button>
                             ))}
                         </div>
@@ -499,7 +507,6 @@ export function ThaiMusicPlayer() {
                 <button
                     onClick={() => {
                         setShowMixer(!showMixer)
-                        if (showPlaylist) setShowPlaylist(false)
                     }}
                     className={cn(
                         "absolute left-0 top-1/2 -translate-x-[12px] -translate-y-1/2 w-4 h-12 transition-all duration-500 z-[5]",
@@ -529,7 +536,6 @@ export function ThaiMusicPlayer() {
                     <button
                         onClick={() => {
                             setShowPlaylist(!showPlaylist)
-                            if (showMixer) setShowMixer(false)
                         }}
                         className={cn(
                             "w-14 h-14 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-500 active:scale-95 group/icon z-10",
