@@ -1,7 +1,7 @@
 'use client'
 
-import { useThaiData } from '@/lib/thai-context'
-import { Play, Pause, SkipBack, SkipForward, Music, List, Search, GripVertical, RotateCcw, Volume2, Shuffle, Repeat, Zap, Disc } from 'lucide-react'
+import { useThaiData, type ThaiContextType } from '@/lib/thai-context'
+import { Play, Pause, SkipBack, SkipForward, Music, List, Search, GripVertical, RotateCcw, Volume2, Shuffle, Repeat, Zap, Disc, Waves } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState, useMemo, useEffect, useRef } from 'react'
 
@@ -85,9 +85,9 @@ function SoundVisualizer({ analyser, isPlaying }: { analyser: AnalyserNode | nul
     )
 }
 
-function DiscoMixer({ audio }: { audio: any }) {
+function DiscoMixer({ audio }: { audio: ThaiContextType['audio'] }) {
     return (
-        <div className="absolute bottom-[calc(100%+16px)] right-0 bg-[#0a0a0a]/95 backdrop-blur-3xl border border-white/10 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-[100] animate-in fade-in slide-in-from-bottom-3 duration-300 max-h-[60vh] overflow-y-auto">
+        <div className="absolute bottom-[calc(100%+16px)] right-0 bg-[#0a0a0a]/98 backdrop-blur-3xl border border-white/10 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-[100] animate-in fade-in slide-in-from-bottom-3 duration-300 max-h-[70vh] overflow-y-auto w-[650px]">
             {/* Horizontal Layout Container */}
 
             <div className="flex gap-6 mt-2">
@@ -157,7 +157,10 @@ function DiscoMixer({ audio }: { audio: any }) {
                         </div>
                         <div>
                             <p className="text-[6px] uppercase font-black text-cyan-400/50">Master</p>
-                            <p className="text-[11px] font-mono font-bold text-white">{audio.bpm} BPM</p>
+                            <div className="flex items-center gap-2">
+                                <p className="text-[11px] font-mono font-bold text-white tracking-widest">{audio.bpm} BPM</p>
+                                <div className="px-1 py-0.5 rounded-[3px] bg-cyan-500/20 text-[6px] font-black text-cyan-300">SYNC</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -169,7 +172,10 @@ function DiscoMixer({ audio }: { audio: any }) {
                         {/* Pitch Fader */}
                         <div className="flex flex-col items-center gap-1">
                             <span className="text-[6px] uppercase font-black text-white/30">Pitch</span>
-                            <div className="relative w-6 h-24 bg-white/5 rounded-full border border-white/5 flex flex-col items-center py-2">
+                            <div className="relative w-6 h-28 bg-white/5 rounded-full border border-white/5 flex flex-col items-center py-2 group/pitch">
+                                <div className="absolute inset-x-0 bottom-0 top-0 pointer-events-none flex flex-col justify-between items-center py-2 opacity-20">
+                                    {[1, 2, 3, 4, 5, 6, 7].map(i => <div key={i} className="w-2 h-[1px] bg-white" />)}
+                                </div>
                                 <input
                                     type="range" min="0.5" max="1.5" step="0.01"
                                     value={audio.pitch}
@@ -196,7 +202,13 @@ function DiscoMixer({ audio }: { audio: any }) {
                                             className="w-8 h-8 absolute inset-0 opacity-0 cursor-pointer z-10"
                                         />
                                         <div className="w-8 h-8 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center transition-all group-hover/knob:border-cyan-400/50">
-                                            <div className="w-0.5 h-2 bg-cyan-400 rounded-full origin-bottom" style={{ transform: `rotate(${(knob.value / 24) * 120}deg)`, backgroundColor: knob.color }} />
+                                            <div
+                                                className="w-0.5 h-2 bg-cyan-400 rounded-full origin-bottom transition-transform duration-100"
+                                                style={{
+                                                    transform: `rotate(${(knob.value / 24) * 120}deg)`,
+                                                    backgroundColor: knob.color
+                                                }}
+                                            />
                                         </div>
                                     </div>
                                     <div className="flex flex-col">
@@ -210,10 +222,10 @@ function DiscoMixer({ audio }: { audio: any }) {
                 </div>
 
                 {/* Right Column: Filters + Hot Cues */}
-                <div className="flex flex-col gap-3 border-l border-white/5 pl-6 w-40">
+                <div className="flex flex-col gap-3 border-l border-white/5 pl-6 w-[180px]">
                     <p className="text-[7px] font-black tracking-[0.2em] text-white/30 uppercase">FX Filters</p>
 
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                         <div className="space-y-1">
                             <div className="flex justify-between text-[6px] uppercase font-black text-white/40">
                                 <span>LowPass</span>
@@ -227,6 +239,13 @@ function DiscoMixer({ audio }: { audio: any }) {
                                 <span className="text-cyan-400">{audio.filters.highPass}Hz</span>
                             </div>
                             <input type="range" min="0" max="5000" step="50" value={audio.filters.highPass} onChange={(e) => audio.setFilter('highPass', parseFloat(e.target.value))} className="w-full h-1 bg-white/5 rounded-full appearance-none cursor-pointer accent-cyan-400" />
+                        </div>
+                        <div className="space-y-1">
+                            <div className="flex justify-between text-[6px] uppercase font-black text-white/40">
+                                <span>Reverb</span>
+                                <Waves className="w-2 h-2 text-purple-400" />
+                            </div>
+                            <input type="range" min="0" max="0.8" step="0.01" value={audio.filters.reverb} onChange={(e) => audio.setFilter('reverb', parseFloat(e.target.value))} className="w-full h-1 bg-white/5 rounded-full appearance-none cursor-pointer accent-purple-400" />
                         </div>
                     </div>
 
@@ -242,8 +261,10 @@ function DiscoMixer({ audio }: { audio: any }) {
                                     key={i}
                                     onClick={() => audio.setCue(i)}
                                     className={cn(
-                                        "aspect-square rounded border text-[8px] font-black transition-all active:scale-95",
-                                        cue !== null ? "bg-red-500/20 border-red-500 text-red-400" : "bg-white/5 border-white/10 text-white/20 hover:bg-white/10"
+                                        "aspect-square rounded border text-[8px] font-black transition-all active:scale-95 flex items-center justify-center",
+                                        cue !== null
+                                            ? "bg-red-500/20 border-red-500 text-red-400 shadow-[0_0_8px_rgba(239,68,68,0.3)]"
+                                            : "bg-white/5 border-white/10 text-white/20 hover:bg-white/10 hover:border-white/30"
                                     )}
                                 >
                                     {i + 1}

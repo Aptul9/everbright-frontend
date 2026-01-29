@@ -4,13 +4,13 @@ import React, { createContext, useContext, useState, useEffect, useRef, useCallb
 import { servicesData, projectsData } from './data'
 import { thaiServicesData, thaiProjectsData } from './thai-data'
 
-interface Track {
+export interface Track {
   id: number
   name: string
   file: string
 }
 
-interface ThaiContextType {
+export interface ThaiContextType {
   isThai: boolean
   setIsThai: (v: boolean) => void
   services: typeof servicesData
@@ -121,43 +121,57 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
     })
   }, [])
 
-  // Initialize persistent audio and analyser
+  // Sync volume separately to avoid resetting the entire audio element
   useEffect(() => {
-    const audio = new Audio()
-    audio.loop = false // Manual loop via 'ended'
-    audio.crossOrigin = "anonymous"
-    audio.volume = volume
-    audioRef.current = audio
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
+  }, [volume]);
+
+  // Sync state refs for the audio lifecycle listeners to avoid re-triggering initialization
+  const stateRef = useRef({ repeatMode, isShuffle, playlist, next });
+  useEffect(() => {
+    stateRef.current = { repeatMode, isShuffle, playlist, next };
+  }, [repeatMode, isShuffle, playlist, next]);
+
+  // Initialize persistent audio once
+  useEffect(() => {
+    const audio = new Audio();
+    audio.loop = false;
+    audio.crossOrigin = "anonymous";
+    audio.volume = volume;
+    audioRef.current = audio;
 
     const updateProgress = () => {
       setProgress({
         current: audio.currentTime,
         duration: audio.duration || 0,
-      })
-    }
+      });
+    };
 
-    audio.addEventListener('timeupdate', updateProgress)
-    audio.addEventListener('loadedmetadata', updateProgress)
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('loadedmetadata', updateProgress);
 
     const handleEnded = () => {
+      const { repeatMode, playlist, next } = stateRef.current;
       if (repeatMode === 'one') {
-        audio.currentTime = 0
-        audio.play().catch(console.error)
+        audio.currentTime = 0;
+        audio.play().catch(console.error);
       } else if (repeatMode === 'all' || playlist.length > 1) {
-        next()
+        next();
       } else {
-        setIsPlaying(false)
+        setIsPlaying(false);
       }
-    }
-    audio.addEventListener('ended', handleEnded)
+    };
+    audio.addEventListener('ended', handleEnded);
 
     return () => {
-      audio.removeEventListener('timeupdate', updateProgress)
-      audio.removeEventListener('loadedmetadata', updateProgress)
-      audio.removeEventListener('ended', handleEnded)
-      audio.pause()
-    }
-  }, [playlist.length, next, repeatMode, volume])
+      audio.removeEventListener('timeupdate', updateProgress);
+      audio.removeEventListener('loadedmetadata', updateProgress);
+      audio.removeEventListener('ended', handleEnded);
+      audio.pause();
+    };
+  }, []); // Truly stable initialization
 
   // Setup Web Audio API
   const initAudioContext = useCallback(() => {
@@ -226,7 +240,7 @@ export function ThaiProvider({ children }: { children: React.ReactNode }) {
     if (audioContextRef.current?.state === 'suspended') {
       audioContextRef.current.resume()
     }
-  }, [])
+  }, [filters.lowPass, filters.highPass, filters.reverb])
 
   const setPitch = useCallback((v: number) => {
     setPitchState(v)
